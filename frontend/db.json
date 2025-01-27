@@ -1,0 +1,64 @@
+{
+  "notes": [
+    {
+      "id": "1",
+      "content": "HTML is easy",
+      "important": false
+    },
+    {
+      "id": "2",
+      "content": "Browser can execute only JavaScript",
+      "important": false
+    },
+    {
+      "id": "3",
+      "content": "GET and POST are the most important methods of HTTP protocol",
+      "important": false
+    },
+    {
+      "id": "41e2",
+      "content": "The more you buy, the more you save",
+      "important": true
+    },
+    {
+      "id": "75d8",
+      "content": "$2000 to game at 4K 28FPS",
+      "important": true
+    },
+    {
+      "id": "bb8c",
+      "content": "GT 710 rules",
+      "important": false
+    },
+    {
+      "id": "4132",
+      "content": "RX 6400 rules even more",
+      "important": false
+    },
+    {
+      "id": "11d5",
+      "content": "Big Rigs, best game ever",
+      "important": true
+    },
+    {
+      "id": "a833",
+      "content": "Unreal Engine 5 was designed to force unnecessary upgrades",
+      "important": true
+    },
+    {
+      "id": "2e67",
+      "content": "This app kinda works",
+      "important": false
+    },
+    {
+      "id": "6e12",
+      "content": "Better late than never",
+      "important": false
+    },
+    {
+      "id": "5088",
+      "content": "RX 9070 XT, AMD's perfect naming scheme",
+      "important": true
+    }
+  ]
+}
