@@ -60,10 +60,12 @@ function fetchGpuData() {
     mongoose.set('strictQuery', false)
 
     mongoose.connect(url, {
-        useNewUrlParser: true,
-        useUnifiedTopology: true,
-        connectTimeoutMS: 30000,  // 30 seconds timeout
-        socketTimeoutMS: 45000   // 45 seconds socket timeout
+        server: {
+            socketOptions: {
+                socketTimeoutMS: 0,
+                connectTimeoutMS: 0
+            }
+        }
       })
       .then(() => {
         console.log('Connected to MongoDB');
