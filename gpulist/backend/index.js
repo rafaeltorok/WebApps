@@ -59,17 +59,7 @@ function fetchGpuData() {
 
     mongoose.set('strictQuery', false)
 
-    const serverOptions = {
-        poolSize: 100,  // Set the pool size to 100 (maximum number of connections in the pool)
-        socketTimeoutMS: 6000000,  // 100 minutes for socket timeout
-        connectTimeoutMS: 60000,  // 60 seconds for initial connection timeout
-        useNewUrlParser: true,  // Make sure to use the new connection parser
-        useUnifiedTopology: true  // Use unified topology to avoid deprecation warnings
-    };
-    
-    mongoose.connect(url, serverOptions)
-      .then(() => console.log('Connected to MongoDB successfully'))
-      .catch(err => console.error('Connection error:', err));
+    mongoose.connect(url)
 
     const gpuListSchema = new mongoose.Schema({
     id: Number,
