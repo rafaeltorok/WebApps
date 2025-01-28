@@ -1,8 +1,8 @@
 const mongoose = require('mongoose')
 
-const password = 'thmkirby64'
-const url = 
-  `mongodb+srv://rafaeltorok:${password}@gpulist0.ciotw.mongodb.net/?retryWrites=true&w=majority&appName=GpuList0`
+const password = 'gpulistwebapp'
+    const url = 
+      `mongodb+srv://admin:${password}@gpulist0.ciotw.mongodb.net/?retryWrites=true&w=majority&appName=GpuList0`
 
 mongoose.set('strictQuery', false)
 

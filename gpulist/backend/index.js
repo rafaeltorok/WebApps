@@ -52,9 +52,9 @@ function main() {
 
 
 function fetchGpuData() {
-    const password = 'thmkirby64'
+    const password = 'gpulistwebapp'
     const url = 
-      `mongodb+srv://rafaeltorok:${password}@gpulist0.ciotw.mongodb.net/?retryWrites=true&w=majority&appName=GpuList0`
+      `mongodb+srv://admin:${password}@gpulist0.ciotw.mongodb.net/?retryWrites=true&w=majority&appName=GpuList0`
     const gpuList = []
 
     mongoose.set('strictQuery', false)
@@ -80,10 +80,10 @@ function fetchGpuData() {
     const Gpu = mongoose.model('Gpu', gpuListSchema)
 
     Gpu.find({}).then(result => {
-    result.forEach(gpu => {
-        gpuList.push(gpu)
-    })
-    mongoose.connection.close()
+        result.forEach(gpu => {
+            gpuList.push(gpu)
+        })
+        mongoose.connection.close()
     })
 
     return gpuList

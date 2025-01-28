@@ -6,8 +6,8 @@ if (process.argv.length<3) {
 }
 
 const password = process.argv[2]
-const url =
-  `mongodb+srv://rafaeltorok:${password}@gpulist0.ciotw.mongodb.net/?retryWrites=true&w=majority&appName=GpuList0`
+    const url = 
+      `mongodb+srv://admin:${password}@gpulist0.ciotw.mongodb.net/?retryWrites=true&w=majority&appName=GpuList0`
 const gpuList = require('../db.json')
 
 mongoose.set('strictQuery',false)

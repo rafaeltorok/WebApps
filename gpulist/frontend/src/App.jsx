@@ -11,7 +11,6 @@ function App() {
       .getAll()
       .then(gpuData => {
         setGpus(gpuData);
-        console.log(gpus)
       })
   }, []);
   
