@@ -132,19 +132,28 @@ h1 {
   color: #0068B5;
 }
 
-@media only screen and (hover: none) and (pointer: coarse) and (orientation: portrait) {
-  table {
-    width: 100%;
+@media only screen and (hover: none) and (pointer: coarse) {
+  #root {
+    padding: 0.5rem;
   }
 
-  #root {
-    width: 100vw;
+  #add-gpu-table label {
+    display: block; /* Forces label onto its own line */
+    width: 100%; /* Ensures labels take full width */
+    text-align: left; /* Centers label text */
+    margin-bottom: 0.3rem; /* Adds spacing between label and input */
+  }
+  
+  #add-gpu-table input {
+    display: block; /* Ensures inputs are also on their own line */
+    width: 100%; /* Matches label width */
+    max-width: 200px; /* Optional: Adjust as needed */
+    margin: 0 auto; /* Centers input */
   }
 }
 
 @media only screen and (hover: none) and (pointer: coarse) and (orientation: landscape) {
-  table {
-    width: 500px;
-    max-width: 100%;
+  #root {
+    max-width: 500px;
   }
 }

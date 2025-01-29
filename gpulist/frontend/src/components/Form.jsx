@@ -1,6 +1,6 @@
 function Form({ handleChange, onSubmit }) {
     return (
-        <form onSubmit={onSubmit}>
+        <form onSubmit={onSubmit} id='add-gpu-form'>
             <table id="add-gpu-table">
                 <tbody>
                     <tr>
