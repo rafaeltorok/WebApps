@@ -1,93 +1,91 @@
+require('dotenv').config()
 const express = require('express')
 const cors = require('cors')
-const mongoose = require('mongoose')
 const app = express()
+const Gpu = require('./models/gpu')
 
-function main() {
-    const requestLogger = (request, response, next) => {
-        console.log('Method:', request.method)
-        console.log('Path:  ', request.path)
-        console.log('Body:  ', request.body)
-        console.log('---')
-        next()
-    }
+const requestLogger = (request, response, next) => {
+    console.log('Method:', request.method)
+    console.log('Path:  ', request.path)
+    console.log('Body:  ', request.body)
+    console.log('---')
+    next()
+}
 
-    const gpus = fetchGpuData()
-    
-    app.use(express.json())
-    app.use(cors())
-    app.use(requestLogger)
-    app.use(express.static('dist'))
-    
-    const unknownEndpoint = (request, response) => {
-        response.status(404).send({ error: 'unknown endpoint' })
-    }
-    
-    app.get('/', (request, response) => {
-        response.send('<h1>Backend is online!</h1>')
-    })
-    
-    app.get('/api/gpus', (request, response) => {
+let gpus = []
+
+app.use(express.json())
+app.use(cors())
+app.use(requestLogger)
+app.use(express.static('dist'))
+
+const unknownEndpoint = (request, response) => {
+    response.status(404).send({ error: 'unknown endpoint' })
+}
+
+app.get('/', (request, response) => {
+    response.send('<h1>Backend is online!</h1>')
+})
+
+app.get('/api/gpus', (request, response) => {
+    Gpu.find({}).then(gpus => {
         response.json(gpus)
     })
-    
-    app.get('/api/gpus/:id', (request, response) => {
-        const id = Number(request.params.id)
-        const gpu = gpus.find(gpu => gpu.id === id)
-        if (gpu) {
-            response.json(gpu)
-        } else {
-            console.log('x')
-            response.status(404).end()
-        }
+})
+
+app.get('/api/gpus/:id', (request, response) => {
+    Gpu.findById(request.params.id).then(gpu => {
+        response.json(gpu)
     })
+})
     
-    app.use(unknownEndpoint)
+app.post('/api/gpus', (request, response) => {
+    try {
+        const body = request.body
     
-    const PORT = process.env.PORT || 3001
-    app.listen(PORT, () => {
-        console.log(`Server running on port ${PORT}`)
-    })
-}
-
-
-function fetchGpuData() {
-    const password = 'gpulistwebapp'
-    const url = 
-      `mongodb+srv://admin:${password}@gpulist0.ciotw.mongodb.net/?retryWrites=true&w=majority&appName=GpuList0`
-    const gpuList = []
-
-    mongoose.set('strictQuery', false)
-
-    mongoose.connect(url)
-
-    const gpuListSchema = new mongoose.Schema({
-    id: Number,
-    manufacturer: String,
-    gpuline: String,
-    model: String,
-    cores: Number,
-    tmus: Number,
-    rops: Number,
-    vram: Number,
-    bus: Number,
-    memtype: String,
-    baseclock: Number,
-    boostclock: Number,
-    memclock: Number,
-    })
-
-    const Gpu = mongoose.model('Gpu', gpuListSchema)
-
-    Gpu.find({}).then(result => {
-        result.forEach(gpu => {
-            gpuList.push(gpu)
+        const newGpu = new Gpu ({
+            manufacturer: body.manufacturer,
+            gpuline: body.gpuline,
+            model: body.model,
+            cores: body.cores,
+            tmus: body.tmus,
+            rops: body.rops,
+            vram: body.vram,
+            bus: body.bus,
+            memtype: body.memtype,
+            baseclock: body.baseclock,
+            boostclock: body.boostclock,
+            memclock: body.memclock
         })
-        mongoose.connection.close()
-    })
+    
+        newGpu.save().then(savedObject => {
+            response.json(savedObject)
+        })
+    } catch (error) {
+        response.status(500).json({ error: "Failed to save GPU", details: error.message });
+    }
+})
 
-    return gpuList
-}
+app.delete('/api/gpus/:id', (request, response) => {
+    const { id } = request.params;
 
+    // Use Mongoose's findByIdAndDelete to delete the GPU by ID from the database
+    Gpu.findByIdAndDelete(id)
+        .then(result => {
+            if (result) {
+                response.status(204).end();  // Successfully deleted
+            } else {
+                response.status(404).json({ error: "GPU not found" });  // GPU not found
+            }
+        })
+        .catch(error => {
+            response.status(500).json({ error: "Failed to delete GPU", details: error.message });
+        });
+});
 
-main()
+app.use(unknownEndpoint)
+
+const PORT = process.env.PORT
+app.listen(PORT, () => {
+    console.log(`Server running on port ${PORT}`)
+})

@@ -4,7 +4,7 @@ import calculatePerformance from '../calculatePerformance.js';
 function GPU(props) {
     const gpuPerformance = calculatePerformance(props.gpu);
     return (
-        <table>
+        <table id='gpu-data-table'>
             <thead>
                 <tr>
                     <th className={props.gpu.manufacturer.toLowerCase() === 'nvidia'
@@ -76,6 +76,9 @@ function GPU(props) {
                 <tr>
                     <th>BANDWIDTH</th>
                     <td>{gpuPerformance[3]}</td>
+                </tr>
+                <tr>
+                    <td colSpan={"2"} id='delete-gpu-button'><button onClick={() => props.onDelete(props.gpu.id)}>Delete</button></td>
                 </tr>
             </tbody>
         </table>

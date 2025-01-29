@@ -25,7 +25,49 @@ h1 {
   padding: 1rem;
 }
 
-table {
+#add-gpu-table {
+  width: 100%;
+  border: 2px solid black;
+  padding: 1rem;
+  border-style: groove;
+  margin-bottom: 3rem;
+  background-color: rgba(12, 12, 12, 0.9);
+}
+
+#add-gpu-table-header {
+  padding: 0.5rem;
+  font-size: 1.2rem;
+}
+
+#add-gpu-table th {
+  text-align: left;
+}
+
+#add-gpu-table input {
+  padding: 0.4rem;
+  font-family: 'digital-dreamers';
+}
+
+#add-gpu-table button,
+#gpu-data-table button {
+  background-color: black;
+  font-size: 1rem;
+  font-family: 'digital-dreamers';
+  margin-top: 1rem;
+  border-style: outset;
+}
+
+#add-gpu-table button:active,
+#gpu-data-table button:active {
+  background-color: black;
+  font-size: 1rem;
+  font-family: 'digital-dreamers';
+  margin-top: 1rem;
+  color: #505050;
+  border-style: inset;
+}
+
+#gpu-data-table {
   width: 100%;
   max-width: 100%;
   border: 0.25rem solid black;
@@ -33,36 +75,34 @@ table {
   margin-bottom: 3rem;
 }
 
-th, 
-td {
+#gpu-data-table th, 
+#gpu-data-table td {
   border: 0.1rem solid black;
   border-style: groove;
   padding: 1.2rem;
   font-size: 0.9rem;
 }
 
-th {
+#gpu-data-table th {
   background-color: rgba(12, 12, 12, 0.9);
 }
 
-td {
+#gpu-data-table td {
   background-color: rgba(20, 20, 20, 0.9);
   font-weight: bold;
   border-style: inset;
 }
 
-table tbody tr:last-child th {
+#gpu-data-table #delete-gpu-button {
   border-bottom-left-radius: 1rem;
-}
-
-table tbody tr:last-child td {
   border-bottom-right-radius: 1rem;
+  background-color: rgba(5, 5, 5, 0.9);
 }
 
-.nvidia-model-header,
-.amd-model-header,
-.intel-model-header,
-.model-header {
+#gpu-data-table .nvidia-model-header,
+#gpu-data-table .amd-model-header,
+#gpu-data-table .intel-model-header,
+#gpu-data-table .model-header {
   width: 100%;
   background-color: rgba(0, 0, 0, 0.9);
   font-size: 1.4rem;
@@ -72,7 +112,7 @@ table tbody tr:last-child td {
   border-top-right-radius: 1rem;
 }
 
-.table-header {
+#gpu-data-table .table-header {
   width: 100%;
   background-color: rgba(5, 5, 5, 0.9);
   font-size: 1.2rem;
