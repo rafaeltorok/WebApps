@@ -1,0 +1,44 @@
+{
+  "persons": [
+    {
+      "name": "Peter Parker",
+      "number": "01-1010100101",
+      "id": "1"
+    },
+    {
+      "name": "Steve Rogers",
+      "number": "45-39404142434445",
+      "id": "2"
+    },
+    {
+      "name": "Bruce Banner",
+      "number": "99-99-99999",
+      "id": "3"
+    },
+    {
+      "name": "Tony Stark",
+      "number": "08-123456789",
+      "id": "4"
+    },
+    {
+      "id": "6a58",
+      "name": "Bruce Wayne",
+      "number": "39-03-30"
+    },
+    {
+      "id": "4d0f",
+      "name": "Clark Kent",
+      "number": "38-04-18"
+    },
+    {
+      "id": "0d99",
+      "name": "Otto Octavius",
+      "number": "08-080808"
+    },
+    {
+      "id": "dd97",
+      "name": "Norman Osborn",
+      "number": "07-1964"
+    }
+  ]
+}
