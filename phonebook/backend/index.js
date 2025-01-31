@@ -110,6 +110,10 @@ app.delete('/api/persons/:id', (request, response) => {
 });
 
 
+// this has to be the last loaded middleware, also all the routes should be registered before this!
+app.use(errorHandler)
+
+
 const PORT = process.env.PORT;
 app.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`);
@@ -125,9 +129,6 @@ const errorHandler = (error, request, response, next) => {
 
   next(error)
 }
-
-// this has to be the last loaded middleware, also all the routes should be registered before this!
-app.use(errorHandler)
 
 
 // Helper function for the /info page
