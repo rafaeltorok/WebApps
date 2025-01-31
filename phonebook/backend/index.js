@@ -18,7 +18,6 @@ app.use(morgan(
 app.use(cors());
 app.use(express.static('dist'));
 
-let personsList = [];
 
 // Route for HTML output
 app.get('/', (request, response) => {
@@ -29,7 +28,6 @@ app.get('/', (request, response) => {
 // API route for all JSON data
 app.get('/api/persons', (request, response) => {
   Person.find({}).then(persons => {
-    personsList = persons
     response.json(persons);
   })
 });
@@ -51,11 +49,11 @@ app.get('/api/persons/:id', (request, response, next) => {
 
 // API route for the PhoneBook info
 app.get('/info', (request, response) => {
-    response.send(printBookInfo());
+    printBookInfo(request, response);
 });
 
 
-// Adds an item to the resource
+// Adds a new person to the database
 app.post('/api/persons', (request, response) => {
   const body = request.body;
   
@@ -69,12 +67,11 @@ app.post('/api/persons', (request, response) => {
     });
   }
 
-  // Check for duplicate names (case-insensitive)
-  const isDuplicate = personsList.some(
+  const existingPerson = persons.find(
     p => p.name.toLowerCase() === name.toLowerCase()
-  );
+  )
 
-  if (isDuplicate) {
+  if (existingPerson && existingPerson.number === number) {
     return response.status(409).json({ 
       error: 'Person has already been added to the PhoneBook'
     });
@@ -86,11 +83,28 @@ app.post('/api/persons', (request, response) => {
     number
   });
 
-  personsList = personsList.concat(newPerson);
   newPerson.save().then(savedPerson => {
     response.json(savedPerson);
-  });
+  })
 });
+
+
+// Updates an existing person's phone number
+app.put('/api/persons/:id', (request, response, next) => {
+  const body = request.body
+
+  const person = {
+    name: body.name,
+    number: body.number,
+  }
+
+  Person.findByIdAndUpdate(request.params.id, person, { new: true })
+    .then(updatedPerson => {
+      response.json(updatedPerson.toJSON())
+    })
+    .catch(error => next(error))
+})
+
 
 app.delete('/api/persons/:id', (request, response) => {
   const { id } = request.params;
@@ -110,16 +124,6 @@ app.delete('/api/persons/:id', (request, response) => {
 });
 
 
-// this has to be the last loaded middleware, also all the routes should be registered before this!
-app.use(errorHandler)
-
-
-const PORT = process.env.PORT;
-app.listen(PORT, () => {
-  console.log(`Server running on port ${PORT}`);
-});
-
-
 const errorHandler = (error, request, response, next) => {
   console.error(error.message)
 
@@ -131,14 +135,30 @@ const errorHandler = (error, request, response, next) => {
 }
 
 
+// this has to be the last loaded middleware, also all the routes should be registered before this!
+app.use(errorHandler)
+
+
+const PORT = process.env.PORT;
+app.listen(PORT, () => {
+  console.log(`Server running on port ${PORT}`);
+});
+
+
 // Helper function for the /info page
-function printBookInfo() {
-    let suffix = personsList.length > 1 && personsList.length !== 0 ? "people" : "person";
-    const now = new Date();
-    
-    return `
-    PhoneBook has info for ${personsList.length} ${suffix}
-    <br />
-    ${now.toString()}
-    `;
-}
+function printBookInfo(request, response) {
+  Person.countDocuments({})
+    .then(count => {
+      let suffix = count > 1 ? "people" : "person";
+      const now = new Date();
+        
+      response.send(`
+        PhoneBook has info for ${count} ${suffix}
+        <br />
+        ${now.toString()}
+      `);
+    })
+    .catch(error => {
+      response.status(500).json({ error: 'Failed to fetch person count' });
+    });
+};
