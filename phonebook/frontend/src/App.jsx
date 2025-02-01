@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import Filter from './components/Filter';
 import PersonForm from './components/PersonForm';
 import Person from './components/Person';
@@ -13,6 +13,7 @@ function App() {
   const [searchName, setSearchName] = useState('');
   const [message, setMessage] = useState('');
   const [typeOfMessage, setTypeOfMessage] = useState('success-message');
+  const timeoutRef = useRef(null); // Store the timeout reference
 
   useEffect(() => {
       phoneBookService
@@ -29,6 +30,8 @@ function App() {
       number: newNumber.trim()
     };
 
+    const numberTest = /^\d{2,3}-\d+$/
+
     if (newPerson.name === '' || newPerson.number === '') {
       handleMessage(`Both fields must be filled`, 'error-message');
     } else if (persons.some(person => 
@@ -38,10 +41,16 @@ function App() {
       handleMessage(`"${newPerson.name}" has already been added to the PhoneBook`, 'error-message');
     } else if (persons.some(person => 
                 person.name.toLowerCase() === newPerson.name.toLowerCase()
-                && person.number !== newPerson.number
+                && person.number !== newPerson.number && numberTest.test(newPerson.number)
     )) {
       const personToUpdate = persons.find(person => person.name.toLowerCase() === newPerson.name.toLowerCase());
       updateNumber(personToUpdate.id, newPerson);
+    } else if (newPerson.name.length < 3) {
+      handleMessage("The contact's name must be at least 3 chars long", 'error-message')
+    } else if (newPerson.number.length < 9) {
+      handleMessage("The contact's number must have at least 8 digits", 'error-message')
+    } else if (!numberTest.test(newPerson.number)) {
+      handleMessage(`${newPerson.number} is invalid, please use a format like XX-XXXXXXX or XXX-XXXXXXXX`, 'error-message')
     } else {
       phoneBookService
         .create(newPerson)
@@ -102,9 +111,16 @@ function App() {
   const handleMessage = (messageContent, typeOf) => {
     setMessage(messageContent);
     setTypeOfMessage(typeOf);
-    setTimeout(() => {
+
+    // Clear existing timeout before setting a new one
+    if (timeoutRef.current) {
+      clearTimeout(timeoutRef.current);
+    }
+
+    // Set a new timeout and store the reference
+    timeoutRef.current = setTimeout(() => {
       setMessage(null);
-    }, 5000);
+    }, 10000);
   }
 
   return (
