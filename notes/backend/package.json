@@ -5,7 +5,8 @@
   "scripts": {
     "start": "node index.js",
     "dev": "nodemon index.js",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "lint": "eslint ."
   },
   "author": "",
   "license": "ISC",
@@ -16,5 +17,11 @@
     "express": "^4.21.2",
     "mongoose": "^8.9.5",
     "nodemon": "^3.1.9"
+  },
+  "devDependencies": {
+    "@eslint/js": "^9.19.0",
+    "@stylistic/eslint-plugin-js": "^3.0.1",
+    "eslint": "^9.19.0",
+    "globals": "^15.14.0"
   }
 }
