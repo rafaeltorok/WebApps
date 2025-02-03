@@ -1,13 +1,13 @@
 import { useState, useEffect, useRef } from 'react';
 import Filter from './components/Filter';
-import PersonForm from './components/PersonForm';
-import Person from './components/Person';
+import ContactForm from './components/ContactForm';
+import Contact from './components/Contact';
 import Notification from './components/Notification';
-import phoneBookService from './services/persons';
+import phoneBookService from './services/contacts';
 import './App.css';
 
 function App() {
-  const [persons, setPersons] = useState([]);
+  const [contacts, setContacts] = useState([]);
   const [newName, setNewName] = useState('');
   const [newNumber, setNewNumber] = useState('');
   const [searchName, setSearchName] = useState('');
@@ -18,76 +18,76 @@ function App() {
   useEffect(() => {
       phoneBookService
         .getAll()
-        .then(initialPersons => {
-          setPersons(initialPersons);
+        .then(initialContacts => {
+          setContacts(initialContacts);
         });
     }, []);
 
   const addContact = (event) => {
     event.preventDefault();
-    const newPerson = {
+    const newContact = {
       name: newName.trim(),
       number: newNumber.trim()
     };
 
     const numberTest = /^\d{2,3}-\d+$/
 
-    if (newPerson.name === '' || newPerson.number === '') {
+    if (newContact.name === '' || newContact.number === '') {
       handleMessage(`Both fields must be filled`, 'error-message');
-    } else if (persons.some(person => 
-                person.name.toLowerCase() === newPerson.name.toLowerCase()
-                && person.number === newPerson.number
+    } else if (contacts.some(contact => 
+                contact.name.toLowerCase() === newContact.name.toLowerCase()
+                && contact.number === newContact.number
               )) {
-      handleMessage(`"${newPerson.name}" has already been added to the PhoneBook`, 'error-message');
-    } else if (persons.some(person => 
-                person.name.toLowerCase() === newPerson.name.toLowerCase()
-                && person.number !== newPerson.number && numberTest.test(newPerson.number)
+      handleMessage(`"${newContact.name}" has already been added to the PhoneBook`, 'error-message');
+    } else if (contacts.some(contact => 
+                contact.name.toLowerCase() === newContact.name.toLowerCase()
+                && contact.number !== newContact.number && numberTest.test(newContact.number)
     )) {
-      const personToUpdate = persons.find(person => person.name.toLowerCase() === newPerson.name.toLowerCase());
-      updateNumber(personToUpdate.id, newPerson);
-    } else if (newPerson.name.length < 3) {
+      const contactToUpdate = contacts.find(contact => contact.name.toLowerCase() === newContact.name.toLowerCase());
+      updateNumber(contactToUpdate.id, newContact);
+    } else if (newContact.name.length < 3) {
       handleMessage("The contact's name must be at least 3 chars long", 'error-message')
-    } else if (newPerson.number.length < 9) {
+    } else if (newContact.number.length < 9) {
       handleMessage("The contact's number must have at least 8 digits", 'error-message')
-    } else if (!numberTest.test(newPerson.number)) {
-      handleMessage(`${newPerson.number} is invalid, please use a format like XX-XXXXXXX or XXX-XXXXXXXX`, 'error-message')
+    } else if (!numberTest.test(newContact.number)) {
+      handleMessage(`${newContact.number} is invalid, please use a format like XX-XXXXXXX or XXX-XXXXXXXX`, 'error-message')
     } else {
       phoneBookService
-        .create(newPerson)
-        .then(returnedPerson => {
-          setPersons(persons.concat(returnedPerson));
+        .create(newContact)
+        .then(returnedContact => {
+          setContacts(contacts.concat(returnedContact));
           setNewName('');
           setNewNumber('');
       });
-      handleMessage(`Added ${newPerson.name} to the PhoneBook`, 'success-message');
+      handleMessage(`Added ${newContact.name} to the PhoneBook`, 'success-message');
     }
   };
 
-  const removePerson = person => {
-    if (window.confirm(`Delete ${person.name}?`)) {
+  const removeContact = contact => {
+    if (window.confirm(`Delete ${contact.name}?`)) {
       phoneBookService
-        .deletePerson(person)
+        .deleteContact(contact)
         .then(() => {
-          setPersons(persons.filter(p => p.id !== person.id));
-          handleMessage(`${person.name} has been removed from the PhoneBook`, 'success-message');
+          setContacts(contacts.filter(c => c.id !== contact.id));
+          handleMessage(`${contact.name} has been removed from the PhoneBook`, 'success-message');
         })
-        .catch(error => {
-          handleMessage(`Failed to remove ${person.name}`, 'error-message');
+        .catch(() => {
+          handleMessage(`Failed to remove ${contact.name}`, 'error-message');
         });
     }
   };
 
-  const updateNumber = (id, person) => {
-    const updatedPerson = {id: id, ...person}
-    if (window.confirm(`${updatedPerson.name} is already on the PhoneBook, replace his old number with a new one?`)) {
+  const updateNumber = (id, contact) => {
+    const updatedContact = {id: id, ...contact}
+    if (window.confirm(`${updatedContact.name} is already on the PhoneBook, replace his old number with a new one?`)) {
       phoneBookService
-        .update(id, updatedPerson)
+        .update(id, updatedContact)
         .then(() => {
-          setPersons(persons.map(p => p.id !== id ? p : updatedPerson));
-          handleMessage(`${updatedPerson.name}'s number has been changed`, 'success-message');
+          setContacts(contacts.map(c => c.id !== id ? c : { id: id, name: c.name, number: updatedContact.number }));
+          handleMessage(`${updatedContact.name}'s number has been changed`, 'success-message');
         })
-        .catch(error => {
-          handleMessage(`Information about "${updatedPerson.name}" has already been removed from the PhoneBook`, 'error-message');
+        .catch(() => {
+          handleMessage(`Information about "${updatedContact.name}" has already been removed from the PhoneBook`, 'error-message');
         });
     }
   };
@@ -105,8 +105,8 @@ function App() {
   }
 
   const contactsToShow = (searchName.trim() !== '') 
-    ? persons.filter(person => person.name.toLowerCase().includes(searchName.trim().toLowerCase()))
-    : persons;
+    ? contacts.filter(contact => contact.name.toLowerCase().includes(searchName.trim().toLowerCase()))
+    : contacts;
 
   const handleMessage = (messageContent, typeOf) => {
     setMessage(messageContent);
@@ -130,7 +130,7 @@ function App() {
         <Notification message={message} typeOf={typeOfMessage}/>
         <Filter callback={handleSearchName}/>
         <h2>Add new contact</h2>
-        <PersonForm functions={{
+        <ContactForm functions={{
           addContact: addContact, 
           newName: newName, 
           newNumber: newNumber, 
@@ -138,13 +138,13 @@ function App() {
           handleNumberChange: handleNumberChange
         }}/>
         <h2>Contacts</h2>
-        <div className='persons-list'>
+        <div className='contacts-list'>
           <ul>
-            {contactsToShow.map(person => (
-              <Person 
-                key={person.id} 
-                person={person} 
-                removePerson={() => removePerson(person)}
+            {contactsToShow.map(contact => (
+              <Contact 
+                key={contact.id} 
+                contact={contact} 
+                removeContact={() => removeContact(contact)}
               />
             ))}
           </ul>

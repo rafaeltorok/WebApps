@@ -1,5 +1,5 @@
 import axios from 'axios';
-const baseUrl = '/api/persons';
+const baseUrl = '/api/contacts';
 
 const getAll = () => {
   const request = axios.get(baseUrl);
@@ -11,12 +11,12 @@ const create = newObject => {
   return request.then(response => response.data);
 };
 
-const deletePerson = person => {
-    return axios.delete(`${baseUrl}/${person.id}`);
+const deleteContact = contact => {
+    return axios.delete(`${baseUrl}/${contact.id}`);
 };
 
 const update = (id, newObject) => {
     return axios.put(`${baseUrl}/${id}`, newObject);
 };
 
-export default { getAll, create, deletePerson, update };
+export default { getAll, create, deleteContact, update };

@@ -1,4 +1,4 @@
-function PersonForm(props) {
+function ContactForm(props) {
     return (
         <form onSubmit={props.functions.addContact}>
           <div>name: <input value={props.functions.newName} onChange={props.functions.handleNameChange} /></div>
@@ -8,4 +8,4 @@ function PersonForm(props) {
     );
 }
 
-export default PersonForm;
+export default ContactForm;
