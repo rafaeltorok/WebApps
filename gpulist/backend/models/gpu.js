@@ -1,33 +1,18 @@
 const mongoose = require('mongoose')
-require('dotenv').config()
-
-mongoose.set('strictQuery', false)
-
-const url = process.env.MONGODB_URI
-
-console.log('connecting to', url)
-
-mongoose.connect(url)
-  .then(result => {
-    console.log('connected to MongoDB')
-  })
-  .catch(error => {
-    console.log('error connecting to MongoDB:', error.message)
-  })
 
 const gpuListSchema = new mongoose.Schema({
-    manufacturer: String,
-    gpuline: String,
-    model: String,
-    cores: Number,
-    tmus: Number,
-    rops: Number,
-    vram: Number,
-    bus: Number,
-    memtype: String,
-    baseclock: Number,
-    boostclock: Number,
-    memclock: Number,
+    manufacturer: { type: String, required: true, trim: true },
+    gpuline: { type: String, required: true, trim: true },
+    model: { type: String, required: true, trim: true },
+    cores: { type: Number, required: true },
+    tmus: { type: Number, required: true },
+    rops: { type: Number, required: true },
+    vram: { type: Number, required: true },
+    bus: { type: Number, required: true },
+    memtype: { type: String, required: true, trim: true },
+    baseclock: { type: Number, required: true },
+    boostclock: { type: Number, required: true },
+    memclock: { type: Number, required: true },
 })
 
 gpuListSchema.set('toJSON', {
