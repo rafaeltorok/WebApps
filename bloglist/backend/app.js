@@ -1,12 +1,12 @@
+require('express-async-errors') // Load this first to enable automatic async error handling
 const config = require('./utils/config')
 const express = require('express')
 const app = express()
 const cors = require('cors')
-const blogRouter = require('./controllers/bloglist')
+const blogRouter = require('./controllers/blogs')
 const middleware = require('./utils/middleware')
 const logger = require('./utils/logger')
 const mongoose = require('mongoose')
-require('express-async-errors')
 
 mongoose.set('strictQuery', false)
 
@@ -25,7 +25,7 @@ app.use(express.static('dist'))
 app.use(express.json())
 app.use(middleware.requestLogger)
 
-app.use('/api/bloglist', blogRouter)
+app.use('/api/blogs', blogRouter)
 
 app.use(middleware.unknownEndpoint)
 app.use(middleware.errorHandler)
