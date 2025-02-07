@@ -1,0 +1,10 @@
+POST http://localhost:3003/api/blogs/
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InJvb3QiLCJpZCI6IjY3YTY2ZTYzODk1Y2Y1Y2UxZGMxNjNkZiIsImlhdCI6MTczODk2MDU0OCwiZXhwIjoxNzM4OTY0MTQ4fQ.56a06Z6Je8VjaiBo-HmywiGHiPhP-v87-RAAXr-uaaQ
+
+{
+    "title": "Admin's place",
+    "author": "The Root",
+    "url": "https://superuser.root.com",
+    "likes": 100
+}
