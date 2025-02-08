@@ -5,6 +5,24 @@
   text-align: center;
 }
 
+.login-table {
+  width: 300px;
+  background-color: #181818;
+  border: 4px solid black;
+  border-style: groove;
+  padding: 1rem;
+  margin: 0 auto;
+  margin-bottom: 2rem;
+}
+
+.login-table input {
+  background-color: black;
+}
+
+.login-button {
+  font-size: large;
+}
+
 ul {
   text-align: left;
 }
