@@ -25,6 +25,10 @@ function Blog({ blog }) {
                     <th>Likes</th>
                     <td>{blog.likes}</td>
                 </tr>
+                <tr>
+                    <th>User</th>
+                    <td>{blog.user.name}</td>
+                </tr>
             </tbody>
         </table>
     )
@@ -36,6 +40,7 @@ Blog.propTypes = {
         author: PropTypes.string.isRequired,
         url: PropTypes.string.isRequired,
         likes: PropTypes.number.isRequired, // Or PropTypes.number if likes is optional
+        user: PropTypes.object.isRequired
     }).isRequired
 }
 

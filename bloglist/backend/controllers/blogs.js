@@ -40,11 +40,13 @@ blogRouter.post('/', async (request, response) => {
     title: body.title,
     author: body.author,
     url: body.url,
-    likes: body.likes
+    likes: body.likes,
+    user: user._id
   });
 
   const savedBlog = await newBlog.save()
   user.blogs = user.blogs.concat(savedBlog._id)
+  await user.save() // Save the updated document
   response.status(201).json(savedBlog)
 })
 
