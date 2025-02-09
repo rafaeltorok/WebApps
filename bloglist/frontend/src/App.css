@@ -5,8 +5,22 @@
   text-align: center;
 }
 
+#logged-field {
+  background-color: #151515;
+  padding: 0.5rem;
+  border: 3px solid #303030;
+  border-style: groove;
+  border-radius: 0.5rem;
+}
+
+#logged-username {
+  font-weight: bold;
+  margin-right: 1rem;
+}
+
 table {
   width: 400px;
+  max-width: 400px;
   border: 4px solid black;
   border-style: groove;
   border-radius: 1rem;
@@ -26,17 +40,24 @@ td {
 
 th {
   max-width: 50%;
+  height: 100%;
   background-color: #121212;
   padding: 0.5rem;
 }
 
 td {
+  max-width: 300px;
   background-color: black;
   font-weight: bold;
+  overflow: auto;
+}
+
+.input-table th,
+.input-table td {
+  padding: 0;
 }
 
 .input-table td {
-  padding: 0;
   border-style: inset;
 }
 
@@ -47,7 +68,9 @@ input {
   background-color: black;
 }
 
-#table-submit-button {
+#table-submit-button,
+#login-button,
+#logout-button {
   background-color: black;
   color: white;
   border: 2px solid #252525;
@@ -56,9 +79,19 @@ input {
   font-weight: bold;
 }
 
-#table-submit-button:active {
+#table-submit-button:active,
+#login-button:active,
+#logout-button:active {
   color: #303030;
   border-style: inset;
+}
+
+#logout-button {
+  font-size: medium;
+}
+
+.login-table td {
+  overflow: hidden;
 }
 
 .blog-title {
@@ -69,6 +102,7 @@ input {
 thead tr:first-child th {
   border-top-left-radius: 1rem;
   border-top-right-radius: 1rem;
+  padding: 0.5rem;
 }
 
 tbody tr:last-child th {
@@ -76,6 +110,24 @@ tbody tr:last-child th {
 }
 
 tbody tr:last-child td,
-.input-table tbody tr:last-child th {
+.input-table tbody tr:last-child th,
+.login-table tbody tr:last-child th {
   border-bottom-right-radius: 1rem;
+}
+
+.login-table tr:first-child th {
+  border-top-left-radius: 1rem;
+}
+
+.login-table tr:first-child td {
+  border-top-right-radius: 1rem;
+}
+
+.input-table tbody tr:last-child th {
+  padding: 0.5rem;
+}
+
+label {
+  display: block;
+  width: 100%;
 }
