@@ -1,10 +1,10 @@
 import PropTypes from 'prop-types';
 
-function NoteForm({ addNote, newNote, handleNoteChange }) {
+function NoteForm({ addNote, noteContent, handleNoteChange }) {
     return (
         <form onSubmit={addNote}>
             <input 
-                value={newNote}
+                value={noteContent}
                 onChange={handleNoteChange}
             />
             <button type='submit'>save</button>
@@ -14,7 +14,7 @@ function NoteForm({ addNote, newNote, handleNoteChange }) {
 
 NoteForm.propTypes = {
     addNote: PropTypes.func.isRequired,
-    newNote: PropTypes.string.isRequired,
+    noteContent: PropTypes.string.isRequired,
     handleNoteChange: PropTypes.func.isRequired
 }
 
