@@ -68,9 +68,7 @@ input {
   background-color: black;
 }
 
-#table-submit-button,
-#login-button,
-#logout-button {
+button {
   background-color: black;
   color: white;
   border: 2px solid #252525;
@@ -79,15 +77,23 @@ input {
   font-weight: bold;
 }
 
-#table-submit-button:active,
-#login-button:active,
-#logout-button:active {
+button:active {
   color: #303030;
   border-style: inset;
 }
 
 #logout-button {
   font-size: medium;
+}
+
+.like-button {
+  font-size: medium;
+  background-color: #303030;
+  margin-left: 1rem;
+}
+
+.like-button:active {
+  background-color: gray;
 }
 
 .login-table td {

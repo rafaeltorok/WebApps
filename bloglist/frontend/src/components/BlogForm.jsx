@@ -1,6 +1,25 @@
+import { useState } from 'react';
 import PropTypes from 'prop-types';
 
-function BlogForm({ addBlog, handleTitle, handleAuthor, handleUrl, handleLikes, title, author, url, likes }) {
+function BlogForm({ createBlog }) {
+    const [title, setTitle] = useState('')
+    const [author, setAuthor] = useState('')
+    const [url, setUrl] = useState('')
+
+    const addBlog = (event) => {
+        event.preventDefault()
+        createBlog({
+            title: title.trim(),
+            author: author.trim(),
+            url: url.trim(),
+            likes: 0,
+        })
+
+        setTitle('')
+        setAuthor('')
+        setUrl('')
+    }
+
     return (
         <form onSubmit={addBlog}>
             <table className="input-table">
@@ -20,7 +39,7 @@ function BlogForm({ addBlog, handleTitle, handleAuthor, handleUrl, handleLikes, 
                                 id="title-field"
                                 name="title-field"
                                 value={title}
-                                onChange={handleTitle}
+                                onChange={event => setTitle(event.target.value)}
                             ></input>
                         </td>
                     </tr>
@@ -34,7 +53,7 @@ function BlogForm({ addBlog, handleTitle, handleAuthor, handleUrl, handleLikes, 
                                 id="author-field"
                                 name="author-field"
                                 value={author}
-                                onChange={handleAuthor}
+                                onChange={event => setAuthor(event.target.value)}
                             ></input>
                         </td>
                     </tr>
@@ -48,21 +67,7 @@ function BlogForm({ addBlog, handleTitle, handleAuthor, handleUrl, handleLikes, 
                                 id="url-field"
                                 name="url-field"
                                 value={url}
-                                onChange={handleUrl}
-                            ></input>
-                        </td>
-                    </tr>
-                    <tr>
-                        <th>
-                            <label htmlFor="likes-field">Likes</label>
-                        </th>
-                        <td>
-                            <input
-                                type="number"
-                                id="likes-field"
-                                name="likes-field"
-                                value={likes}
-                                onChange={handleLikes}
+                                onChange={event => setUrl(event.target.value)}
                             ></input>
                         </td>
                     </tr>
@@ -78,15 +83,7 @@ function BlogForm({ addBlog, handleTitle, handleAuthor, handleUrl, handleLikes, 
 }
 
 BlogForm.propTypes = {
-    addBlog: PropTypes.func.isRequired,
-    handleTitle: PropTypes.func.isRequired,
-    handleAuthor: PropTypes.func.isRequired,
-    handleUrl: PropTypes.func.isRequired,
-    handleLikes: PropTypes.func.isRequired,
-    title: PropTypes.string.isRequired,
-    author: PropTypes.string.isRequired,
-    url: PropTypes.string.isRequired,
-    likes: PropTypes.number.isRequired, // Or PropTypes.number if likes is optional
+    createBlog: PropTypes.func.isRequired
 }
 
 export default BlogForm

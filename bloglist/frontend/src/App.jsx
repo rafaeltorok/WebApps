@@ -1,20 +1,20 @@
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useRef } from 'react'
 import blogListService from './services/blogs'
 import BlogForm from './components/BlogForm'
 import LoginForm from './components/LoginForm'
 import Blog from './components/Blog'
+import Togglable from './components/Togglable'
 import loginService from './services/login'
 import './App.css'
 
 function App() {
   const [blogs, setBlogs] = useState([])
-  const [title, setTitle] = useState('')
-  const [author, setAuthor] = useState('')
-  const [url, setUrl] = useState('')
-  const [likes, setLikes] = useState(0)
   const [username, setUsername] = useState('')
   const [password, setPassword] = useState('')
   const [user, setUser] = useState(null)
+  const [loginVisible, setLoginVisible] = useState(false)
+
+  const blogFormRef = useRef()
 
   useEffect(() => {
     blogListService
@@ -54,78 +54,77 @@ function App() {
     }
   }
 
-  const addBlog = async (event) => {
-    event.preventDefault()
-    const newBlog = {
-      title: title.trim(),
-      author: author.trim(),
-      url: url.trim(),
-      likes: likes,
-      user: user
+  const addBlog = (blogObject) => {
+    if (!blogObject.title ||
+        !blogObject.author ||
+        !blogObject.url
+    ) {
+      alert('Please, fill out all fields')
+      return
     }
 
-    try {
-      const returnedBlog = await blogListService.create(newBlog)
-      setBlogs(blogs.concat({ ...returnedBlog, user }))
-      alert(`The blog "${title}" by ${author} has been added!`)
-      setTitle('')
-      setAuthor('')
-      setUrl('')
-      setLikes(0)
-    } catch (exception) {
-      console.error("Error adding blog:", exception)
-    }
-  }
-
-  const handleTitleChange = (event) => {
-    setTitle(event.target.value)
-  }
-
-  const handleAuthorChange = (event) => {
-    setAuthor(event.target.value)
-  }
-
-  const handleUrlChange = (event) => {
-    setUrl(event.target.value)
-  }
-
-  const handleLikesChange = (event) => {
-    setLikes(event.target.value)
+    blogListService
+      .create(blogObject)
+      .then(returnedBlog => {
+        setBlogs(blogs.concat({ ...returnedBlog, user }))
+        blogFormRef.current.toggleVisibility()
+        alert(`The blog "${returnedBlog.title}" by ${returnedBlog.author} has been added!`)
+      })
+      .catch (exception => {
+        alert('Failed to add blog')
+        console.error("Error adding blog:", exception)
+      })
   }
 
   const loginForm = () => {
-      return (
-        <LoginForm 
-          handleLogin={handleLogin}
-          username={username}
-          setUsername={setUsername}
-          password={password}
-          setPassword={setPassword}
-        />
-      )
+    const hideWhenVisible = { display: loginVisible ? 'none' : '' }
+    const showWhenVisible = { display: loginVisible ? '' : 'none' }
+
+    return (
+      <div>
+        <div style={hideWhenVisible}>
+          <button onClick={() => setLoginVisible(true)}>log in</button>
+        </div>
+        <div style={showWhenVisible}>
+          <LoginForm
+            username={username}
+            password={password}
+            handleUsernameChange={({ target }) => setUsername(target.value)}
+            handlePasswordChange={({ target }) => setPassword(target.value)}
+            handleLogin={handleLogin}
+          />
+          <button onClick={() => setLoginVisible(false)}>cancel</button>
+        </div>
+      </div>
+    )
+  }
+
+  const handleLike = async (id) => {
+    const blogToUpdate = blogs.find(blog => blog.id === id)
+
+    if (!blogToUpdate) {
+      console.error(`Blog with id ${id} not found`);
+      return; // Exit the function if blog is not found
     }
-  
-    const blogForm = () => {
-      return (
-        <BlogForm 
-          addBlog={addBlog}
-          handleTitle={handleTitleChange}
-          handleAuthor={handleAuthorChange}
-          handleUrl={handleUrlChange}
-          handleLikes={handleLikesChange}
-          title={title}
-          author={author}
-          url={url}
-          likes={likes}
-        />
-      )
-    }
-  
-    const logout = () => {
-      window.localStorage.removeItem('loggedBlogListAppUser')
-      // Reload the page
-      window.location.reload();
-    }
+
+    const updatedBlog = { ...blogToUpdate, likes: blogToUpdate.likes + 1 }
+
+    blogListService
+      .update(updatedBlog)
+      .then(returnedBlog => {
+        // Ensure the user object is preserved
+        setBlogs(blogs.map(blog => blog.id === id ? { ...returnedBlog, user: blogToUpdate.user } : blog))
+      })
+      .catch (exception => {
+        console.error("Error liking the blog:", exception)
+      })
+  }
+    
+  const logout = () => {
+    window.localStorage.removeItem('loggedBlogListAppUser')
+    // Reload the page
+    window.location.reload();
+  }
 
   return (
     <>
@@ -139,7 +138,11 @@ function App() {
               Logged in as <span id='logged-username'>{user.name}</span>
               <button id='logout-button' onClick={logout}>logout</button>
             </p>
-            {blogForm()}
+            <Togglable buttonLabel="add blog" ref={blogFormRef}>
+              <BlogForm
+                createBlog={addBlog}
+              />
+            </Togglable>
           </div>
         }
 
@@ -149,6 +152,7 @@ function App() {
             return <Blog
               key={blog.id}
               blog={blog}
+              onLike={handleLike}
             />
           })}
         </div>

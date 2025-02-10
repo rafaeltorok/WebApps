@@ -1,6 +1,6 @@
 import PropTypes from 'prop-types';
 
-function LoginForm({ handleLogin, username, setUsername, password, setPassword }) {
+function LoginForm({ username, password, handleUsernameChange, handlePasswordChange, handleLogin }) {
     return (
         <div className='login-table'>
           <form onSubmit={handleLogin}>
@@ -13,7 +13,7 @@ function LoginForm({ handleLogin, username, setUsername, password, setPassword }
                           type="text"
                           value={username}
                           name="Username"
-                          onChange={({ target }) => setUsername(target.value)}
+                          onChange={handleUsernameChange}
                       />
                   </td>
                 </tr>
@@ -24,7 +24,7 @@ function LoginForm({ handleLogin, username, setUsername, password, setPassword }
                           type="password"
                           value={password}
                           name="Password"
-                          onChange={({ target }) => setPassword(target.value)}
+                          onChange={handlePasswordChange}
                       />
                   </td>
                 </tr>
@@ -39,11 +39,11 @@ function LoginForm({ handleLogin, username, setUsername, password, setPassword }
 }
 
 LoginForm.propTypes = {
-    handleLogin: PropTypes.func.isRequired,
     username: PropTypes.string.isRequired,
-    setUsername: PropTypes.func.isRequired,
+    handleUsernameChange: PropTypes.func.isRequired,
+    handlePasswordChange: PropTypes.func.isRequired,
     password: PropTypes.string.isRequired,
-    setPassword: PropTypes.func.isRequired
+    handleLogin: PropTypes.func.isRequired
 }
 
 export default LoginForm
