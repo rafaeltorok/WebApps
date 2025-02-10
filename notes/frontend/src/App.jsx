@@ -10,8 +10,7 @@ import './App.css'
 
 
 function App() {
-  const [notes, setNotes] = useState(null)
-  const [newNote, setNewNote] = useState('')
+  const [notes, setNotes] = useState([])
   const [showAll, setShowAll] = useState(true)
   const [errorMessage, setErrorMessage] = useState('')
   const [username, setUsername] = useState('')
@@ -37,10 +36,6 @@ function App() {
     }
   }, [])
 
-  if (!notes) {
-    return null
-  }
-
   const handleLogin = async (event) => {
     event.preventDefault()
     
@@ -65,33 +60,28 @@ function App() {
     }
   }
 
-  const addNote = (event) => {
-    event.preventDefault()
-    const noteObject = {
-      content: newNote,
-      important: Math.random() < 0.5
-    }
-
-    if (noteObject.content.trim() === '') {
-      setErrorMessage(
-        `The note content cannot be empty`
-      )
+  const addNote = (noteObject) => {
+    if (!noteObject.content) {
+      setErrorMessage('The note content cannot be empty')
       setTimeout(() => {
         setErrorMessage(null)
       }, 5000)
-    } else {
-      noteService
+      return
+    }
+
+    noteService
       .create(noteObject)
       .then(returnedNote => {
         setNotes(notes.concat(returnedNote))
-        setNewNote('')
+        setErrorMessage(null)
       })
-    }
-  }
-
-  const handleNoteChange = (event) => {
-    console.log(event.target.value)
-    setNewNote(event.target.value)
+      .catch (exception => {
+        console.warn("Adding a new note failed:", exception)
+        setErrorMessage('Failed to add note')
+        setTimeout(() => {
+          setErrorMessage(null)
+        }, 5000)
+      })
   }
 
   const toggleImportanceOf = id => {
@@ -158,9 +148,7 @@ function App() {
           <p>{user.name} logged in <button id='logout-button' onClick={logout}>logout</button></p>
           <Togglable buttonLabel="new note">
             <NoteForm
-              addNote={addNote}
-              noteContent={newNote}
-              handleNoteChange={handleNoteChange}
+              createNote={addNote}
             />
           </Togglable>
           </div>
