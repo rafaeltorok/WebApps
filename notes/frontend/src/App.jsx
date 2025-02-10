@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useRef } from 'react'
 import Note from './components/Note'
 import Notification from './components/Notification'
 import LoginForm from './components/LoginForm'
@@ -18,6 +18,7 @@ function App() {
   const [user, setUser] = useState(null)
   const [loginVisible, setLoginVisible] = useState(false)
 
+  const noteFormRef = useRef()
 
   useEffect(() => {
     noteService
@@ -61,6 +62,8 @@ function App() {
   }
 
   const addNote = (noteObject) => {
+    noteFormRef.current.toggleVisibility()
+
     if (!noteObject.content) {
       setErrorMessage('The note content cannot be empty')
       setTimeout(() => {
@@ -146,7 +149,7 @@ function App() {
         {!user && loginForm()}
         {user && <div>
           <p>{user.name} logged in <button id='logout-button' onClick={logout}>logout</button></p>
-          <Togglable buttonLabel="new note">
+          <Togglable buttonLabel="new note" ref={noteFormRef}>
             <NoteForm
               createNote={addNote}
             />

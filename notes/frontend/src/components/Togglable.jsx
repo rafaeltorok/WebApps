@@ -1,7 +1,7 @@
-import { useState } from 'react'
+import { useState, forwardRef, useImperativeHandle } from 'react'
 import PropTypes from 'prop-types';
 
-const Togglable = (props) => {
+const Togglable = forwardRef((props, ref) => {
   const [visible, setVisible] = useState(false)
 
   const hideWhenVisible = { display: visible ? 'none' : '' }
@@ -10,6 +10,12 @@ const Togglable = (props) => {
   const toggleVisibility = () => {
     setVisible(!visible)
   }
+
+  useImperativeHandle(ref, () => {
+    return {
+      toggleVisibility
+    }
+  })
 
   return (
     <div>
@@ -23,7 +29,10 @@ const Togglable = (props) => {
       </div>
     </div>
   )
-}
+})
+
+// Set display name to avoid missing display name warning on DevTools
+Togglable.displayName = "Togglable";
 
 Togglable.propTypes = {
     buttonLabel: PropTypes.string.isRequired,
