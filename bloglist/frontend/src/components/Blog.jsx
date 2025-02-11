@@ -20,7 +20,6 @@ function Blog({ blog, onLike, showAll, removeBlog }) {
             <th colSpan={2}>
               <button
                 onClick={() => setShowBody(!showBody)}
-                className="px-4 py-2 bg-blue-500 text-white rounded-md"
               >
                 {showBody ? "Hide" : "Show"}
               </button>
