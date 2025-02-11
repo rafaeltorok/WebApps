@@ -1,88 +1,130 @@
+import { useState, useEffect } from 'react';
+import PropTypes from 'prop-types'
 import calculatePerformance from '../calculatePerformance.js';
 
 
-function GPU(props) {
-    const gpuPerformance = calculatePerformance(props.gpu);
+function GPU({ gpu, onDelete, showAll }) {
+    const gpuPerformance = calculatePerformance(gpu);
+    const [showBody, setShowBody] = useState(false);
+
+    // Sync individual state with global "Show All" toggle
+    useEffect(() => {
+        setShowBody(showAll);
+    }, [showAll])
+
     return (
-        <table id='gpu-data-table'>
+        <table className='gpu-data-table'>
             <thead>
                 <tr>
-                    <th className={props.gpu.manufacturer.toLowerCase() === 'nvidia'
+                    <th className={gpu.manufacturer.toLowerCase() === 'nvidia'
                     ? 'nvidia-model-header'
-                    : props.gpu.manufacturer.toLowerCase() === 'amd'
+                    : gpu.manufacturer.toLowerCase() === 'amd'
                     ? 'amd-model-header'
-                    : props.gpu.manufacturer.toLowerCase() === 'intel'
+                    : gpu.manufacturer.toLowerCase() === 'intel'
                     ? 'intel-model-header'
                     : 'model-header'}
                     colSpan={2}>
-                        {props.gpu.manufacturer} {props.gpu.gpuline} {props.gpu.model}
+                        {gpu.manufacturer} {gpu.gpuline} {gpu.model}
+                    </th>
+                </tr>
+                <tr>
+                    <th colSpan={2} className='table-header'>
+                        <button
+                            onClick={() => setShowBody(!showBody)}
+                        >
+                            {showBody ? "Hide" : "Show"}
+                        </button>
                     </th>
                 </tr>
             </thead>
-            <tbody>
-                <tr>
-                    <th className="table-header" colSpan={2}>SPECIFICATIONS</th>
-                </tr>
-                <tr>
-                    <th>CORES</th>
-                    <td>{props.gpu.cores}</td>
-                </tr>
-                <tr>
-                    <th>TMUs</th>
-                    <td>{props.gpu.tmus}</td>
-                </tr>
-                <tr>
-                    <th>ROPs</th>
-                    <td>{props.gpu.rops}</td>
-                </tr>
-                <tr>
-                    <th>VRAM</th>
-                    <td>{props.gpu.vram}GB {props.gpu.memtype}</td>
-                </tr>
-                <tr>
-                    <th>BUS WIDTH</th>
-                    <td>{props.gpu.bus} bit</td>
-                </tr>
-                <tr>
-                    <th className="table-header" colSpan={2}>CLOCK SPEEDS</th>
-                </tr>
-                <tr>
-                    <th>BASE CLOCK</th>
-                    <td>{props.gpu.baseclock} MHz</td>
-                </tr>
-                <tr>
-                    <th>BOOST CLOCK</th>
-                    <td>{props.gpu.boostclock} MHz</td>
-                </tr>
-                <tr>
-                    <th>MEMORY CLOCK</th>
-                    <td>{props.gpu.memclock} Gbps effective</td>
-                </tr>
-                <tr>
-                    <th className="table-header" colSpan={2}>THEORETICAL PERFORMANCE</th>
-                </tr>
-                <tr>
-                    <th>FP32(float)</th>
-                    <td>{gpuPerformance[0]}</td>
-                </tr>
-                <tr>
-                    <th>TEXTURE RATE</th>
-                    <td>{gpuPerformance[1]}</td>
-                </tr>
-                <tr>
-                    <th>PIXEL RATE</th>
-                    <td>{gpuPerformance[2]}</td>
-                </tr>
-                <tr>
-                    <th>BANDWIDTH</th>
-                    <td>{gpuPerformance[3]}</td>
-                </tr>
-                <tr>
-                    <td colSpan={"2"} id='delete-gpu-button'><button onClick={() => props.onDelete(props.gpu.id)}>Delete</button></td>
-                </tr>
-            </tbody>
+            {showBody && (
+                <tbody>
+                    <tr>
+                        <th className="table-header" colSpan={2}>SPECIFICATIONS</th>
+                    </tr>
+                    <tr>
+                        <th>CORES</th>
+                        <td>{gpu.cores}</td>
+                    </tr>
+                    <tr>
+                        <th>TMUs</th>
+                        <td>{gpu.tmus}</td>
+                    </tr>
+                    <tr>
+                        <th>ROPs</th>
+                        <td>{gpu.rops}</td>
+                    </tr>
+                    <tr>
+                        <th>VRAM</th>
+                        <td>{gpu.vram}GB {gpu.memtype}</td>
+                    </tr>
+                    <tr>
+                        <th>BUS WIDTH</th>
+                        <td>{gpu.bus} bit</td>
+                    </tr>
+                    <tr>
+                        <th className="table-header" colSpan={2}>CLOCK SPEEDS</th>
+                    </tr>
+                    <tr>
+                        <th>BASE CLOCK</th>
+                        <td>{gpu.baseclock} MHz</td>
+                    </tr>
+                    <tr>
+                        <th>BOOST CLOCK</th>
+                        <td>{gpu.boostclock} MHz</td>
+                    </tr>
+                    <tr>
+                        <th>MEMORY CLOCK</th>
+                        <td>{gpu.memclock} Gbps effective</td>
+                    </tr>
+                    <tr>
+                        <th className="table-header" colSpan={2}>THEORETICAL PERFORMANCE</th>
+                    </tr>
+                    <tr>
+                        <th>FP32(float)</th>
+                        <td>{gpuPerformance[0]}</td>
+                    </tr>
+                    <tr>
+                        <th>TEXTURE RATE</th>
+                        <td>{gpuPerformance[1]}</td>
+                    </tr>
+                    <tr>
+                        <th>PIXEL RATE</th>
+                        <td>{gpuPerformance[2]}</td>
+                    </tr>
+                    <tr>
+                        <th>BANDWIDTH</th>
+                        <td>{gpuPerformance[3]}</td>
+                    </tr>
+                    <tr>
+                        <td colSpan={"2"} id='delete-gpu-button'>
+                            <button onClick={() => onDelete(gpu.id, gpu.manufacturer, gpu.gpuline, gpu.model)}>Delete</button>
+                        </td>
+                    </tr>
+                </tbody>
+            )}
         </table>
     );
+}
+
+GPU.propTypes = {
+  gpu: PropTypes.shape({
+    id: PropTypes.string.isRequired,
+    manufacturer: PropTypes.string.isRequired,
+    gpuline: PropTypes.string.isRequired,
+    model: PropTypes.string.isRequired,
+    cores: PropTypes.number.isRequired,
+    tmus: PropTypes.number.isRequired,
+    rops: PropTypes.number.isRequired,
+    vram: PropTypes.number.isRequired,
+    bus: PropTypes.number.isRequired,
+    memtype: PropTypes.string.isRequired,
+    baseclock: PropTypes.number.isRequired,
+    boostclock: PropTypes.number.isRequired,
+    memclock: PropTypes.number.isRequired
+  }).isRequired,
+  onDelete: PropTypes.func.isRequired,
+  showAll: PropTypes.bool.isRequired
 }
 
 export default GPU;
