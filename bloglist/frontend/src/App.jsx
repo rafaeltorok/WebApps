@@ -11,10 +11,14 @@ function App() {
   const [blogs, setBlogs] = useState([])
   const [username, setUsername] = useState('')
   const [password, setPassword] = useState('')
-  const [user, setUser] = useState(null)
-  const [loginVisible, setLoginVisible] = useState(false)
+  const [user, setUser] = useState(null) // Holds the data of the currently logged user
+  const [loginVisible, setLoginVisible] = useState(false) // Defines if the login form should be displayed
+  const [showAll, setShowAll] = useState(false) // Controls the visibility of all tables
 
   const blogFormRef = useRef()
+
+  // This avoids modifying blogs directly and ensures sorting doesn't happen unnecessarily on every re-render
+  const sortedBlogs = [...blogs].sort((a, b) => b.likes - a.likes)
 
   useEffect(() => {
     blogListService
@@ -119,6 +123,20 @@ function App() {
         console.error("Error liking the blog:", exception)
       })
   }
+
+  const removeBlog = blog => {
+    if (window.confirm(`Remove ${blog.title} from ${blog.author}?`)) {
+      blogListService
+        .remove(blog)
+        .then(() => {
+          setBlogs(blogs.filter(b => b.id !== blog.id))
+          alert("The blog has been removed from the list")
+        })
+        .catch(() => {
+          alert("Failed to remove blog")
+        })
+    }
+  }
     
   const logout = () => {
     window.localStorage.removeItem('loggedBlogListAppUser')
@@ -134,7 +152,7 @@ function App() {
         {user === null ?
           loginForm() :
           <div>
-            <p id='logged-field'>
+            <p className='logged-field'>
               Logged in as <span id='logged-username'>{user.name}</span>
               <button id='logout-button' onClick={logout}>logout</button>
             </p>
@@ -146,16 +164,28 @@ function App() {
           </div>
         }
 
-        <h2>List of blogs:</h2>
-        <div id='blogs-list'>
-          {blogs.map(blog => {
-            return <Blog
-              key={blog.id}
-              blog={blog}
-              onLike={handleLike}
-            />
-          })}
-        </div>
+        {user === null ?
+          <h2 className='logged-field'>Login to see the blogs list</h2> :
+          <div>
+            <h2>List of blogs:</h2>
+            <button
+              onClick={() => setShowAll((prev) => !prev)}
+            >
+              {showAll ? "Hide All" : "Show All"}
+            </button>
+            <div id='blogs-list'>
+              {sortedBlogs.map(blog => {
+                return <Blog
+                  key={blog.id}
+                  blog={blog}
+                  onLike={handleLike}
+                  showAll={showAll}
+                  removeBlog={removeBlog}
+                />
+              })}
+            </div>
+          </div>
+        }
       </div>
     </>
   )

@@ -21,7 +21,7 @@ const create = newObject => {
   return request.then(response => response.data)
 }
 
-const deleteContact = blog => {
+const remove = blog => {
   return axios.delete(`${baseUrl}/${blog.id}`)
 }
 
@@ -34,4 +34,4 @@ const update = updatedBlog => {
   return request.then(response => response.data)
 }
 
-export default { getAll, create, deleteContact, update, setToken }
+export default { getAll, create, remove, update, setToken }

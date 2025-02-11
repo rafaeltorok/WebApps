@@ -5,7 +5,7 @@
   text-align: center;
 }
 
-#logged-field {
+.logged-field {
   background-color: #151515;
   padding: 0.5rem;
   border: 3px solid #303030;
@@ -113,9 +113,9 @@ thead tr:first-child th {
 
 tbody tr:last-child th {
   border-bottom-left-radius: 1rem;
+  border-bottom-right-radius: 1rem;
 }
 
-tbody tr:last-child td,
 .input-table tbody tr:last-child th,
 .login-table tbody tr:last-child th {
   border-bottom-right-radius: 1rem;
