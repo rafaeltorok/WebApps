@@ -5,7 +5,7 @@ function Note({ note, toggleImportance }) {
         ? '✗' : '✔';
     
     return (
-        <li>
+        <li className='note'>
             {note.content}
             <button className="important-button" onClick={toggleImportance}>{label}</button>
         </li>
