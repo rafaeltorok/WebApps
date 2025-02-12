@@ -1,0 +1,90 @@
+* Let's start by installing Vitest and the jsdom library simulating a
+web browser:
+
+npm install --save-dev vitest jsdom
+
+-------------------------------------------------------------------------
+
+* In addition to Vitest, we also need another testing library that will 
+help us render components for testing purposes. The current best option 
+for this is react-testing-library which has seen rapid growth in popularity 
+in recent times. It is also worth extending the expressive power of the 
+tests with the library jest-dom.
+
+npm install --save-dev @testing-library/react @testing-library/jest-dom
+
+-------------------------------------------------------------------------
+
+* Add a script to the package.json file to run the tests:
+
+{
+  "scripts": {
+    // ...
+    "test": "vitest run"
+  }
+  // ...
+}
+
+-------------------------------------------------------------------------
+
+* Create a file testSetup.js in the project root with the following content
+Now, after each test, the function cleanup is executed to reset jsdom, 
+which is simulating the browser.
+
+import { afterEach } from 'vitest'
+import { cleanup } from '@testing-library/react'
+import '@testing-library/jest-dom/vitest'
+
+afterEach(() => {
+  cleanup()
+})
+
+-------------------------------------------------------------------------
+
+* vite.config.js:
+
+export default defineConfig({
+  // ...
+  test: {
+    environment: 'jsdom',
+    globals: true,
+    setupFiles: './testSetup.js', 
+  }
+})
+
+-------------------------------------------------------------------------
+
+* Eslint complains about the keywords test and expect in the tests.
+The problem can be solved by installing eslint-plugin-vitest-globals:
+
+npm install --save-dev eslint-plugin-vitest-globals
+
+-------------------------------------------------------------------------
+
+* Enable the plugin by editing the .eslintrc.cjs file as follows:
+
+module.exports = {
+  root: true,
+  env: {
+    "vitest-globals/env": true
+  },
+  extends: [
+    'plugin:vitest-globals/recommended',
+  ],
+  // ...
+}
+
+-------------------------------------------------------------------------
+
+* Install a library user-event that makes simulating user input a bit easier:
+
+npm install --save-dev @testing-library/user-event
+
+-------------------------------------------------------------------------
+
+* We can easily find out the coverage of our tests by running them with 
+the command:
+
+npm test -- --coverage
+
+-------------------------------------------------------------------------
