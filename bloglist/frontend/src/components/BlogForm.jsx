@@ -38,6 +38,7 @@ function BlogForm({ createBlog }) {
                                 type="text"
                                 id="title-field"
                                 name="title-field"
+                                data-testid='title-field'
                                 value={title}
                                 onChange={event => setTitle(event.target.value)}
                             ></input>
@@ -52,6 +53,7 @@ function BlogForm({ createBlog }) {
                                 type="text"
                                 id="author-field"
                                 name="author-field"
+                                data-testid='author-field'
                                 value={author}
                                 onChange={event => setAuthor(event.target.value)}
                             ></input>
@@ -66,6 +68,7 @@ function BlogForm({ createBlog }) {
                                 type="text"
                                 id="url-field"
                                 name="url-field"
+                                data-testid='url-field'
                                 value={url}
                                 onChange={event => setUrl(event.target.value)}
                             ></input>
@@ -73,7 +76,11 @@ function BlogForm({ createBlog }) {
                     </tr>
                     <tr>
                         <th colSpan={2}>
-                            <button id="table-submit-button" type="submit">SUBMIT</button>
+                            <button 
+                                id="table-submit-button" 
+                                type="submit"
+                                data-testid='table-submit-button'
+                            >SUBMIT</button>
                         </th>
                     </tr>
                 </tbody>

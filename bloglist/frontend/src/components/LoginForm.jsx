@@ -13,6 +13,7 @@ function LoginForm({ username, password, handleUsernameChange, handlePasswordCha
                           type="text"
                           value={username}
                           name="Username"
+                          data-testid='username'
                           onChange={handleUsernameChange}
                       />
                   </td>
@@ -24,6 +25,7 @@ function LoginForm({ username, password, handleUsernameChange, handlePasswordCha
                           type="password"
                           value={password}
                           name="Password"
+                          data-testid='password'
                           onChange={handlePasswordChange}
                       />
                   </td>
