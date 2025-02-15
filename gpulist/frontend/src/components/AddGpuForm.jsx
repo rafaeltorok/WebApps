@@ -18,8 +18,8 @@ const AddGpuForm = forwardRef(({ createGpu }, ref) => {
 	const [showAddForm, setShowAddForm] = useState(false) // Controls the visibility of the Add GPU form
 
 	useImperativeHandle(ref, () => ({
-    toggleVisibility: () => setShowAddForm(prev => !prev)
-  }));
+	    toggleVisibility: () => setShowAddForm(prev => !prev)
+  	}))
 
 	const addGpu = (event) => {
 		event.preventDefault()
