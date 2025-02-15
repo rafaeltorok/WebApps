@@ -1,6 +1,7 @@
 import { useState, useEffect, useRef } from 'react'
 import GPU from './components/GPU'
 import AddGpuForm from './components/AddGpuForm'
+import PageIndex from './components/PageIndex'
 import gpuService from './services/gpus'
 import './App.css'
 
@@ -9,6 +10,8 @@ function App() {
   const [showAll, setShowAll] = useState(false) // Controls the visibility of all tables
 
   const gpuFormRef = useRef()
+  const gpuRefs = useRef({}) // Create a ref to store GPU elements
+  const topRef = useRef() // Create a ref for the top <h1> element
 
   useEffect(() => {
     gpuService
@@ -66,13 +69,21 @@ function App() {
     }
   }
 
+  const scrollToIndex = () => {
+    topRef.current.scrollIntoView({ behavior: 'smooth' })
+  }
+
   return (
     <>
       <div>
-        <h1>GPU List</h1>
+        <h1 ref={topRef}>GPU List</h1> {/* Add ref to the <h1> element */}
         <AddGpuForm 
           createGpu={addGpu}
           ref={gpuFormRef}
+        />
+        <PageIndex
+          gpusData={gpus}
+          gpuRefs={gpuRefs}
         />
         <div className='button-area'>
           <button
@@ -82,12 +93,18 @@ function App() {
           </button>
         </div>
         {gpus.map(gpu => (
-          <GPU 
-            key={gpu.id} 
-            gpu={gpu} 
-            onDelete={deleteGpu}
-            showAll={showAll}
-          />
+          <div key={gpu.id}>
+            <GPU 
+              gpu={gpu} 
+              onDelete={deleteGpu}
+              showAll={showAll}
+              ref={(element) => gpuRefs.current[gpu.id] = element}
+            />
+            <button 
+              className='back-to-index-button'
+              onClick={scrollToIndex}
+            >Back to Index</button>
+          </div>
         ))}
       </div>
     </>

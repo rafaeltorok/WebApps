@@ -1,5 +1,5 @@
 #root {
-  max-width: 1280px;
+  max-width: 550px;
   margin: 0 auto;
   padding: 2rem;
   text-align: center;
@@ -25,13 +25,48 @@ h1 {
   padding: 1rem;
 }
 
-#add-gpu-table {
+#add-gpu-table,
+#page-index {
   width: 100%;
   border: 2px solid black;
   padding: 1rem;
   border-style: groove;
   margin-bottom: 1rem;
   background-color: rgba(12, 12, 12, 0.9);
+}
+
+#page-index {
+  margin: 0 auto;
+  max-width: 90%;
+  max-height: 300px;
+  border-radius: 1rem;
+  margin-bottom: 1rem;
+  overflow: auto;
+  padding-top: 0;
+  padding-bottom: 0;
+  position: relative;
+}
+
+.page-index-title {
+  position: sticky;
+  top: 0;
+  left: 0;
+  width: 100%;
+  z-index: 10;  /* Ensures it stays above the scrollable content */
+}
+
+.page-index-list {
+  list-style: none;
+  margin: 0 auto;
+  padding: 0;
+}
+
+.index-item-button {
+  width: 100%;
+}
+
+.page-index-list:last-child {
+  margin-bottom: 2rem;
 }
 
 #add-gpu-table th {
@@ -66,13 +101,13 @@ button:active {
   max-width: 100%;
   border: 0.25rem solid black;
   border-style: groove;
-  margin-bottom: 2rem;
 }
 
 .button-area {
   background-color: rgba(0, 0, 0, 0.75);
   border-radius: 1rem;
   box-sizing: border-box; /* Prevents the are to be wider than the others */
+  margin-bottom: 2rem;
 }
 
 .button-area button {
@@ -81,7 +116,8 @@ button:active {
   padding: 1rem;
 }
 
-#add-gpu-button {
+#add-gpu-button,
+#show-index-button {
   width: 100%;
   height: 100%;
   margin: 0 auto;
@@ -132,6 +168,12 @@ button:active {
   font-size: 1.2rem;
   font-weight: bold;
   border-style: groove;
+}
+
+.back-to-index-button,
+.back-to-index-button:active {
+  margin-top: 0.1rem;
+  margin-bottom: 2.5rem;
 }
 
 .nvidia-model-header {
