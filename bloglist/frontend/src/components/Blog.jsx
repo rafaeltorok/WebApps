@@ -11,7 +11,7 @@ function Blog({ blog, onLike, showAll, removeBlog }) {
 
   return (
     <div className='table-division'>
-      <table>
+      <table className='blog-table'>
         <thead>
           <tr>
             <th colSpan={2} className="blog-title">{blog.title}</th>

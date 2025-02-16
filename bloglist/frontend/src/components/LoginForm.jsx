@@ -10,6 +10,7 @@ function LoginForm({ username, password, handleUsernameChange, handlePasswordCha
                   <th>username</th>
                   <td>
                       <input
+                          id='username'
                           type="text"
                           value={username}
                           name="Username"
@@ -22,6 +23,7 @@ function LoginForm({ username, password, handleUsernameChange, handlePasswordCha
                   <th>password</th>
                   <td>
                       <input
+                          id='password'
                           type="password"
                           value={password}
                           name="Password"
