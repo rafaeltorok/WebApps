@@ -110,6 +110,8 @@ const GPU = forwardRef(({ gpu, onDelete, showAll }, ref) => {
     );
 })
 
+GPU.displayName = "GPU"
+
 GPU.propTypes = {
   gpu: PropTypes.shape({
     id: PropTypes.string.isRequired,
