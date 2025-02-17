@@ -43,7 +43,7 @@ function Blog({ blog, onLike, showAll, removeBlog }) {
             <tr>
               <th>Likes</th>
               <td>
-                {blog.likes}
+                <span>{blog.likes}</span>
                 <button className='like-button' onClick={() => onLike(blog.id)}>like</button>
               </td>
             </tr>
