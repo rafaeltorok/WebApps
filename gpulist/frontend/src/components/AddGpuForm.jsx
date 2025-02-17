@@ -242,7 +242,10 @@ const AddGpuForm = forwardRef(({ createGpu }, ref) => {
 							</tr>
 							<tr>
 								<td colSpan={2}>
-									<button type="submit">Submit</button>
+									<button 
+										id='add-gpu-submit-button'
+										type="submit"
+									>Submit</button>
 								</td>
 							</tr>
 						</tbody>
