@@ -4,12 +4,12 @@ import calculatePerformance from '../calculatePerformance.js';
 
 
 const GPU = forwardRef(({ gpu, onDelete, showAll }, ref) => {
-	const gpuPerformance = calculatePerformance(gpu);
-	const [showBody, setShowBody] = useState(false);
+	const gpuPerformance = calculatePerformance(gpu)
+	const [showBody, setShowBody] = useState(false)
 
 	// Sync individual state with global "Show All" toggle
 	useEffect(() => {
-		setShowBody(showAll);
+		setShowBody(showAll)
 	}, [showAll])
 
 	return (
@@ -33,6 +33,7 @@ const GPU = forwardRef(({ gpu, onDelete, showAll }, ref) => {
 				<tr>
 					<th colSpan={2} className='table-header'>
 						<button
+							className='show-hide-button'
 							onClick={() => setShowBody(!showBody)}
 						>
 							{showBody ? "Hide" : "Show"}
@@ -107,7 +108,7 @@ const GPU = forwardRef(({ gpu, onDelete, showAll }, ref) => {
 				</tbody>
 			)}
 		</table>
-	);
+	)
 })
 
 GPU.displayName = "GPU"
@@ -132,4 +133,4 @@ GPU.propTypes = {
   showAll: PropTypes.bool.isRequired
 }
 
-export default GPU;
+export default GPU

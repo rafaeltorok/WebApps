@@ -5,11 +5,13 @@ import PageIndex from './components/PageIndex'
 import gpuService from './services/gpus'
 import './App.css'
 
+
 function App() {
   const [gpus, setGpus] = useState([])
   const [showAll, setShowAll] = useState(false) // Controls the visibility of all tables
 
   const gpuFormRef = useRef()
+  const pageIndexRef = useRef()
   const gpuRefs = useRef({}) // Create a ref to store GPU elements
   const topRef = useRef() // Create a ref for the top <h1> element
 
@@ -55,7 +57,7 @@ function App() {
   }
 
   const deleteGpu = (id, manufacturer, gpuline, model) => {
-    const confirmDeletion = window.confirm(`Remove ${manufacturer} ${gpuline} ${model} from the list?`);
+    const confirmDeletion = window.confirm(`Remove ${manufacturer} ${gpuline} ${model} from the list?`)
 
     if (confirmDeletion) {
       gpuService.remove(id)
@@ -69,9 +71,32 @@ function App() {
     }
   }
 
-  const scrollToIndex = () => {
-    topRef.current.scrollIntoView({ behavior: 'smooth' })
+  const scrollToIndex = (id) => {
+    console.log("Attempting to scroll to:", id)
+    console.log("All GPU refs:", gpuRefs.current)
+  
+    if (topRef.current) {
+      topRef.current.scrollIntoView({ behavior: 'smooth' })
+    }
+  
+    if (!showAll && gpuRefs.current[id]) {
+      console.log("Found GPU ref:", gpuRefs.current[id])
+  
+      const showButton = gpuRefs.current[id].querySelector('.show-hide-button')
+      console.log("Show button:", showButton)
+  
+      if (showButton && showButton.textContent.trim() === 'Hide') {
+        showButton.click()
+        console.log("Hide button clicked!")
+      } else {
+        console.log("Button not found or already hidden")
+      }
+    } else {
+      console.log(gpuRefs.current)
+      console.log("GPU ref not found!")
+    }
   }
+  
 
   return (
     <>
@@ -84,6 +109,8 @@ function App() {
         <PageIndex
           gpusData={gpus}
           gpuRefs={gpuRefs}
+          showAll={showAll}
+          ref={pageIndexRef}
         />
         <div className='button-area'>
           <button
@@ -94,13 +121,17 @@ function App() {
         </div>
         {gpus.map(gpu => (
           <div key={gpu.id}>
-            <GPU 
-              gpu={gpu} 
+            <GPU
+              gpu={gpu}
               onDelete={deleteGpu}
               showAll={showAll}
-              ref={(element) => gpuRefs.current[gpu.id] = element}
+              ref={(element) => {
+                if (element) {
+                  gpuRefs.current[gpu.id] = element
+                }
+              }}
             />
-            <button 
+            <button
               className='back-to-index-button'
               onClick={scrollToIndex}
             >Back to Index</button>

@@ -2,7 +2,7 @@ import { forwardRef, useImperativeHandle, useState } from 'react'
 import PropTypes from 'prop-types'
 
 
-const PageIndex = forwardRef(({ gpusData, gpuRefs }, ref) => {
+const PageIndex = forwardRef(({ gpusData, gpuRefs, showAll }, ref) => {
   const [showIndex, setShowIndex] = useState(false) // Controls the visibility of the Add GPU form
 
   useImperativeHandle(ref, () => ({
@@ -11,7 +11,16 @@ const PageIndex = forwardRef(({ gpusData, gpuRefs }, ref) => {
 
   // Scroll to gpu when index item is clicked
   const scrollToGpu = (id) => {
-    gpuRefs.current[id]?.scrollIntoView({ behavior: 'smooth', block: 'start' })
+		const gpuElement = gpuRefs.current[id]
+		if (gpuElement) {
+			gpuElement.scrollIntoView({ behavior: 'smooth', block: 'start' })
+			if (!showAll) {
+				const showButton = gpuElement.querySelector('.show-hide-button')
+				if (showButton && showButton.textContent === 'Show') {
+					showButton.click()
+				}
+			}
+		}
   }
   
   return (
@@ -56,7 +65,8 @@ PageIndex.displayName = "PageIndex"
 
 PageIndex.propTypes = {
 	gpusData: PropTypes.array.isRequired,
-	gpuRefs: PropTypes.object.isRequired
+	gpuRefs: PropTypes.object.isRequired,
+	showAll: PropTypes.bool.isRequired
 }
 
 export default PageIndex
