@@ -19,14 +19,23 @@ const GPU = forwardRef(({ gpu, onDelete, showAll }, ref) => {
 		>
 			<thead>
 				<tr>
-					<th className={gpu.manufacturer.toLowerCase() === 'nvidia'
-						? 'nvidia-model-header'
-						: gpu.manufacturer.toLowerCase() === 'amd'
-						? 'amd-model-header'
-						: gpu.manufacturer.toLowerCase() === 'intel'
-						? 'intel-model-header'
-						: 'model-header'}
-						colSpan={2}>
+					<th className={
+							gpu.manufacturer.toLowerCase() === 'nvidia'
+							? 'nvidia-model-header'
+							: gpu.manufacturer.toLowerCase() === 'amd'
+							? 'amd-model-header'
+							: gpu.manufacturer.toLowerCase() === 'intel'
+							? 'intel-model-header'
+							: gpu.gpuline.toLowerCase() === 'geforce'
+							? 'nvidia-model-header'
+							: gpu.gpuline.toLowerCase() === 'radeon'
+							? 'amd-model-header'
+							: gpu.gpuline.toLowerCase() === 'arc'
+							? 'intel-model-header'
+							: 'model-header'
+						}
+						colSpan={2}
+					>
 						{gpu.manufacturer} {gpu.gpuline} {gpu.model}
 					</th>
 				</tr>

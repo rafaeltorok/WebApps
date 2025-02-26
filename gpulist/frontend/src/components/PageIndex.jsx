@@ -43,13 +43,21 @@ const PageIndex = forwardRef(({ gpusData, gpuRefs, showAll }, ref) => {
 								onClick={() => scrollToGpu(gpu.id)} 
 							>
 								<span
-									className={gpu.manufacturer.toLowerCase() === 'nvidia'
+									className={
+										gpu.manufacturer.toLowerCase() === 'nvidia'
 										? 'nvidia-model-header'
 										: gpu.manufacturer.toLowerCase() === 'amd'
 										? 'amd-model-header'
 										: gpu.manufacturer.toLowerCase() === 'intel'
 										? 'intel-model-header'
-										: 'model-header'}
+										: gpu.gpuline.toLowerCase() === 'geforce'
+										? 'nvidia-model-header'
+										: gpu.gpuline.toLowerCase() === 'radeon'
+										? 'amd-model-header'
+										: gpu.gpuline.toLowerCase() === 'arc'
+										? 'intel-model-header'
+										: 'model-header'
+									}
 									>{gpu.manufacturer} {gpu.gpuline} {gpu.model}
 								</span>
 							</button>
