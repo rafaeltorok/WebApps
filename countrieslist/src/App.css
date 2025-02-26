@@ -1,0 +1,57 @@
+#root {
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 2rem;
+  text-align: center;
+}
+
+.country-data {
+  min-width: 350px;
+  max-width: 400px;
+  width: 90%;
+}
+
+.country-name {
+  min-width: 300px;
+  max-width: 400px;
+  background-color: #151515;
+  font-size: 2.5rem;
+  font-weight: bold;
+  border: 2px solid black;
+  border-style: groove;
+  border-radius: 0.5rem;
+  padding: 0.75rem;
+  margin-top: 1rem;
+}
+
+.countries-list,
+.languages-list {
+  text-align: left;
+  margin: 0 auto;
+}
+
+.languages-list {
+  max-width: 200px;
+}
+
+.country-flag {
+  width: 300px;
+  max-width: 90%;
+}
+
+button {
+  background-color: black;
+  color: white;
+  padding: 0.2rem;
+  border: 2px solid gray;
+  border-style: outset;
+}
+
+button:active {
+  border-style: inset;
+  color: #505050;
+}
+
+.no-wrap {
+  white-space: nowrap;
+}
