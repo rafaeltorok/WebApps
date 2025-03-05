@@ -8,7 +8,8 @@ function calculatePerformance(gpu) {
 }
 
 function getFp32(model, cores, coreclock) {
-    const factor = (model.toLowerCase().includes("rx 7")) ? 4 : 2;
+    const factor = (model.toLowerCase().includes("rx 7") || 
+					model.toLowerCase().includes("rx 90")) ? 4 : 2;
     const fp32Performance = ((cores * coreclock * factor) / 1000000);
     return (fp32Performance < 1) ? 
         (((fp32Performance * 1000).toFixed(2)) + " GFLOPS") : 
