@@ -1,6 +1,6 @@
 const gpusRouter = require('express').Router()
 const Gpu = require('../models/gpu')
-const validateGpu = require("../middlewares/validateGpu"); // Import validation middleware
+const validateGpu = require("../middlewares/validateGpu") // Import validation middleware
 
 gpusRouter.get('/', (request, response) => {
   Gpu.find({}).then(gpus => {
@@ -34,7 +34,7 @@ gpusRouter.post('/', validateGpu, async (request, response, next) => {
     baseclock,
     boostclock,
     memclock 
-  } = request.body;
+  } = request.body
 
   const existingGpu = await Gpu.findOne(
     {
@@ -42,10 +42,10 @@ gpusRouter.post('/', validateGpu, async (request, response, next) => {
         gpuline: { $regex: new RegExp(`^${gpuline}$`, "i") },
         model: { $regex: new RegExp(`^${model}$`, "i") },
     }
-  );
+  )
 
   if (existingGpu) {
-    return response.status(409).json({ error: "The graphics card has already been added to the list" });
+    return response.status(409).json({ error: "The graphics card has already been added to the list" })
   }
 
   const newGpu = new Gpu({
@@ -61,12 +61,37 @@ gpusRouter.post('/', validateGpu, async (request, response, next) => {
     baseclock,
     boostclock,
     memclock,
-  });
+  })
 
   newGpu
     .save()
     .then((savedGpu) => response.json(savedGpu))
-    .catch((error) => next(error));
+    .catch((error) => next(error))
+})
+
+gpusRouter.put('/:id', async (request, response) => {
+  try {
+    const updateFields = request.body
+
+    // Ensure the request body is not empty
+    if (Object.keys(updateFields).length === 0) {
+      return response.status(400).json({ error: 'No fields provided for update' });
+    }
+
+    const updatedGpu = await Gpu.findByIdAndUpdate(
+        request.params.id,
+        { $set: updateFields },
+        { new: true, runValidators: true }
+    )
+
+    if (!updatedGpu) {
+        return response.status(404).json({ error: 'GPU not found' });
+    }
+
+    response.json(updatedGpu)
+  } catch (error) {
+      response.status(400).json({ error: error.message })
+  }
 })
 
 gpusRouter.delete('/:id', (request, response, next) => {
