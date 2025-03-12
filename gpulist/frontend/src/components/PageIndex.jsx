@@ -1,30 +1,24 @@
-import { forwardRef, useImperativeHandle, useState } from 'react'
+import { useState } from 'react'
 import PropTypes from 'prop-types'
 
 
-const PageIndex = forwardRef(({ gpusData, gpuRefs, showAll }, ref) => {
+function PageIndex ({ gpusData }) {
   const [showIndex, setShowIndex] = useState(false) // Controls the visibility of the Add GPU form
-
-  useImperativeHandle(ref, () => ({
-    toggleVisibility: () => setShowIndex(prev => !prev)
-  }))
 
   // Scroll to gpu when index item is clicked
   const scrollToGpu = (id) => {
-		const gpuElement = gpuRefs.current[id]
-		if (gpuElement) {
-			gpuElement.scrollIntoView({ behavior: 'smooth', block: 'start' })
-			if (!showAll) {
-				const showButton = gpuElement.querySelector('.show-hide-button')
-				if (showButton && showButton.textContent === 'Show') {
-					showButton.click()
-				}
+		const gpuTable = document.getElementById(id)
+    if (gpuTable) {
+      gpuTable.scrollIntoView({ behavior: 'smooth' })
+			const button = gpuTable.querySelector('.show-hide-button')
+			if (button && button.textContent === 'Show') {
+				button.click()
 			}
-		}
+    }
   }
   
   return (
-    <div id="page-index">      
+    <div id="page-index">
 			<h2 className='page-index-title'>
 				<button
 					id='show-index-button'
@@ -40,7 +34,9 @@ const PageIndex = forwardRef(({ gpusData, gpuRefs, showAll }, ref) => {
 						<li key={gpu.id}>
 							<button 
 								className='index-item-button'
-								onClick={() => scrollToGpu(gpu.id)} 
+								onClick={() => scrollToGpu(
+									`${gpu.manufacturer.toLowerCase()}-${gpu.gpuline.toLowerCase()}-${gpu.model.toLowerCase()}`
+								)}
 							>
 								<span
 									className={
@@ -67,14 +63,12 @@ const PageIndex = forwardRef(({ gpusData, gpuRefs, showAll }, ref) => {
 			)}
 		</div>
   )
-})
+}
 
 PageIndex.displayName = "PageIndex"
 
 PageIndex.propTypes = {
 	gpusData: PropTypes.array.isRequired,
-	gpuRefs: PropTypes.object.isRequired,
-	showAll: PropTypes.bool.isRequired
 }
 
 export default PageIndex

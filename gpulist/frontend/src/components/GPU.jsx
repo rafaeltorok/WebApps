@@ -1,9 +1,9 @@
-import { useState, useEffect, forwardRef } from 'react';
+import { useState, useEffect } from 'react';
 import PropTypes from 'prop-types'
 import calculatePerformance from '../calculatePerformance.js';
 
 
-const GPU = forwardRef(({ gpu, onDelete, showAll }, ref) => {
+function GPU ({ gpu, onDelete, showAll }) {
 	const gpuPerformance = calculatePerformance(gpu)
 	const [showBody, setShowBody] = useState(false)
 
@@ -14,8 +14,8 @@ const GPU = forwardRef(({ gpu, onDelete, showAll }, ref) => {
 
 	return (
 		<table 
+			id={`${gpu.manufacturer.toLowerCase()}-${gpu.gpuline.toLowerCase()}-${gpu.model.toLowerCase()}`}
 			className='gpu-data-table'
-			ref={ref} // Forward the ref to the table element
 		>
 			<thead>
 				<tr>
@@ -118,7 +118,7 @@ const GPU = forwardRef(({ gpu, onDelete, showAll }, ref) => {
 			)}
 		</table>
 	)
-})
+}
 
 GPU.displayName = "GPU"
 

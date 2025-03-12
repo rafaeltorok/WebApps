@@ -11,9 +11,6 @@ function App() {
   const [showAll, setShowAll] = useState(false) // Controls the visibility of all tables
 
   const gpuFormRef = useRef()
-  const pageIndexRef = useRef()
-  const gpuRefs = useRef({}) // Create a ref to store GPU elements
-  const topRef = useRef() // Create a ref for the top <h1> element
 
   useEffect(() => {
     gpuService
@@ -70,53 +67,45 @@ function App() {
       })
     }
   }
+  
+  function scrollToIndex(gpuTableId) {
+    const element = document.getElementById('page-index')
+    if (element) {
+      element.scrollIntoView({ behavior: 'smooth' })
 
-  const scrollToIndex = (id) => {
-    console.log("Attempting to scroll to:", id)
-    console.log("All GPU refs:", gpuRefs.current)
-  
-    if (topRef.current) {
-      topRef.current.scrollIntoView({ behavior: 'smooth' })
-    }
-  
-    if (!showAll && gpuRefs.current[id]) {
-      console.log("Found GPU ref:", gpuRefs.current[id])
-  
-      const showButton = gpuRefs.current[id].querySelector('.show-hide-button')
-      console.log("Show button:", showButton)
-  
-      if (showButton && showButton.textContent.trim() === 'Hide') {
-        showButton.click()
-        console.log("Hide button clicked!")
-      } else {
-        console.log("Button not found or already hidden")
+      const gpuTable = document.getElementById(gpuTableId)
+      const hideButton = gpuTable.querySelector('.show-hide-button')
+      const showAllButton = document.getElementById('show-all-button')
+      
+      if (
+        hideButton && 
+        hideButton.textContent === 'Hide' && 
+        showAllButton.textContent === 'Show all data'
+      ) {
+        hideButton.click()
       }
-    } else {
-      console.log(gpuRefs.current)
-      console.log("GPU ref not found!")
     }
   }
-  
 
   return (
     <>
       <div>
-        <h1 ref={topRef}>GPU List</h1> {/* Add ref to the <h1> element */}
+        <h1 id='main-page-title'>GPU List</h1> {/* Add ref to the <h1> element */}
         <AddGpuForm 
           createGpu={addGpu}
           ref={gpuFormRef}
         />
         <PageIndex
           gpusData={gpus}
-          gpuRefs={gpuRefs}
-          showAll={showAll}
-          ref={pageIndexRef}
         />
-        <div className='button-area'>
+        <div 
+          id='show-all-button'
+          className='button-area'
+        >
           <button
             onClick={() => setShowAll((prev) => !prev)}
           >
-            {showAll ? "Hide All data" : "Show All data"}
+            {showAll ? "Hide all data" : "Show all data"}
           </button>
         </div>
         {gpus.map(gpu => (
@@ -125,15 +114,13 @@ function App() {
               gpu={gpu}
               onDelete={deleteGpu}
               showAll={showAll}
-              ref={(element) => {
-                if (element) {
-                  gpuRefs.current[gpu.id] = element
-                }
-              }}
+              id={`${gpu.manufacturer.toLowerCase()}-${gpu.gpuline.toLowerCase()}-${gpu.model.toLowerCase()}`}
             />
             <button
               className='back-to-index-button'
-              onClick={scrollToIndex}
+              onClick={() => scrollToIndex(
+                `${gpu.manufacturer.toLowerCase()}-${gpu.gpuline.toLowerCase()}-${gpu.model.toLowerCase()}`
+              )}
             >Back to Index</button>
           </div>
         ))}
