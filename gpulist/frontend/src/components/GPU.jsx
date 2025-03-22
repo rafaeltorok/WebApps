@@ -12,6 +12,21 @@ function GPU ({ gpu, onDelete, showAll }) {
 		setShowBody(showAll)
 	}, [showAll])
 
+	const gpuHeaderClass = 
+		gpu.manufacturer.toLowerCase() === 'nvidia'
+		? 'nvidia-model-header'
+		: gpu.manufacturer.toLowerCase() === 'amd'
+		? 'amd-model-header'
+		: gpu.manufacturer.toLowerCase() === 'intel'
+		? 'intel-model-header'
+		: gpu.gpuline.toLowerCase() === 'geforce'
+		? 'nvidia-model-header'
+		: gpu.gpuline.toLowerCase() === 'radeon'
+		? 'amd-model-header'
+		: gpu.gpuline.toLowerCase() === 'arc'
+		? 'intel-model-header'
+		: 'model-header'
+
 	return (
 		<table 
 			id={`${gpu.manufacturer.toLowerCase()}-${gpu.gpuline.toLowerCase()}-${gpu.model.toLowerCase()}`}
@@ -19,21 +34,7 @@ function GPU ({ gpu, onDelete, showAll }) {
 		>
 			<thead>
 				<tr>
-					<th className={
-							gpu.manufacturer.toLowerCase() === 'nvidia'
-							? 'nvidia-model-header'
-							: gpu.manufacturer.toLowerCase() === 'amd'
-							? 'amd-model-header'
-							: gpu.manufacturer.toLowerCase() === 'intel'
-							? 'intel-model-header'
-							: gpu.gpuline.toLowerCase() === 'geforce'
-							? 'nvidia-model-header'
-							: gpu.gpuline.toLowerCase() === 'radeon'
-							? 'amd-model-header'
-							: gpu.gpuline.toLowerCase() === 'arc'
-							? 'intel-model-header'
-							: 'model-header'
-						}
+					<th className={gpuHeaderClass}
 						colSpan={2}
 					>
 						{gpu.manufacturer} {gpu.gpuline} {gpu.model}
@@ -57,57 +58,57 @@ function GPU ({ gpu, onDelete, showAll }) {
 					</tr>
 					<tr>
 						<th>CORES</th>
-						<td>{gpu.cores}</td>
+						<td className={gpuHeaderClass}>{gpu.cores}</td>
 					</tr>
 					<tr>
 						<th>TMUs</th>
-						<td>{gpu.tmus}</td>
+						<td className={gpuHeaderClass}>{gpu.tmus}</td>
 					</tr>
 					<tr>
 						<th>ROPs</th>
-						<td>{gpu.rops}</td>
+						<td className={gpuHeaderClass}>{gpu.rops}</td>
 					</tr>
 					<tr>
 						<th>VRAM</th>
-						<td>{gpu.vram}GB {gpu.memtype}</td>
+						<td className={gpuHeaderClass}>{gpu.vram}GB {gpu.memtype}</td>
 					</tr>
 					<tr>
 						<th>BUS WIDTH</th>
-						<td>{gpu.bus} bit</td>
+						<td className={gpuHeaderClass}>{gpu.bus} bit</td>
 					</tr>
 					<tr>
 						<th className="table-header" colSpan={2}>CLOCK SPEEDS</th>
 					</tr>
 					<tr>
 						<th>BASE CLOCK</th>
-						<td>{gpu.baseclock} MHz</td>
+						<td className={gpuHeaderClass}>{gpu.baseclock} MHz</td>
 					</tr>
 					<tr>
 						<th>BOOST CLOCK</th>
-						<td>{gpu.boostclock} MHz</td>
+						<td className={gpuHeaderClass}>{gpu.boostclock} MHz</td>
 					</tr>
 					<tr>
 						<th>MEMORY CLOCK</th>
-						<td>{gpu.memclock} Gbps effective</td>
+						<td className={gpuHeaderClass}>{gpu.memclock} Gbps effective</td>
 					</tr>
 					<tr>
 						<th className="table-header" colSpan={2}>THEORETICAL PERFORMANCE</th>
 					</tr>
 					<tr>
 						<th>FP32(float)</th>
-						<td>{gpuPerformance[0]}</td>
+						<td className={gpuHeaderClass}>{gpuPerformance[0]}</td>
 					</tr>
 					<tr>
 						<th>TEXTURE RATE</th>
-						<td>{gpuPerformance[1]}</td>
+						<td className={gpuHeaderClass}>{gpuPerformance[1]}</td>
 					</tr>
 					<tr>
 						<th>PIXEL RATE</th>
-						<td>{gpuPerformance[2]}</td>
+						<td className={gpuHeaderClass}>{gpuPerformance[2]}</td>
 					</tr>
 					<tr>
 						<th>BANDWIDTH</th>
-						<td>{gpuPerformance[3]}</td>
+						<td className={gpuHeaderClass}>{gpuPerformance[3]}</td>
 					</tr>
 					<tr>
 						<td colSpan={"2"} id='delete-gpu-button'>

@@ -134,11 +134,11 @@ button:active {
 }
 
 .gpu-data-table th {
-  background-color: rgba(12, 12, 12, 0.9);
+  background-color: rgba(18, 18, 18, 0.9);
 }
 
 .gpu-data-table td {
-  background-color: rgba(20, 20, 20, 0.9);
+  background-color: rgba(0, 0, 0, 0.9);
   font-weight: bold;
   border-style: inset;
 }
@@ -149,10 +149,7 @@ button:active {
   background-color: rgba(5, 5, 5, 0.9);
 }
 
-.gpu-data-table .nvidia-model-header,
-.gpu-data-table .amd-model-header,
-.gpu-data-table .intel-model-header,
-.gpu-data-table .model-header {
+.gpu-data-table thead tr:first-child th {
   width: 100%;
   background-color: rgba(0, 0, 0, 0.9);
   font-size: 1.4rem;
