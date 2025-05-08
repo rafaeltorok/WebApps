@@ -1,7 +1,8 @@
 .app-header {
   display: flex;
-  justify-content: space-between;
-  align-items: center;
+  flex-direction: column; /* Stack elements vertically */
+  align-items: center; /* Center horizontally */
+  justify-content: center; /* Center vertically */
   padding: 1rem 0;
   margin-bottom: 1rem;
   border-bottom: 1px solid rgba(255, 255, 255, 0.1);
@@ -13,6 +14,7 @@
   background: linear-gradient(90deg, #76b900, #ED1C24, #0068B5);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
+  text-align: center; /* Ensure the title is centered */
 }
 
 .header-nav {

@@ -1,5 +1,26 @@
 .home-container {
   width: 100%;
+  max-width: 1200px; /* Limit the width of the home page */
+  margin: 0 auto; /* Center the container horizontally */
+  padding: 1rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center; /* Center content horizontally */
+  justify-content: center; /* Center content vertically */
+  box-sizing: border-box;
+  overflow-x: hidden;
+}
+
+@media (min-width: 768px) {
+  .home-container {
+    max-width: 1000px; /* Adjust width for normal-sized screens */
+  }
+}
+
+@media (min-width: 1024px) {
+  .home-container {
+    max-width: 1200px; /* Adjust width for larger screens */
+  }
 }
 
 .home-header {
@@ -9,21 +30,22 @@
   border-radius: 1rem;
   display: flex;
   flex-direction: column;
+  align-items: center; /* Center children horizontally */
+  justify-content: center; /* Center children vertically */
+  text-align: center; /* Ensure text alignment */
   gap: 1rem;
 }
 
 .home-header h1 {
-  margin: 0;
+  margin: 0; /* Remove extra margins */
   font-size: 2.5rem;
   text-decoration: underline;
+  width: 100%; /* Ensure it spans the full width */
 }
 
 .home-actions {
   display: flex;
-  flex-wrap: wrap;
-  gap: 1rem;
-  align-items: center;
-  justify-content: space-between;
+  flex-direction: column;
 }
 
 .add-gpu-toggle {
@@ -31,19 +53,30 @@
 }
 
 .add-form-container {
-  max-width: 500px;
-  background-color: rgba(0, 0, 0, 0.75);
+  max-width: 600px; /* Allow full width on smaller screens */
+  width: 100%;
+  box-sizing: border-box; /* Include padding in width */
   padding: 1rem;
+  margin: 1rem auto; /* Center the form */
+  background-color: rgba(0, 0, 0, 0.75);
   border-radius: 1rem;
   border: 2px solid;
   border-style: groove;
-  margin: 2rem auto;
   text-align: left;
+}
+
+.add-form-container input {
+  font-size: 1.5rem; /* Increase font size */
+  height: 3rem; /* Make input fields taller */
+  width: 100%; /* Ensure inputs span full width */
+  padding: 0.5rem; /* Add padding for better usability */
+  box-sizing: border-box; /* Include padding in width */
+  text-align: right;
 }
 
 .gpu-grid {
   display: grid;
-  grid-template-columns: repeat(1, 1fr);
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); /* Responsive grid */
   gap: 1.5rem;
 }
 
@@ -63,7 +96,16 @@
   }
   
   .home-actions {
-    justify-content: flex-end;
+    display: flex;
+    flex-wrap: nowrap;
+    gap: 1rem;
+    align-items: center;
+    justify-content: flex-start; /* Align items side by side */
+  }
+
+  .home-actions > * {
+    flex: 1; /* Ensure both elements take equal space */
+    max-width: 50%; /* Prevent overflow */
   }
   
   .gpu-grid {
@@ -74,5 +116,27 @@
 @media (min-width: 1024px) {
   .gpu-grid {
     grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+@media (max-width: 768px) {
+  .add-form-container {
+    max-width: 100%; /* Shrink to fit smaller screens */
+    width: 100%;
+    box-sizing: border-box; /* Include padding in width */
+  }
+
+  .add-form-container input {
+    font-size: 1.2rem; /* Slightly smaller font size for mobile */
+    height: 2.5rem; /* Adjust input height */
+  }
+
+  .home-actions {
+    flex-direction: column; /* Stack elements vertically */
+    gap: 1rem; /* Add spacing between elements */
+  }
+
+  .home-actions > * {
+    max-width: 100%; /* Ensure elements take full width */
   }
 }

@@ -8,7 +8,10 @@
 }
 
 .gpu-card {
-  min-width: 400px;
+  max-width: 100%; /* Prevent overflow */
+  min-width: 0; /* Allow shrinking */
+  flex: 1; /* Enable flexible resizing */
+  box-sizing: border-box; /* Include padding and border in width */
   display: flex;
   flex-direction: column;
   background-color: rgba(0, 0, 0, 0.9);
@@ -136,7 +139,6 @@
 
 @media (max-width: 768px) {
   .gpu-card {
-    min-width: 0;
-    max-width: 400px;
+    max-width: 100%; /* Ensure cards fit within the screen */
   }
 }
