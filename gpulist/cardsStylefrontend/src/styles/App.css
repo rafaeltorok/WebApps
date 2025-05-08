@@ -1,0 +1,64 @@
+@font-face {
+  font-family: 'digital-dreamers';
+  src: url('./fonts/DigitalDreamers-jy99.ttf') format('truetype');
+}
+
+.app-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 1rem;
+  font-family: 'digital-dreamers', 'sans-serif';
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+.main-content {
+  flex: 1;
+  padding: 1rem 0;
+}
+
+/* Button styles */
+button {
+  background-color: #1a1a1a;
+  color: white;
+  border: 2px solid;
+  border-style: outset;
+  padding: 0.6rem 1.2rem;
+  font-family: 'digital-dreamers', 'sans-serif';
+  font-size: 1rem;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+button:hover {
+  background-color: #292929;
+}
+
+button:active {
+  background-color: #0f0f0f;
+  border-style: inset;
+}
+
+/* Common styles */
+h1, h2, h3 {
+  margin: 0;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+/* Brand colors */
+.nvidia {
+  --brand-color: #76b900;
+}
+
+.amd {
+  --brand-color: #ED1C24;
+}
+
+.intel {
+  --brand-color: #0068B5;
+}
