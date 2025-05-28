@@ -2,6 +2,7 @@ import { useState, useEffect, useRef } from 'react'
 import GPU from './components/GPU'
 import AddGpuForm from './components/AddGpuForm'
 import PageIndex from './components/PageIndex'
+import SearchBar from './components/SearchBar'
 import gpuService from './services/gpus'
 import './App.css'
 
@@ -9,6 +10,8 @@ import './App.css'
 function App() {
   const [gpus, setGpus] = useState([])
   const [showAll, setShowAll] = useState(false) // Controls the visibility of all tables
+  const [searchGpu, setSearchGpu] = useState('')
+  const [gpusFound, setGpusFound] = useState([])
 
   const gpuFormRef = useRef()
 
@@ -19,6 +22,32 @@ function App() {
         setGpus(initialGpuList)
       })
   }, [])
+
+  // Debounce search input
+  useEffect(() => {
+    const handler = setTimeout(() => {
+      if (searchGpu) {
+        const filteredGpus = (
+          gpus.filter(
+            g => (
+              g.manufacturer.toLowerCase() + 
+              g.gpuline.toLowerCase() + 
+              g.model.toLowerCase()
+            ).includes(searchGpu.toLowerCase())
+          )
+        )
+        setGpusFound(filteredGpus)
+      } else {
+        setGpusFound([])
+      }
+    }, 300)
+
+    return () => clearTimeout(handler)
+  }, [searchGpu, gpus])
+
+  const handleSearchGpu = (event) => {
+    setSearchGpu(event.target.value)
+  }
 
   const addGpu = (gpuObject) => {
     if (
@@ -87,43 +116,59 @@ function App() {
     }
   }
 
+  // Helper to render GPU list and index
+  const renderGpuList = (gpuList) => (
+    <>
+      <PageIndex gpusData={gpuList} />
+      <div 
+        id='show-all-button'
+        className='button-area'
+      >
+        <button
+          onClick={() => setShowAll((prev) => !prev)}
+        >
+          {showAll ? "Hide all data" : "Show all data"}
+        </button>
+      </div>
+      {gpuList.map(gpu => (
+        <div key={gpu.id}>
+          <GPU
+            gpu={gpu}
+            onDelete={deleteGpu}
+            showAll={showAll}
+            id={`${gpu.manufacturer.toLowerCase()}-${gpu.gpuline.toLowerCase()}-${gpu.model.toLowerCase()}`}
+          />
+          <button
+            className='back-to-index-button'
+            onClick={() => scrollToIndex(
+              `${gpu.manufacturer.toLowerCase()}-${gpu.gpuline.toLowerCase()}-${gpu.model.toLowerCase()}`
+            )}
+          >Back to Index</button>
+        </div>
+      ))}
+    </>
+  )
+
   return (
     <>
       <div>
-        <h1 id='main-page-title'>GPU List</h1> {/* Add ref to the <h1> element */}
+        <h1 id='main-page-title'>GPU List</h1>
         <AddGpuForm 
           createGpu={addGpu}
           ref={gpuFormRef}
         />
-        <PageIndex
-          gpusData={gpus}
+        <SearchBar
+          handleSearchGpu={handleSearchGpu}
+          searchGpu={searchGpu}
+          setSearchGpu={setSearchGpu}
         />
-        <div 
-          id='show-all-button'
-          className='button-area'
-        >
-          <button
-            onClick={() => setShowAll((prev) => !prev)}
-          >
-            {showAll ? "Hide all data" : "Show all data"}
-          </button>
-        </div>
-        {gpus.map(gpu => (
-          <div key={gpu.id}>
-            <GPU
-              gpu={gpu}
-              onDelete={deleteGpu}
-              showAll={showAll}
-              id={`${gpu.manufacturer.toLowerCase()}-${gpu.gpuline.toLowerCase()}-${gpu.model.toLowerCase()}`}
-            />
-            <button
-              className='back-to-index-button'
-              onClick={() => scrollToIndex(
-                `${gpu.manufacturer.toLowerCase()}-${gpu.gpuline.toLowerCase()}-${gpu.model.toLowerCase()}`
-              )}
-            >Back to Index</button>
-          </div>
-        ))}
+        {searchGpu ? (
+          gpusFound.length > 0
+            ? renderGpuList(gpusFound)
+            : <div>No GPUs found</div>
+        ) : (
+          renderGpuList(gpus)
+        )}
       </div>
     </>
   )
