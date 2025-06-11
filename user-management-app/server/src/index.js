@@ -14,6 +14,13 @@ mongoose.connect(process.env.MONGODB_URI)
   .then(() => console.log('MongoDB connected'))
   .catch((err) => console.error('MongoDB failed to connect:', err));
 
+// Import routes
+const authRoutes = require('./routes/auth');
+const userRoutes = require('./routes/users');
+
+// Use routes
+app.use('/api/auth', authRoutes);
+app.use('/api/users', userRoutes)
 
 // Routes
 // start server
