@@ -4,9 +4,10 @@ import Register from './pages/Register';
 import Users from './pages/Users';
 import Profile from './pages/Profile';
 import NavBar from './pages/NavBar';
+import { getValidToken } from './utils/auth';
 
 function App() {
-  const token = localStorage.getItem('token');  // Check if user is logged in
+  const token = getValidToken();  // Check if user is logged in
 
   return (
     <Router>
