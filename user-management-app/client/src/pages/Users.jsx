@@ -1,5 +1,8 @@
 import { useState, useEffect } from "react";
 import axios from 'axios';
+import { jwtDecode } from "jwt-decode";
+import { clearToken, getValidToken } from "../utils/auth";
+import { useNavigate } from "react-router-dom";
 import { 
   Container, 
   TextField, 
@@ -15,13 +18,23 @@ import {
   Typography
 } from '@mui/material';
 import { Edit as EditIcon, Delete as DeleteIcon } from '@mui/icons-material';
-import { getValidToken } from "../utils/auth";
 
-export default function Users() {
+export default function Users({ onAuthChange }) {
   const [users, setUsers] = useState([]);
   const [search, setSearch] = useState('');
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
+  const navigate = useNavigate();
+  const token = getValidToken();
+  let loggedInUserId = null;
+  if (token) {
+    try {
+      const decoded = jwtDecode(token);
+      loggedInUserId = decoded.id;
+    } catch {
+      loggedInUserId = null;
+    }
+  }
 
   // Fetch all users on mount
   useEffect(() => {
@@ -77,6 +90,13 @@ export default function Users() {
           headers: { Authorization: `Bearer ${token}` }
         });
         setUsers(users.filter(u => u._id !== id));
+
+        // If the deleted user is the logged-in user, log out and redirect
+        if (id === loggedInUserId) {
+          clearToken();
+          onAuthChange();
+          navigate('/login');
+        }
       } catch (err) {
         console.error(err);
         setError('Failed to delete user');

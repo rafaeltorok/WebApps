@@ -4,7 +4,7 @@ import { Container, TextField, Button, Typography, Box, CircularProgress } from 
 import { useNavigate } from 'react-router-dom';
 import { setTokenWithExpiration } from '../utils/auth';
 
-export default function Login() {
+export default function Login({ onAuthChange }) {
   const [form, setForm] = useState({ email: '', password: '' });
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
@@ -21,6 +21,7 @@ export default function Login() {
       const res = await axios.post('/api/auth/login', form);
       // Store the token (for simplicity in localStorage)
       setTokenWithExpiration(res.data.token);
+      onAuthChange();
       navigate('/users');
     } catch (err) {
       console.error(err);

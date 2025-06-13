@@ -2,8 +2,9 @@ import { useState } from 'react';
 import axios from 'axios';
 import { Container, TextField, Button, Typography, Box, CircularProgress } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
+import { setTokenWithExpiration } from '../utils/auth';
 
-export default function Register() {
+export default function Register({ onAuthChange }) {
   const [form, setForm] = useState({ name: '', email: '', password: '' });
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
@@ -17,9 +18,19 @@ export default function Register() {
     setLoading(true);
 
     try {
+      // Register the user
       await axios.post('/api/auth/register', form);
-      // On success, redirect to login
-      navigate('/login');
+
+      // Extract the email and password from the form
+      const { email, password } = form;
+
+      // Login with the same credentials
+      const res = await axios.post('/api/auth/login', { email, password });
+      
+      setTokenWithExpiration(res.data.token);
+      // On success, redirect to profile
+      onAuthChange();
+      navigate('/profile');
     } catch (err) {
       console.error(err);
       alert('Registration failed');
