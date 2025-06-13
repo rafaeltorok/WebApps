@@ -15,7 +15,7 @@ export default function NavBar({ token, onAuthChange }) {
     <AppBar position='sticky'>
       <Toolbar>
         <Typography variant='h6' sx={{ flexGrow: 1 }}>
-          User Management
+          Users Management
         </Typography>
         {!token && (
           <>
