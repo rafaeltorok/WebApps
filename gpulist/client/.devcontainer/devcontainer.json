@@ -1,8 +1,0 @@
-{
-  "name": "gpulist-webapp-frontend",
-  "build": {
-    "dockerfile": "Dockerfile"
-  },
-  "forwardPorts": [5173],     // Forwards container port 5173 to your host
-  "runArgs": ["-p", "5173:80"] // Maps host:container at container startup
-}
