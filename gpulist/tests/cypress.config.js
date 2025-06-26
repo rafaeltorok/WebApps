@@ -5,9 +5,9 @@ module.exports = defineConfig({
     setupNodeEvents(on, config) {
       // implement node event listeners here
     },
-    baseUrl: 'http://localhost:5173',
+    baseUrl: process.env.CYPRESS_baseUrl || 'http://localhost:5173',
     env: {
-      BACKEND: 'http://localhost:3001/api'
+      BACKEND: `${process.env.BACKEND_baseUrl}/api` || 'http://localhost:3001/api'
     }
   },
 });

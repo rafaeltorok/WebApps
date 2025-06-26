@@ -1,0 +1,39 @@
+services:
+  webapp-server:
+    build: ./server
+    container_name: gpulist-webapp-server
+    networks:
+      - webapp-network
+    ports:
+      - "3001:3001"
+    env_file:
+      - ./server/.env
+    environment:
+      NODE_ENV: test
+
+  webapp-client:
+    build: ./client
+    container_name: gpulist-webapp-client
+    networks:
+      - webapp-network
+    ports:
+      - "5173:80"
+    depends_on:
+      - webapp-server
+
+  cypress:
+    build: ./tests
+    working_dir: /tests
+    networks:
+      - webapp-network
+    depends_on:
+      - webapp-server
+      - webapp-client
+    environment:
+      - CYPRESS_baseUrl=http://gpulist-webapp-client:80  # Use the container internal port
+      - BACKEND_baseUrl=http://gpulist-webapp-server:3001
+
+
+networks:
+  webapp-network:
+    driver: bridge
