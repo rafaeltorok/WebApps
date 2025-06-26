@@ -1,18 +1,18 @@
 gpuList-web-app/
-├── index.js            # Entry point of the application
-├── app.js              # Main Express app setup
-├── dist/               # Compiled/production-ready files (if applicable)
+├── index.js             # Entry point of the application
+├── app.js               # Main Express app setup
+├── dist/                # Compiled/production-ready files (if applicable)
 │   └── ...
-├── controllers/        # Handles request logic (Controllers)
-│   └── gpus.js       # GPUs controller: handles API requests related to the GPUs
-├── models/            # Data models/schema definitions (Models)
-│   └── gpu.js        # Defines the GPU schema/model
-├── package-lock.json   # Manages exact dependency versions
-├── package.json        # Project dependencies and scripts
-├── utils/              # Utility/helper functions
-│   ├── config.js      # Handles environment configurations
-│   ├── logger.js      # Logger setup (for logging requests/errors)
-│   └── middleware.js  # Custom middleware (e.g., authentication, error handling)
+├── controllers/         # Handles request logic (Controllers)
+│   └── gpus.js          # GPUs controller: handles API requests related to the GPUs
+├── models/              # Data models/schema definitions (Models)
+│   └── gpu.js           # Defines the GPU schema/model
+├── package-lock.json    # Manages exact dependency versions
+├── package.json         # Project dependencies and scripts
+├── utils/               # Utility/helper functions
+│   ├── config.js        # Handles environment configurations
+│   ├── logger.js        # Logger setup (for logging requests/errors)
+│   └── middleware.js    # Custom middleware (e.g., authentication, error handling)
 
 
 # How Everything Works Together
