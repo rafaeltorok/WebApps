@@ -1,0 +1,32 @@
+services:
+  webapp-server:
+    build: ./server
+    container_name: gpulist-webapp-server
+    networks:
+      - webapp-network
+    ports:
+      - "3001:3001"
+
+  webapp-client:
+    build: ./client
+    container_name: gpulist-webapp-client
+    networks:
+      - webapp-network
+    ports:
+      - "5173:80"
+    depends_on:
+      - webapp-server
+
+  webapp-alt-client:
+    build: ./alternate-client
+    container_name: gpulist-webapp-alt-client
+    networks:
+      - webapp-network
+    ports:
+      - "5174:80"
+    depends_on:
+      - webapp-server
+
+networks:
+  webapp-network:
+    driver: bridge
