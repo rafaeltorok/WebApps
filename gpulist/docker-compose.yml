@@ -6,6 +6,8 @@ services:
       - webapp-network
     ports:
       - "3001:3001"
+    env_file:
+      - ./server/.env
 
   webapp-client:
     build: ./client
