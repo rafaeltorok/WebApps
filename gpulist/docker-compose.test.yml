@@ -21,18 +21,16 @@ services:
     depends_on:
       - webapp-server
 
-  cypress:
+  webapp-cypress:
     build: ./tests
     working_dir: /tests
     networks:
       - webapp-network
+    env_file:
+      - ./tests/.env
     depends_on:
       - webapp-server
       - webapp-client
-    environment:
-      - CYPRESS_baseUrl=http://gpulist-webapp-client:80  # Use the container internal port
-      - BACKEND_baseUrl=http://gpulist-webapp-server:3001
-
 
 networks:
   webapp-network:
