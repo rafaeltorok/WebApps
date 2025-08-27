@@ -119,16 +119,18 @@ function App() {
   // Helper to render GPU list and index
   const renderGpuList = (gpuList) => (
     <>
-      <PageIndex gpusData={gpuList} />
-      <div 
-        id='show-all-button'
-        className='button-area'
-      >
-        <button
-          onClick={() => setShowAll((prev) => !prev)}
+      <div className='top-buttons'>
+        <PageIndex gpusData={gpuList} />
+        <div 
+          id='show-all-button'
+          className='button-area'
         >
-          {showAll ? "Hide all data" : "Show all data"}
-        </button>
+          <button
+            onClick={() => setShowAll((prev) => !prev)}
+          >
+            {showAll ? "Hide all data" : "Show all data"}
+          </button>
+        </div>
       </div>
       {gpuList.map(gpu => (
         <div key={gpu.id}>
@@ -151,8 +153,8 @@ function App() {
 
   return (
     <>
-      <div>
-        <h1 id='main-page-title'>GPU List</h1>
+      <h1 id='main-page-title'>GPU List</h1>
+      <div className='top-buttons'>
         <AddGpuForm 
           createGpu={addGpu}
           ref={gpuFormRef}
@@ -162,14 +164,14 @@ function App() {
           searchGpu={searchGpu}
           setSearchGpu={setSearchGpu}
         />
-        {searchGpu ? (
-          gpusFound.length > 0
-            ? renderGpuList(gpusFound)
-            : <div>No GPUs found</div>
-        ) : (
-          renderGpuList(gpus)
-        )}
       </div>
+      {searchGpu ? (
+        gpusFound.length > 0
+          ? renderGpuList(gpusFound)
+          : <div>No GPUs found</div>
+      ) : (
+        renderGpuList(gpus)
+      )}
     </>
   )
 }
