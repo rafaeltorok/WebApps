@@ -1,0 +1,308 @@
+#root {
+  max-width: 550px;
+  width: 100%;
+  margin: 0 auto;
+  padding: 2rem;
+  text-align: center;
+  font-family: 'digital-dreamers', 'sans-serif';
+}
+
+@font-face {
+  font-family: 'digital-dreamers';
+  src: url('./fonts/DigitalDreamers-jy99.ttf') format('truetype');
+}
+
+h1,
+table {
+  border-radius: 1rem;
+}
+
+h1 {
+  background-color: rgba(0, 0, 0, 0.9);
+  border: 0.15rem solid;
+  border-style: double;
+  font-size: 2.5rem;
+  text-decoration: underline;
+  padding: 1rem;
+}
+
+#add-gpu-table,
+#page-index,
+#find-gpu-field {
+  width: 100%;
+  border: 2px solid black;
+  padding: 1rem;
+  border-style: groove;
+  margin-bottom: 1rem;
+  background-color: rgba(12, 12, 12, 0.9);
+}
+
+#find-gpu-field {
+  margin: 0 auto;
+  max-width: 95%;
+  padding: 1rem;
+  border-radius: 1rem;
+  font-family: 'digital-dreamers';
+  margin-bottom: 1rem; /* Increased margin to separate from index button */
+}
+
+#show-find-button {
+  width: 95%;
+  margin: 0.75rem auto;
+  padding: 1rem;
+  font-size: 1.2rem;
+}
+
+#find-input {
+  margin-top: 0.5rem;
+  padding: 1rem;
+  width: 100%;
+  border-radius: 0.5rem;
+  font-family: 'digital-dreamers';
+  font-size: 1rem;
+  box-sizing: border-box;
+}
+
+#find-input:focus {
+  outline: none;
+  box-shadow: 0 0 0 2px #222;
+}
+
+#page-index {
+  margin: 0 auto;
+  max-width: 90%;
+  max-height: 300px;
+  border-radius: 1rem;
+  margin-bottom: 1rem;
+  overflow: auto;
+  padding-top: 0;
+  padding-bottom: 0;
+  position: relative;
+}
+
+.page-index-title {
+  position: sticky;
+  top: 0;
+  left: 0;
+  width: 100%;
+  z-index: 10;  /* Ensures it stays above the scrollable content */
+}
+
+.page-index-list {
+  list-style: none;
+  margin: 0 auto;
+  padding: 0;
+}
+
+.index-item-button {
+  width: 100%;
+}
+
+.page-index-list:last-child {
+  margin-bottom: 2rem;
+}
+
+#add-gpu-table th {
+  text-align: left;
+}
+
+#add-gpu-table input,
+#find-gpu-field {
+  padding: 0.4rem;
+  font-family: 'digital-dreamers';
+}
+
+button {
+  background-color: black;
+  font-size: 1rem;
+  font-family: 'digital-dreamers';
+  margin-top: 1rem;
+  border-style: outset;
+}
+
+button:active {
+  background-color: black;
+  font-size: 1rem;
+  font-family: 'digital-dreamers';
+  margin-top: 1rem;
+  color: #505050;
+  border-style: inset;
+}
+
+button:focus {
+  outline: none;
+  box-shadow: 0 0 0 2px #505050; /* or any custom style */
+}
+
+.gpu-data-table,
+.button-area {
+  width: 100%;
+  max-width: 100%;
+}
+
+.button-area {
+  background-color: rgba(0, 0, 0, 0.75);
+  border-radius: 1rem;
+  box-sizing: border-box; /* Prevents the are to be wider than the others */
+  margin-bottom: 2rem;
+  border: 0.25rem solid black;
+  border-style: groove;
+}
+
+.button-area button {
+  width: 90%;
+  margin: 1rem;
+  padding: 1rem;
+}
+
+#add-gpu-button,
+#show-index-button {
+  width: 100%;
+  height: 100%;
+  margin: 0 auto;
+  padding: 1rem;
+  font-size: 1.2rem;
+}
+
+.gpu-data-table {
+  background-color: rgba(0, 0, 0, 0.75);
+  border: 0.2rem solid;
+  border-radius: 1rem;
+  border-style: double;
+}
+
+.gpu-data-table th, 
+.gpu-data-table td {
+  border: 0.1rem solid black;
+  border-style: groove;
+  padding: 1.2rem;
+  font-size: 0.9rem;
+}
+
+.gpu-data-table th {
+  background-color: rgba(18, 18, 18, 0.9);
+}
+
+.gpu-data-table td {
+  background-color: rgba(0, 0, 0, 0.9);
+  font-weight: bold;
+  border-style: inset;
+}
+
+.gpu-data-table #delete-gpu-button {
+  border-bottom-left-radius: 1rem;
+  border-bottom-right-radius: 1rem;
+  background-color: rgba(5, 5, 5, 0.9);
+}
+
+.gpu-data-table thead tr:first-child th {
+  width: 100%;
+  background-color: rgba(0, 0, 0, 0.9);
+  font-size: 1.4rem;
+  font-weight: bold;
+  border-style: groove;
+  border-top-left-radius: 1rem;
+  border-top-right-radius: 1rem;
+}
+
+.gpu-data-table .table-header {
+  width: 100%;
+  background-color: rgba(5, 5, 5, 0.9);
+  font-size: 1.2rem;
+  font-weight: bold;
+  border-style: groove;
+}
+
+.back-to-index-button,
+.back-to-index-button:active {
+  margin-top: 0.1rem;
+  margin-bottom: 2.5rem;
+}
+
+.nvidia-model-header {
+  color: #76b900;
+}
+
+.amd-model-header {
+  color: red;
+}
+
+.intel-model-header {
+  color: #0068B5;
+}
+
+[id^="nvidia-"],
+[id*="geforce"] {
+  border-color: rgba(118, 185, 0, 0.75);
+}
+
+[id^="amd-"],
+[id*="radeon"] {
+  border-color: rgba(186, 0, 0, 0.75); /* subtle transparent red */
+}
+
+[id^="intel-"],
+[id*="arc"] {
+  border-color: rgba(0, 104, 181, 0.75); /* subtle transparent blue */
+}
+
+/* NVIDIA-styled rows */
+[id^="nvidia-"] tbody th,
+[id^="nvidia-"] tbody td,
+[id*="geforce"] tbody th,
+[id*="geforce"] tbody td {
+  border-color: rgba(118, 185, 0, 0.25);
+}
+
+/* AMD-styled rows */
+[id^="amd-"] tbody th,
+[id^="amd-"] tbody td,
+[id*="radeon"] tbody th,
+[id*="radeon"] tbody td {
+  border-color: rgba(186, 0, 0, 0.25);
+}
+
+/* Intel-styled rows */
+[id^="intel-"] tbody th,
+[id^="intel-"] tbody td,
+[id*="arc"] tbody th,
+[id*="arc"] tbody td {
+  border-color: rgba(0, 104, 181, 0.25);
+}
+
+
+@media only screen and (hover: none) and (pointer: coarse) {
+  #root {
+    padding: 0.5rem;
+  }
+
+  #add-gpu-table label {
+    display: block; /* Forces label onto its own line */
+    width: 100%; /* Ensures labels take full width */
+    text-align: left; /* Centers label text */
+    margin-bottom: 0.3rem; /* Adds spacing between label and input */
+  }
+  
+  #add-gpu-table input {
+    display: block; /* Ensures inputs are also on their own line */
+    width: 100%; /* Matches label width */
+    max-width: 200px; /* Optional: Adjust as needed */
+    margin: 0 auto; /* Centers input */
+  }
+
+  #add-gpu-button,
+  .button-area button {
+    background-color: #151515;
+  }
+
+  #add-gpu-button:active,
+  .button-area button:active {
+    background-color: #202020;
+  }
+}
+
+@media only screen and (hover: none) and (pointer: coarse) and (orientation: landscape) {
+  #root {
+    max-width: 500px;
+  }
+}
