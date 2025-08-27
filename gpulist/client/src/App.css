@@ -1,4 +1,5 @@
 #root {
+  max-width: 550px;
   width: 100%;
   margin: 0 auto;
   padding: 2rem;
@@ -17,59 +18,12 @@ table {
 }
 
 h1 {
-  max-width: 500px;
   background-color: rgba(0, 0, 0, 0.9);
   border: 0.15rem solid;
-  border-style: groove;
+  border-style: double;
   font-size: 2.5rem;
   text-decoration: underline;
   padding: 1rem;
-  margin: 0 auto;
-}
-
-.top-buttons {
-  display: flex;
-  flex-direction: column;
-  gap: 1rem; /* space between them */
-  max-width: 500px;
-  margin: 0 auto;
-}
-
-.top-buttons button {
-  flex: 1;      /* makes all buttons equal width */
-}
-
-.container {
-  max-width: 900px;
-  text-align: center;
-  border: 5px solid #303030;
-  border-style: groove;
-  margin-bottom: 2rem;
-  border-radius: 1rem;
-  margin: 0 auto;
-}
-
-.tables {
-  display: flex;
-  justify-content: center;
-  gap: 0; /* Space between tables */
-}
-
-.table-main-header {
-  background-color: black;
-  padding: 0.2rem;
-  border-top-left-radius: 1rem;
-  border-top-right-radius: 1rem;
-}
-
-.container h2 {
-  border: 3px solid #303030;
-  margin-top: 0;
-  margin-bottom: 0;
-  padding-top: 1rem;
-  padding-bottom: 1rem;
-  border-top-left-radius: 1rem;
-  border-top-right-radius: 1rem;
 }
 
 #add-gpu-table,
@@ -79,12 +33,13 @@ h1 {
   border: 2px solid black;
   padding: 1rem;
   border-style: groove;
-  margin: 1rem auto;
+  margin-bottom: 1rem;
   background-color: rgba(12, 12, 12, 0.9);
 }
 
 #find-gpu-field {
   margin: 0 auto;
+  max-width: 95%;
   padding: 1rem;
   border-radius: 1rem;
   font-family: 'digital-dreamers';
@@ -115,6 +70,7 @@ h1 {
 
 #page-index {
   margin: 0 auto;
+  max-width: 90%;
   max-height: 300px;
   border-radius: 1rem;
   margin-bottom: 1rem;
@@ -188,7 +144,6 @@ button:focus {
   background-color: rgba(0, 0, 0, 0.75);
   border-radius: 1rem;
   box-sizing: border-box; /* Prevents the are to be wider than the others */
-  margin: 0 auto;
   margin-bottom: 2rem;
   border: 0.25rem solid black;
   border-style: groove;
@@ -211,9 +166,9 @@ button:focus {
 
 .gpu-data-table {
   background-color: rgba(0, 0, 0, 0.75);
-  border: 0.1rem solid;
-  border-radius: 0;
-  border-collapse: collapse;
+  border: 0.2rem solid;
+  border-radius: 1rem;
+  border-style: double;
 }
 
 .gpu-data-table th, 
@@ -316,28 +271,9 @@ button:focus {
 }
 
 
-@media only screen and (hover: none) and (pointer: coarse),
-  only screen and (max-width: 900px) {
-  .container {
-    width: 100%;
-    max-width: 500px;
-    min-width: 300px;
-  }
-
-  .tables {
-    flex-direction: column;
-  }
-
-  .gpu-data-table {
-    border: none;
-  }
-
-  #add-gpu-table,
-  #page-index,
-  #find-gpu-field,
-  .button-area {
-    max-width: 95%;
-    margin: 1rem auto;
+@media only screen and (hover: none) and (pointer: coarse) {
+  #root {
+    padding: 0.5rem;
   }
 
   #add-gpu-table label {
