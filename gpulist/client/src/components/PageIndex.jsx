@@ -1,21 +1,22 @@
-import { useState } from 'react'
-import PropTypes from 'prop-types'
+import { useState } from 'react';
+import PropTypes from 'prop-types';
+import "../styles/PageIndex.css";
 
 
-function PageIndex ({ gpusData }) {
-  const [showIndex, setShowIndex] = useState(false) // Controls the visibility of the Add GPU form
+export default function PageIndex ({ gpusData }) {
+  const [showIndex, setShowIndex] = useState(false); // Controls the visibility of the Add GPU form
 
   // Scroll to gpu when index item is clicked
   const scrollToGpu = (id) => {
-		const gpuTable = document.getElementById(id)
+		const gpuTable = document.getElementById(id);
     if (gpuTable) {
-      gpuTable.scrollIntoView({ behavior: 'smooth' })
-			const button = gpuTable.querySelector('.show-hide-button')
+      gpuTable.scrollIntoView({ behavior: 'smooth' });
+			const button = gpuTable.querySelector('.show-hide-button');
 			if (button && button.textContent === 'Show') {
-				button.click()
+				button.click();
 			}
     }
-  }
+  };
   
   return (
     <div id="page-index">
@@ -62,13 +63,11 @@ function PageIndex ({ gpusData }) {
 				</ul>
 			)}
 		</div>
-  )
+  );
 }
 
-PageIndex.displayName = "PageIndex"
+PageIndex.displayName = "PageIndex";
 
 PageIndex.propTypes = {
 	gpusData: PropTypes.array.isRequired,
-}
-
-export default PageIndex
+};

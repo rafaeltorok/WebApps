@@ -1,21 +1,22 @@
-import { useState, useEffect } from "react"
-import PropTypes from "prop-types"
+import { useState, useEffect } from "react";
+import PropTypes from "prop-types";
+import "../styles/SearchBar.css";
 
 
-function SearchBar({ handleSearchGpu, searchGpu, setSearchGpu }) {
-  const [showSearchBar, setShowSearchBar] = useState(false)
+export default function SearchBar({ handleSearchGpu, searchGpu, setSearchGpu }) {
+  const [showSearchBar, setShowSearchBar] = useState(false);
 
   useEffect(() => {
     if (!showSearchBar) {
-      setSearchGpu('')
-      handleSearchGpu({ target: {value: ''} })
+      setSearchGpu('');
+      handleSearchGpu({ target: {value: ''} });
     }
-  }, [showSearchBar])
+  }, [showSearchBar]);
 
   return (
-    <div id="find-gpu-field">
+    <div id="search-bar-field">
       <button
-        id='show-find-button'
+        id='show-search-button'
         type='button'
         onClick={() => setShowSearchBar((prev) => !prev)}
       >
@@ -25,7 +26,7 @@ function SearchBar({ handleSearchGpu, searchGpu, setSearchGpu }) {
         <form>
           <input 
             type='text'
-            id='find-input'
+            id='search-bar-input'
             placeholder="Search"
             value={searchGpu}
             onChange={handleSearchGpu} 
@@ -33,15 +34,13 @@ function SearchBar({ handleSearchGpu, searchGpu, setSearchGpu }) {
         </form>
       }
     </div>
-  )
+  );
 }
 
-SearchBar.displayName = "SearchBar"
+SearchBar.displayName = "SearchBar";
 
 SearchBar.propTypes = {
   handleSearchGpu: PropTypes.func.isRequired,
   searchGpu: PropTypes.string.isRequired,
   setSearchGpu: PropTypes.func.isRequired
-}
-
-export default SearchBar
+};

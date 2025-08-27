@@ -1,9 +1,12 @@
 import { useState, useEffect } from 'react';
-import PropTypes from 'prop-types'
+import PropTypes from 'prop-types';
 import calculatePerformance from '../calculatePerformance.js';
+import GpuDataRow from './GpuDataRow.jsx';
+import '../styles/Gpu.css';
+import '../styles/ManufacturerColors.css';
 
 
-function GPU ({ gpu, onDelete, showAll }) {
+export default function Gpu ({ gpu, onDelete, showAll }) {
 	const gpuPerformance = calculatePerformance(gpu)
 	const [showBody, setShowBody] = useState(false)
 
@@ -12,20 +15,18 @@ function GPU ({ gpu, onDelete, showAll }) {
 		setShowBody(showAll)
 	}, [showAll])
 
-	const gpuHeaderClass = 
-		gpu.manufacturer.toLowerCase() === 'nvidia'
-		? 'nvidia-model-header'
-		: gpu.manufacturer.toLowerCase() === 'amd'
-		? 'amd-model-header'
-		: gpu.manufacturer.toLowerCase() === 'intel'
-		? 'intel-model-header'
-		: gpu.gpuline.toLowerCase() === 'geforce'
-		? 'nvidia-model-header'
-		: gpu.gpuline.toLowerCase() === 'radeon'
-		? 'amd-model-header'
-		: gpu.gpuline.toLowerCase() === 'arc'
-		? 'intel-model-header'
-		: 'model-header'
+	const headerClassMap = {
+		nvidia: "nvidia-model-header",
+		amd: "amd-model-header",
+		intel: "intel-model-header",
+		geforce: "nvidia-model-header",
+		radeon: "amd-model-header",
+		arc: "intel-model-header",
+	};
+
+	const m = gpu.manufacturer?.trim().toLowerCase() ?? "";
+	const line = gpu.gpuline?.trim().toLowerCase() ?? "";
+	const gpuHeaderClass = headerClassMap[m] ?? headerClassMap[line] ?? "model-header";
 
 	return (
 		<table 
@@ -56,60 +57,24 @@ function GPU ({ gpu, onDelete, showAll }) {
 					<tr>
 						<th className="table-header" colSpan={2}>SPECIFICATIONS</th>
 					</tr>
-					<tr>
-						<th>CORES</th>
-						<td className={gpuHeaderClass}>{gpu.cores}</td>
-					</tr>
-					<tr>
-						<th>TMUs</th>
-						<td className={gpuHeaderClass}>{gpu.tmus}</td>
-					</tr>
-					<tr>
-						<th>ROPs</th>
-						<td className={gpuHeaderClass}>{gpu.rops}</td>
-					</tr>
-					<tr>
-						<th>VRAM</th>
-						<td className={gpuHeaderClass}>{gpu.vram}GB {gpu.memtype}</td>
-					</tr>
-					<tr>
-						<th>BUS WIDTH</th>
-						<td className={gpuHeaderClass}>{gpu.bus} bit</td>
-					</tr>
+					<GpuDataRow header='CORES' data={`${gpu.cores}`} headerClass={gpuHeaderClass} />
+					<GpuDataRow header='TMUs' data={`${gpu.tmus}`} headerClass={gpuHeaderClass} />
+					<GpuDataRow header='ROPs' data={`${gpu.rops}`} headerClass={gpuHeaderClass} />
+					<GpuDataRow header='VRAM' data={`${gpu.vram}GB ${gpu.memtype}`} headerClass={gpuHeaderClass} />
+					<GpuDataRow header='BUS WIDTH' data={`${gpu.bus} bit`} headerClass={gpuHeaderClass} />
 					<tr>
 						<th className="table-header" colSpan={2}>CLOCK SPEEDS</th>
 					</tr>
-					<tr>
-						<th>BASE CLOCK</th>
-						<td className={gpuHeaderClass}>{gpu.baseclock} MHz</td>
-					</tr>
-					<tr>
-						<th>BOOST CLOCK</th>
-						<td className={gpuHeaderClass}>{gpu.boostclock} MHz</td>
-					</tr>
-					<tr>
-						<th>MEMORY CLOCK</th>
-						<td className={gpuHeaderClass}>{gpu.memclock} Gbps effective</td>
-					</tr>
+					<GpuDataRow header='BASE CLOCK' data={`${gpu.baseclock} MHz`} headerClass={gpuHeaderClass} />
+					<GpuDataRow header='BOOST CLOCK' data={`${gpu.boostclock} MHz`} headerClass={gpuHeaderClass} />
+					<GpuDataRow header='MEMORY CLOCK' data={`${gpu.memclock} Gbps effective`} headerClass={gpuHeaderClass} />
 					<tr>
 						<th className="table-header" colSpan={2}>THEORETICAL PERFORMANCE</th>
 					</tr>
-					<tr>
-						<th>FP32(float)</th>
-						<td className={gpuHeaderClass}>{gpuPerformance[0]}</td>
-					</tr>
-					<tr>
-						<th>TEXTURE RATE</th>
-						<td className={gpuHeaderClass}>{gpuPerformance[1]}</td>
-					</tr>
-					<tr>
-						<th>PIXEL RATE</th>
-						<td className={gpuHeaderClass}>{gpuPerformance[2]}</td>
-					</tr>
-					<tr>
-						<th>BANDWIDTH</th>
-						<td className={gpuHeaderClass}>{gpuPerformance[3]}</td>
-					</tr>
+					<GpuDataRow header='FP32(float)' data={`${gpuPerformance[0]}`} headerClass={gpuHeaderClass} />
+					<GpuDataRow header='TEXTURE RATE' data={`${gpuPerformance[1]}`} headerClass={gpuHeaderClass} />
+					<GpuDataRow header='PIXEL RATE' data={`${gpuPerformance[2]}`} headerClass={gpuHeaderClass} />
+					<GpuDataRow header='BANDWIDTH' data={`${gpuPerformance[3]}`} headerClass={gpuHeaderClass} />
 					<tr>
 						<td colSpan={"2"} id='delete-gpu-button'>
 							<button onClick={() => onDelete(gpu.id, gpu.manufacturer, gpu.gpuline, gpu.model)}>Delete</button>
@@ -118,12 +83,12 @@ function GPU ({ gpu, onDelete, showAll }) {
 				</tbody>
 			)}
 		</table>
-	)
+	);
 }
 
-GPU.displayName = "GPU"
+Gpu.displayName = "Gpu";
 
-GPU.propTypes = {
+Gpu.propTypes = {
   gpu: PropTypes.shape({
     id: PropTypes.string.isRequired,
     manufacturer: PropTypes.string.isRequired,
@@ -141,6 +106,4 @@ GPU.propTypes = {
   }).isRequired,
   onDelete: PropTypes.func.isRequired,
   showAll: PropTypes.bool.isRequired
-}
-
-export default GPU
+};

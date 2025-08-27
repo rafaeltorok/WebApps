@@ -1,27 +1,27 @@
-import { useState, useEffect, useRef } from 'react'
-import GPU from './components/GPU'
-import AddGpuForm from './components/AddGpuForm'
-import PageIndex from './components/PageIndex'
-import SearchBar from './components/SearchBar'
-import gpuService from './services/gpus'
-import './App.css'
+import { useState, useEffect, useRef } from 'react';
+import Gpu from './components/Gpu';
+import AddGpuForm from './components/AddGpuForm';
+import PageIndex from './components/PageIndex';
+import SearchBar from './components/SearchBar';
+import gpuService from './services/gpus';
+import './styles/App.css';
 
 
 function App() {
-  const [gpus, setGpus] = useState([])
-  const [showAll, setShowAll] = useState(false) // Controls the visibility of all tables
-  const [searchGpu, setSearchGpu] = useState('')
-  const [gpusFound, setGpusFound] = useState([])
+  const [gpus, setGpus] = useState([]);
+  const [showAll, setShowAll] = useState(false); // Controls the visibility of all tables
+  const [searchGpu, setSearchGpu] = useState('');
+  const [gpusFound, setGpusFound] = useState([]);
 
-  const gpuFormRef = useRef()
+  const gpuFormRef = useRef();
 
   useEffect(() => {
     gpuService
       .getAll()
       .then(initialGpuList => {
         setGpus(initialGpuList)
-      })
-  }, [])
+      });
+  }, []);
 
   // Debounce search input
   useEffect(() => {
@@ -40,14 +40,14 @@ function App() {
       } else {
         setGpusFound([])
       }
-    }, 300)
+    }, 300);
 
-    return () => clearTimeout(handler)
-  }, [searchGpu, gpus])
+    return () => clearTimeout(handler);
+  }, [searchGpu, gpus]);
 
   const handleSearchGpu = (event) => {
-    setSearchGpu(event.target.value)
-  }
+    setSearchGpu(event.target.value);
+  };
 
   const addGpu = (gpuObject) => {
     if (
@@ -64,8 +64,8 @@ function App() {
         gpuObject.boostclock < 1 ||
         gpuObject.memclock < 1
       ) {
-      alert("Invalid GPU data")
-      return
+      alert("Invalid GPU data");
+      return;
     }
 
     gpuService
@@ -79,39 +79,39 @@ function App() {
       .catch (exception => {
         alert("Failed to add new GPU")
         console.error("Error adding new GPU:", exception)
-      })
+      });
   }
 
   const deleteGpu = (id, manufacturer, gpuline, model) => {
-    const confirmDeletion = window.confirm(`Remove ${manufacturer} ${gpuline} ${model} from the list?`)
+    const confirmDeletion = window.confirm(`Remove ${manufacturer} ${gpuline} ${model} from the list?`);
 
     if (confirmDeletion) {
       gpuService.remove(id)
       .then(() => {
         // Remove the GPU from the state
-        setGpus(gpus.filter(gpu => gpu.id !== id))
+        setGpus(gpus.filter(gpu => gpu.id !== id));
       })
       .catch(error => {
-        console.error('Error deleting GPU:', error)
-      })
+        console.error('Error deleting GPU:', error);
+      });
     }
-  }
+  };
   
   function scrollToIndex(gpuTableId) {
-    const element = document.getElementById('page-index')
+    const element = document.getElementById('page-index');
     if (element) {
-      element.scrollIntoView({ behavior: 'smooth' })
+      element.scrollIntoView({ behavior: 'smooth' });
 
-      const gpuTable = document.getElementById(gpuTableId)
-      const hideButton = gpuTable.querySelector('.show-hide-button')
-      const showAllButton = document.getElementById('show-all-button')
+      const gpuTable = document.getElementById(gpuTableId);
+      const hideButton = gpuTable.querySelector('.show-hide-button');
+      const showAllButton = document.getElementById('show-all-button');
       
       if (
         hideButton && 
         hideButton.textContent === 'Hide' && 
         showAllButton.textContent === 'Show all data'
       ) {
-        hideButton.click()
+        hideButton.click();
       }
     }
   }
@@ -132,7 +132,7 @@ function App() {
       </div>
       {gpuList.map(gpu => (
         <div key={gpu.id}>
-          <GPU
+          <Gpu
             gpu={gpu}
             onDelete={deleteGpu}
             showAll={showAll}
@@ -147,7 +147,7 @@ function App() {
         </div>
       ))}
     </>
-  )
+  );
 
   return (
     <>
@@ -171,7 +171,7 @@ function App() {
         )}
       </div>
     </>
-  )
+  );
 }
 
-export default App
+export default App;
