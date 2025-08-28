@@ -7,6 +7,7 @@
   - [Navigating the UI](#navigating-the-ui)
   - [Handling user login and authorization tokens](#handling-user-login-and-authorization-tokens)
   - [Performing CRUD operations on blogs through the backend server](#performing-crud-operations-on-blogs-through-the-backend-server)
+  - [Integration tests](#integration-tests)
 
 
 ## About
@@ -115,4 +116,19 @@ Update (The backend can only update the number of likes)
 Delete
   ```
   DELETE http://localhost:3003/api/blogs/:id
+  ```
+
+
+## Integration tests
+Backend integration tests using supertest, they utilize a test database on MongoDB.
+
+### Running the tests
+Start the backend server in testing mode
+  ```
+  cd ./blogslist/backend && npm run start:test
+  ```
+
+Running the tests
+  ```
+  npm run test
   ```
