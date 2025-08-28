@@ -32,7 +32,7 @@ Single Page Application to store all of your graphics cards data, including the 
 
 * Alternative UI (Beta version)
 
-  <img src="../github/screenshots/gpulist_alt-ui.png" alt="GPU List app alternative UI" width="300"/>
+  <img src="../github/screenshots/gpulist_alt-ui.png" alt="GPU List app alternative UI" width="500"/>
 
 ## Starting the web app
 ### Frontend
