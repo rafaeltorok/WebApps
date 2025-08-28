@@ -1,7 +1,7 @@
 # GPU List
 ## Table of contents
   - [About](#about)
-  - [Starting the App](#starting-the-app)
+  - [Starting the web app](#starting-the-web-app)
     - [Frontend](#frontend)
     - [Backend](#backend)
   - [Navigating the UI](#navigating-the-ui)
@@ -34,7 +34,7 @@ Single Page Application to store all of your graphics cards data, including the 
 
   <img src="../github/screenshots/gpulist_alt-ui.png" alt="GPU List app alternative UI" width="300"/>
 
-## Starting the App
+## Starting the web app
 ### Frontend
 You can only start one of the frontends at a time, in case you choose both, on will run on port `:5173` and the other on `:5174`.
 
@@ -219,7 +219,7 @@ Build images for the Main UI, Alternative UI and Backend Server
 ## E2E Testing
 To run End-to-End tests with Cypress, you can either do it by running Cypress manually through the CLI, or by using Docker Compose to set a multi container orchestration for running tests. The backend will connect to a test database in MongoDB, to prevent any data losses from the main database during the tests.
 
-`!WARNING! The E2E tests were designed to work with the Main UI only`
+`!Warning!` the E2E tests were designed to work with the Main UI only
 
 ### Manual testing
 Navigate to the `tests` folder and install the dependencies
