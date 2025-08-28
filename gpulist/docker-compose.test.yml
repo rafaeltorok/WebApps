@@ -27,7 +27,7 @@ services:
     networks:
       - webapp-network
     env_file:
-      - ./tests/.env
+      - ./tests/.docker.env
     depends_on:
       - webapp-server
       - webapp-client

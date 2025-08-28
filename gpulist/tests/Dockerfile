@@ -5,7 +5,7 @@ COPY ./package*.json ./
 RUN npm install
 COPY . .
 
-ENV CYPRESS_baseUrl=http://gpulist-webapp-client:80
-ENV BACKEND_baseUrl=http://gpulist-webapp-server:3001
+ENV CYPRESS_FRONTEND=http://gpulist-webapp-client:80
+ENV CYPRESS_BACKEND=http://gpulist-webapp-server:3001
 
 CMD ["npm", "run", "cypress:cline"]

@@ -1,13 +1,15 @@
 const { defineConfig } = require("cypress");
+require('dotenv').config();
 
 module.exports = defineConfig({
   e2e: {
     setupNodeEvents(on, config) {
       // implement node event listeners here
+      return config;
     },
-    baseUrl: process.env.CYPRESS_baseUrl || 'http://localhost:5173',
+    baseUrl: process.env.CYPRESS_FRONTEND || 'http://localhost:5173',
     env: {
-      BACKEND: `${process.env.BACKEND_baseUrl}/api` || 'http://localhost:3001/api'
+      BACKEND: process.env.CYPRESS_BACKEND || 'http://localhost:3001'
     }
   },
 });

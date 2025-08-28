@@ -2,9 +2,13 @@ import { addGpu, showGPUData, checkRowData, indexSelector } from "./helper"
 
 describe('GPU List app', function() {
   beforeEach(function() {
-    cy.request('POST', `${Cypress.env('BACKEND')}/testing/reset`)
+    cy.request('POST', `${Cypress.env('BACKEND')}/api/testing/reset`)
     cy.visit('')
   })
+
+  it('debug env', () => {
+  cy.log('Backend:', Cypress.env('BACKEND'))
+})
 
   describe('Basic page access', function() {
     it('main page can be opened', function() {
@@ -313,7 +317,7 @@ describe('GPU List app', function() {
 
     it('checking if the graphics cards are present in the index', function() {
       cy.get('#page-index')
-        .find('button')
+        .find('#show-index-button')
         .contains('Show index')
         .click()
 
