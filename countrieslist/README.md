@@ -1,8 +1,18 @@
-# React + Vite
+# Countries List
+## About
+Single Page Application to search for a specific country information. The table of data has the following information: country's flag, capital(s), population, area (in km²), currency, region (continent), subregion, borders and official languages.
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+<img src="../github/screenshots/countrieslist.png" alt="Countries List app UI" width="300"/>
 
-Currently, two official plugins are available:
+## Usage
+Navigate to the main folder and install the necessary dependencies
+  ```
+  cd ./countrieslist/ && npm install
+  ```
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+Start the app with
+  ```
+  npm run dev
+  ```
+
+The app does not have a separate backend to fetch data through HTTP requests, all data is fetched directly through the frontend using axios.
