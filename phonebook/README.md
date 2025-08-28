@@ -5,9 +5,6 @@
     - [Frontend](#frontend)
     - [Backend](#backend)
   - [Navigating the UI](#navigating-the-ui)
-    - [Adding a new contact](#adding-a-new-contact)
-    - [Searching for a contact](#searching-for-a-contact)
-    - [Removing a contact](#removing-a-contact)
   - [Performing CRUD operations on contacts through the backend server](#performing-crud-operations-on-contacts-through-the-backend-server)
 
 ## About
