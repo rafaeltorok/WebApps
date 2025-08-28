@@ -1,7 +1,7 @@
 # Blogs List
 ## Table of contents
   - [About](#about)
-  - [Starting the App](#starting-the-app)
+  - [Starting the web app](#starting-the-web-app)
     - [Frontend](#frontend)
     - [Backend](#backend)
   - [Navigating the UI](#navigating-the-ui)
@@ -14,7 +14,7 @@ Single Page Application to store your personal list of blogs. You can add, remov
 
 <img src="../github/screenshots/blogslist.png" alt="Blogs List app UI" width="300"/>
 
-## Starting the App
+## Starting the web app
 ### Frontend
 Navigate to the frontend folder and install the necessary dependencies
   ```
@@ -50,7 +50,7 @@ On the main page, click on the Log in button and enter the following credentials
   password: admin
   ```
 
-The list of blogs will be displayed on the app's UI.
+The list of blogs will be displayed on the web app's UI.
 
 To add a new blog, click on the `add blog` button, enter the Title, Author and blog URL on the specified fields, in a format, for example
   ```
