@@ -7,6 +7,26 @@ contactsRouter.get('/', (request, response) => {
   })
 })
 
+// /info page
+// This route must come before any /:id ones to prevent conflicts, 
+// otherwise Express threats the word info as an invalid id
+contactsRouter.get('/info', (request, response) => {
+    Contact.countDocuments({})
+      .then(count => {
+        let suffix = count === 1 ? "contact" : "contacts";
+        const now = new Date();
+          
+        response.send(`
+            PhoneBook has info for ${count} ${suffix}
+            <br />
+            ${now.toString()}
+        `);
+    })
+    .catch(error => {
+        response.status(500).json({ error: 'Failed to fetch contacts count' });
+    });
+})
+
 contactsRouter.get('/:id', (request, response, next) => {
   Contact.findById(request.params.id)
     .then(contact => {
@@ -75,24 +95,6 @@ contactsRouter.put('/:id', (request, response, next) => {
       response.json(updatedContact)
     })
     .catch(error => next(error))
-})
-
-// /info page
-contactsRouter.get('/info', (request, response) => {
-    Contact.countDocuments({})
-      .then(count => {
-        let suffix = count === 1 ? "contact" : "contacts";
-        const now = new Date();
-          
-        response.send(`
-            PhoneBook has info for ${count} ${suffix}
-            <br />
-            ${now.toString()}
-        `);
-    })
-    .catch(error => {
-        response.status(500).json({ error: 'Failed to fetch contacts count' });
-    });
 })
 
 module.exports = contactsRouter
