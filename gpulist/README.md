@@ -21,7 +21,7 @@
   - [E2E testing](#e2e-testing)
     - [Manual testing](#manual-testing)
     - [Testing through Docker containers](#testing-through-docker-containers)
-  - [Explaning the backend server app structure](#explaning-the-backend-server-app-structure)
+  - [Explaning the backend server web app structure](#explaning-the-backend-server-web-app-structure)
 
 ## About
 Single Page Application to store all of your graphics cards data, including the main chip specifications: Cores, TMUs, ROPs, VRAM, Bus Width; The clock speeds: Base Clock, Boost Clock, Memory Clock (Frequency); The web app will automatically calculate the theoretical performance of the card: FP32(float), Texture Rate, Pixel Rate and Memory Bandwidth. The frontend UI supports adding, deleting and searching specific cards. This web app uses a MongoDB database, implementing mongoose+express on the server and axios on the client.
@@ -254,7 +254,7 @@ Run the Docker Compose file
   ```
 
 
-## Explaning the backend server app structure
+## Explaning the backend server web app structure
 ### Folder structure
   ```
   gpuList-web-app/
