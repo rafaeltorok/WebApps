@@ -24,7 +24,7 @@
   - [Explaning the backend server web app structure](#explaning-the-backend-server-web-app-structure)
 
 ## About
-Single Page Application to store all of your graphics cards data, including the main chip specifications: Cores, TMUs, ROPs, VRAM, Bus Width; The clock speeds: Base Clock, Boost Clock, Memory Clock (Frequency); The web app will automatically calculate the theoretical performance of the card: FP32(float), Texture Rate, Pixel Rate and Memory Bandwidth. The frontend UI supports adding, deleting and searching specific cards. This web app uses a MongoDB database, implementing mongoose+express on the server and axios on the client.
+GPU List is a Single Page Application to store all of your graphics cards data, including the main chip specifications: Cores, TMUs, ROPs, VRAM, Bus Width and the clock speeds: Base Clock, Boost Clock, Memory Clock (Frequency). This web app is capable of automatically calculating the theoretical performance of any of your cards, including: FP32(float), Texture Rate, Pixel Rate and Memory Bandwidth. The frontend UI supports adding, deleting and searching for specific graphics cards. GPU List utilizes a MongoDB database to store its data, implementing a Mongoose+Express Node.js backend and an axios Vite+React frontend.
 
 * Main UI
 
@@ -36,7 +36,7 @@ Single Page Application to store all of your graphics cards data, including the 
 
 ## Starting the web app
 ### Frontend
-You can only start one of the frontends at a time, in case you choose both, on will run on port `:5173` and the other on `:5174`.
+You only need to start one frontend at a time, if you wish to run both, follow the optional step below. Vite will automatically map each frontend to an available port, one will on port `:5173` and the other on `:5174`.
 
 Navigate to the main UI folder and install the necessary dependencies
   ```
@@ -59,14 +59,14 @@ Navigate to the backend folder and install the necessary dependencies
   cd ./gpulist/server && npm install
   ```
 
-Start the backend with
+Start the backend
   * On dev mode, using nodemon for hot reloading
     ```
     npm run dev
     ```
 
   * The production mode uses a static build of the frontend UI
-    * First, build the frontend
+    * Build the frontend
       ```
       Main UI
       cd ./gpulist/client && npm run build && cp -r ./dist ../server
@@ -77,12 +77,12 @@ Start the backend with
       cd ./gpulist/alternate-client && npm run build && cp -r ./dist ../server
       ```
 
-    * Then start the server in production mode
+    * Start the server in production mode
       ```
       npm run start
       ```
 
-    * The frontend will be accessible on the same address as the server http://localhost:3001
+    * The frontend will be accessible on the same address as the backend server http://localhost:3001
 
 
 ## Navigating the UI
@@ -91,7 +91,7 @@ Start the backend with
 You can display each card data individually by clicking on the respective `Show` button or by clicking the `Show all data` button to expand all tables on the page.
 
 #### Adding a new graphics card
-Click on the `Add Graphics Card` button and enter the following card data: Manufacturer, GPU Line, Model, Cores, TMUs, ROPs, VRAM (in GB), Bus Width (in bits), Memory Type, Base Clock (in MHz), Boost Clock (in Mhz), Memory Clock (in Gbps). All fields are mandatory and cannot be empty. The placeholder values already have examples of what type of format the data should be added to each field.
+Click on the `Add Graphics Card` button and enter the following card data: Manufacturer, GPU Line, Model, Cores, TMUs, ROPs, VRAM (in GB), Bus Width (in bits), Memory Type, Base Clock (in MHz), Boost Clock (in Mhz), Memory Clock (in Gbps). All fields are mandatory and cannot be left empty. The placeholder values already have examples of what type of data format should be added in the form.
 
 #### Using the search functionality
 Click the `Search` button, inside the input field, type any part of the full graphics card name, you can search by manufacturer, the graphics card line or by the model name itself. To search for a specific card series, simply type the first part of it, example: `rtx 40` to list all RTX 40 Series cards available on the list. The index will adapt to your search, listing only the cards that matched your keywords.
@@ -217,7 +217,7 @@ Build images for the Main UI, Alternative UI and Backend Server
 
 
 ## E2E Testing
-To run End-to-End tests with Cypress, you can either do it by running Cypress manually through the CLI, or by using Docker Compose to set a multi container orchestration for running tests. The backend will connect to a test database in MongoDB, to prevent any data losses from the main database during the tests.
+To run End-to-End tests with Cypress, you can either run Cypress manually through a terminal, or by using Docker Compose to set a multi container orchestration for running the tests. The backend will connect to a test database in MongoDB.
 
 `!Warning!` the E2E tests were designed to work with the Main UI only
 
