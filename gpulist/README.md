@@ -6,155 +6,156 @@
     - [Backend](#backend)
   - [Navigating the UI](#navigating-the-ui)
     - [Main UI](#main-ui)
-      - [Displaying a graphics card data](#displaying-a-graphics-card-data)
-      - [Adding a new graphics card](#adding-a-new-graphics-card)
-      - [Using the search functionality](#using-the-search-functionality)
-      - [Using the index](#using-the-index)
-      - [Removing a graphics card from the list](#removing-a-graphics-card-from-the-list)
     - [Alternative UI](#alternative-ui)
-      - [Displaying a graphics card data](#displaying-a-graphics-card-data-1)
-      - [Adding a new graphics card](#adding-a-new-graphics-card-1)
-      - [Using the search functionality](#using-the-search-functionality-1)
-      - [Removing a graphics card from the list](#removing-a-graphics-card-from-the-list-1)
-  - [Performing CRUD operations on graphics cards through the backend server](#performing-crud-operations-on-graphics-cards-through-the-backend-server)
+  - [Performing CRUD operations via Backend](#performing-crud-operations-via-backend)
   - [Running the web app with Docker](#running-the-web-app-with-docker)
-  - [E2E testing](#e2e-testing)
+  - [End-to-End (E2E) testing](#end-to-end-e2e-testing)
     - [Manual testing](#manual-testing)
-    - [Testing through Docker containers](#testing-through-docker-containers)
-  - [Explaning the backend server web app structure](#explaning-the-backend-server-web-app-structure)
+    - [Testing via Docker](#testing-via-docker)
+  - [Backend server structure](#backend-server-structure)
+  - [Troubleshooting](#troubleshooting)
 
 ## About
-Single Page Application to store all of your graphics cards data, including the main chip specifications: Cores, TMUs, ROPs, VRAM, Bus Width; The clock speeds: Base Clock, Boost Clock, Memory Clock (Frequency); The web app will automatically calculate the theoretical performance of the card: FP32(float), Texture Rate, Pixel Rate and Memory Bandwidth. The frontend UI supports adding, deleting and searching specific cards. This web app uses a MongoDB database, implementing mongoose+express on the server and axios on the client.
+Single Page Application to store all of your graphics cards data, including the main chip specifications and clock speeds. 
 
+### Features
+* Automatically calculates the theoretical performance of a graphics card: FP32(float), Texture Rate, Pixel Rate and Memory Bandwidth.
+
+* Add, delete, search, and list GPUs through a simple frontend UI.
+
+* Built with:
+  - Database: MongoDB + Mongoose
+  - Backend: Express
+  - Frontend: React + Axios
+
+### Screenshots
 * Main UI
 
   <img src="../github/screenshots/gpulist_main-ui.png" alt="GPU List app main UI" width="300"/>
 
-* Alternative UI (Beta version)
+* Alternative UI (Beta)
 
   <img src="../github/screenshots/gpulist_alt-ui.png" alt="GPU List app alternative UI" width="300"/>
 
+
+## Prerequisites
+* [Node.js](https://nodejs.org)↗ v18.20.5 or higher
+* [npm](https://www.npmjs.com)↗ v10.8.2 or higher
+* Internet connection to access the remote MongoDB database
+* Optional: [Docker](https://www.docker.com)↗ v28.2.1
+
+
 ## Starting the web app
 ### Frontend
-You can only start one of the frontends at a time, in case you choose both, on will run on port `:5173` and the other on `:5174`.
-
-Navigate to the main UI folder and install the necessary dependencies
+Main UI
   ```
   cd ./gpulist/client && npm install
-  ```
-
-Start the frontend with
-  ```
   npm run dev
   ```
 
-OPTIONAL: Start the alternative UI
+Alternative UI (Optional)
   ```
-  cd ./gpulist/alternate-client && npm install && npm run dev
+  cd ./gpulist/alternate-client && npm install
+  npm run dev
   ```
+
+Vite auto-selects ports: 
+  * Main UI → http://localhost:5173
+  * Alternative UI → http://localhost:5174
 
 ### Backend
-Navigate to the backend folder and install the necessary dependencies
+Development mode (hot reload with Nodemon)
   ```
   cd ./gpulist/server && npm install
+  npm run dev
   ```
 
-Start the backend with
-  * On dev mode, using nodemon for hot reloading
+Production mode
+  * Build frontend
     ```
-    npm run dev
+    Main UI
+    cd ./gpulist/client && npm run build && cp -r ./dist ../server
     ```
 
-  * The production mode uses a static build of the frontend UI
-    * First, build the frontend
-      ```
-      Main UI
-      cd ./gpulist/client && npm run build && cp -r ./dist ../server
+  * Or Alternative UI
+    ```
+    cd ./gpulist/alternate-client && npm run build && cp -r ./dist ../server
+    ```
 
-      OR
+  * Start the backend server
+    ```
+    npm run start
+    ```
 
-      Alternative UI
-      cd ./gpulist/alternate-client && npm run build && cp -r ./dist ../server
-      ```
-
-    * Then start the server in production mode
-      ```
-      npm run start
-      ```
-
-    * The frontend will be accessible on the same address as the server http://localhost:3001
+  * Access the frontend via the backend URL → http://localhost:3001
 
 
 ## Navigating the UI
 ### Main UI
 #### Displaying a graphics card data
-You can display each card data individually by clicking on the respective `Show` button or by clicking the `Show all data` button to expand all tables on the page.
+Click the `Show` button for a single card or `Show all data` for all cards.
 
 #### Adding a new graphics card
-Click on the `Add Graphics Card` button and enter the following card data: Manufacturer, GPU Line, Model, Cores, TMUs, ROPs, VRAM (in GB), Bus Width (in bits), Memory Type, Base Clock (in MHz), Boost Clock (in Mhz), Memory Clock (in Gbps). All fields are mandatory and cannot be empty. The placeholder values already have examples of what type of format the data should be added to each field.
+Click the `Add Graphics Card` button → Fill all the required fields, none can be left empty.
 
-#### Using the search functionality
-Click the `Search` button, inside the input field, type any part of the full graphics card name, you can search by manufacturer, the graphics card line or by the model name itself. To search for a specific card series, simply type the first part of it, example: `rtx 40` to list all RTX 40 Series cards available on the list. The index will adapt to your search, listing only the cards that matched your keywords.
+#### Using the search button
+Click the `Search` button, search by manufacturer, GPU line or model (e.g., `rtx 40`).
 
 #### Using the index
-Click on the `Show index` button, a scrollable display will be shown, listing all available cards on the list, by clicking on one of them, the page will automatically scroll to the table's location. If the `Show all data` button hasn't been clicked, the index will automatically expand the graphics card data table to display the information. To return to the index, press the `Back to Index` button, this will automatically close the card's data table for you.
+- Click the `Show index` button → a scrollable card list will be displayed.
+- Clicking on a card → the page will scroll to the data table and expand it.
+- Click on `Back to Index` button → The table collapses and returns you to the index.
 
-#### Removing a graphics card from the list
-Click on the `Show` button of your target graphics card, when the data table expands, scroll to the bottom of it, you will see a `Delete` button, after pressing it, the page will prompt you to confirm if you want to proceed, then the card will be removed from both the page and index.
+#### Removing a graphics card
+Expand the card table → on the bottom, click on the `Delete` → when prompted, click on confirm.
 
 ### Alternative UI
-#### Displaying a graphics card data
-To display a card's data, click the `View details` button on it's respective table. The data will be displayed on a full page sized table.
-
-#### Adding a new graphics card
-Click on the `Add GPU` button and repeat the same steps from the Main UI.
-
-#### Using the search functionality
-Type your desired search keywords on the `Search GPUs` bar, the page will automatically filter out any cards that do not fit your keywords
-
-#### Removing a graphics card from the list
-Click on the `Show` button of your target graphics card, when the data table expands, scroll to the bottom of it, you will see a `Delete` button, after pressing it, the page will prompt you to confirm if you want to proceed, then the card will be removed from both the page and index.
+* Displaying a graphics card data → click the `View details` button.
+* Adding a new graphics card → click on the `Add GPU` button, follow the same steps as the Main UI.
+* Using the search button → on the `Search GPUs` bar, type the desired keywords.
+* Removing a graphics card → same steps as the Main UI.
 
 
-## Performing CRUD operations on graphics cards through the backend server
-Create (example)
+## Performing CRUD operations via Backend
+Create
   ```
-  POST http://localhost:3001/api/gpus manufacturer="NVIDIA" gpuline="GeForce" model="RTX 5090" cores=21760 tmus=680 rops=176 vram=32 bus=512 memtype="GDDR7" baseclock=2017 boostclock=2407 memclock=28
+  POST http://localhost:3001/api/gpus
+  ```
+
+
+Body example
+  ```
+  {
+    "manufacturer": "NVIDIA",
+    "gpuline": "GeForce",
+    "model": "RTX 5090",
+    "cores": 21760,
+    "tmus": 680,
+    "rops": 176,
+    "vram": 32,
+    "bus": 512,
+    "memtype": "GDDR7",
+    "baseclock": 2017,
+    "boostclock": 2407,
+    "memclock": 28
+  }
   ```
 
 Read
-  * Fetch all graphics cards
+  * Fetch all
     ```
     GET http://localhost:3001/api/gpus
     ```
 
-  * Fetch a specific card
+  * Fetch one
     ```
     GET http://localhost:3001/api/gpus/:id
     ```
 
 Update
-  * You can update any number of fields through each request
+  * You can update any number of fields
     ```
-    PUT http://localhost:3001/api/gpus/:id model="RTX 4090" cores=16384 vram=24
-    ```
-
-  * Example response
-    ```
-    {
-      "baseclock": 2017,
-      "boostclock": 2407,
-      "bus": 512,
-      "cores": 16384,
-      "gpuline": "GeForce",
-      "manufacturer": "NVIDIA",
-      "memclock": 28,
-      "memtype": "GDDR7",
-      "model": "RTX 4090",
-      "rops": 176,
-      "tmus": 680,
-      "vram": 24
-    }
+    PUT http://localhost:3001/api/gpus/:id
     ```
 
 Delete
@@ -163,36 +164,35 @@ Delete
   ```
 
 ## Running the web app with Docker
-### Docker Composer
-Navigate to the `/gpulist` folder and run Docker Composer
+### Docker Compose
   ```
+  cd ./gpulist
   docker-compose up -d
   ```
 
 ### Docker containers
-Create a custom network on Docker
+Create a custom network
   ```
   docker network create gpulist_webapp-network
   ```
 
-#### Building the images	
-Build images for the Main UI, Alternative UI and Backend Server
-  * on ./client:
-    ```
-    docker build -t gpulist-webapp-client .
-    ```
+#### Building the images
+Main UI
+  ```
+  docker build -t gpulist-webapp-client ./client
+  ```
 
-  * on ./alternate-client:
-    ```
-    docker build -t gpulist-webapp-alt-client .
-    ```
+Alternative UI
+  ```
+  docker build -t gpulist-webapp-alt-client ./alternative-client
+  ```
 
-  * on ./server:
-    ```
-    docker build -t gpulist-webapp-server .
-    ```
+Backend
+  ```
+  docker build -t gpulist-webapp-server ./server
+  ```
 
-#### Starting the containers
+#### Running the containers
   * Main UI
     ```
     docker run -d --name gpulist-webapp-client --network gpulist_webapp-network -p 5173:80 gpulist-webapp-client
@@ -203,26 +203,20 @@ Build images for the Main UI, Alternative UI and Backend Server
     docker run -d --name gpulist-webapp-alt-client --network gpulist_webapp-network -p 5174:80 gpulist-webapp-alt-client
     ```
 
-  * Server
+  * Backend Server
     ```
     docker run -d --env-file .env --name gpulist-webapp-server --network gpulist_webapp-network -p 3001:3001 -ti gpulist-webapp-server
     ```
 
-#### Running the app
-  * Make HTTP requests to the backend server through http://localhost:3001/api/gpus
-
-	* Main UI: http://localhost:5173
-      
-	* Alternative UI: http://localhost:5174
+#### Access
+  * API → http://localhost:3001/api/gpus
+	* Main UI → http://localhost:5173
+	* Alternative UI → http://localhost:5174
 
 
-## E2E Testing
-To run End-to-End tests with Cypress, you can either do it by running Cypress manually through the CLI, or by using Docker Compose to set a multi container orchestration for running tests. The backend will connect to a test database in MongoDB, to prevent any data losses from the main database during the tests.
-
-`!Warning!` the E2E tests were designed to work with the Main UI only
-
+## End-to-End (E2E) Testing
 ### Manual testing
-Navigate to the `tests` folder and install the dependencies
+Enter the `tests` folder and install the dependencies
   ```
   cd ./tests && npm install
   ```
@@ -232,30 +226,32 @@ Start the Main UI
   cd ./client && npm run dev
   ```
 
-Start the Backend Server is testing mode
+Start the Backend Server in testing mode
   ```
   cd ./server && npm run start:test
   ```
 
-Starting Cypress in UI mode
-  ```
-  npm run cypress:open
-  ```
+Run Cypress
+  * UI mode
+    ```
+    npm run cypress:open
+    ```
 
-Starting Cypress in command line mode:
-  ```
-  npm run cypress:cline
-  ```
+  * CLI mode
+    ```
+    npm run cypress:cli
+    ``` 
   
-### Testing through Docker containers
-Run the Docker Compose file
+### Testing via Docker
   ```
   docker compose -f docker-compose.test.yml up --build --abort-on-container-exit
   ```
 
+Note: ⚠️ E2E tests were designed for the Main UI only
 
-## Explaning the backend server web app structure
-### Folder structure
+
+## Backend server structure
+### Folder overview
   ```
   gpuList-web-app/
   ├── index.js             # Entry point of the application
@@ -275,27 +271,18 @@ Run the Docker Compose file
   ```
 
 ### How Everything Works Together
-1. index.js
-    * The main entry point.
-    * Starts the Express server.
-    * Imports app.js to configure the application.
+* index.js – starts Express, imports app.js
+* app.js – configures Express, middleware, routes
+* controllers/gpus.js – handles GPU API requests
+* models/gpu.js – Mongoose schema
+* utils/config.js – environment configurations
+* utils/logger.js – request/error logging
+* utils/middleware.js – custom middleware (auth, error handling)
 
-2. app.js
-    * Sets up the Express app.
-    * Connects routes, middleware, and configurations.
-    
-3. controllers/gpus.js
-    * Handles incoming HTTP requests related to GPUs (CRUD operations).
-    * Calls functions from models/gpu.js to interact with the database.
 
-4. models/gpu.js
-    * Defines the data structure for GPUs (e.g., Mongoose schema if using MongoDB).
-    
-5. utils/config.js
-    * Stores configuration settings (e.g., environment variables, database URIs).
-
-6. utils/logger.js
-    * Manages logging (e.g., request logs, error logs).
-
-7. utils/middleware.js
-    * Contains Express middleware functions (e.g., error handling, authentication).
+## Troubleshooting
+* Frontend won’t start → Check the versions of Node.js ≥18 & npm ≥10
+* Backend cannot connect to DB → Ensure .env file has the correct MongoDB URI
+* Port already in use → Kill the process using the port or change the Vite/Express port in config
+* Docker containers can’t communicate with each other → Verify the network `gpulist_webapp-network` exists
+* E2E tests fail → Confirm the Main UI is running on http://localhost:5173
