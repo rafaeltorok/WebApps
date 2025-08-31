@@ -6,9 +6,9 @@ Web apps designed to be deployed on hosting platforms such as Render. Made with 
   - [Blogs List](#blogs-list)
   - [Countries List](#countries-list)
   - [GPU List](#gpu-list)
-  - [Notes](./notes/README.md)
-  - [PhoneBook](./phonebook/README.md)
-  - [User Management App](./user-management-app/README.md)
+  - [Notes](#notes)
+  - [PhoneBook](#phonebook)
+  - [User Management App](#user-management-app)
 
 ## Blogs List
 [Documentation⬈](./blogslist/README.md)
@@ -67,7 +67,27 @@ Web apps designed to be deployed on hosting platforms such as Render. Made with 
 
 
 ## PhoneBook
+[Documentation⬈](./phonebook/README.md)
+
+- [About](./phonebook/README.md#about)
+- [Starting the web app](./phonebook/README.md#starting-the-web-app)
+  - [Frontend](./phonebook/README.md#frontend)
+  - [Backend](./phonebook/README.md#backend)
+- [Navigating the UI](./phonebook/README.md#navigating-the-ui)
+- [Performing CRUD operations on contacts through the backend server](./phonebook/README.md#performing-crud-operations-on-contacts-through-the-backend-server)
 
 
 ## User Management App
+[Documentation⬈](./user-management-app/README.md)
 
+- [About](./user-management-app/README.md#about)
+- [Starting the web app](./user-management-app/README.md#starting-the-web-app)
+  - [Frontend](./user-management-app/README.md#frontend)
+  - [Backend](./user-management-app/README.md#backend)
+- [Navigating the UI](./user-management-app/README.md#navigating-the-ui)
+  - [Register](./user-management-app/README.md#register)
+  - [Login](./user-management-app/README.md#login)
+  - [Editing a user's personal information](./user-management-app/README.md#editing-a-users-personal-information)
+  - [Deleting users](./user-management-app/README.md#deleting-users)
+  - [Profile page](./user-management-app/README.md#profile-page)
+- [Backend server routes and operations](./user-management-app/README.md#backend-server-routes-and-operations)

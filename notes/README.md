@@ -17,6 +17,8 @@
 ## About
 Single Page Application to store simple one line notes, being able to also mark each one of them as important or not. The frontend UI supports adding new notes and marking them as important, an user account is required to either see the notes or add new ones. The entire web app's UI will be locked out to non-logged users. This web app uses a MongoDB database, implementing mongoose+express on the backend server and axios on the client side.
 
+<img src="../github/screenshots/notes.png" alt="Notes app UI, displaying the main page with all notes available listed" width="400"/>
+
 
 ## Starting the web app
 ### Frontend
