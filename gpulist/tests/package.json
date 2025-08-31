@@ -5,7 +5,7 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "cypress:open": "cypress open",
-    "cypress:cline": "cypress run"
+    "cypress:cli": "cypress run"
   },
   "keywords": [],
   "author": "",

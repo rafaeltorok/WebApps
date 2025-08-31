@@ -8,4 +8,4 @@ COPY . .
 ENV CYPRESS_FRONTEND=http://gpulist-webapp-client:80
 ENV CYPRESS_BACKEND=http://gpulist-webapp-server:3001
 
-CMD ["npm", "run", "cypress:cline"]
+CMD ["npm", "run", "cypress:cli"]
