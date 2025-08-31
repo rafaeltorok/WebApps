@@ -20,7 +20,7 @@ services:
       - webapp-server
 
   webapp-alt-client:
-    build: ./alternate-client
+    build: ./alternative-client
     container_name: gpulist-webapp-alt-client
     networks:
       - webapp-network
