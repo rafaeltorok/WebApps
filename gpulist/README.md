@@ -16,11 +16,7 @@
   - [Troubleshooting](#troubleshooting)
 
 ## About
-<<<<<<< HEAD
 Single Page Application to store all of your graphics cards data, including the main chip specifications and clock speeds. 
-=======
-GPU List is a Single Page Application to store all of your graphics cards data, including the main chip specifications: Cores, TMUs, ROPs, VRAM, Bus Width and the clock speeds: Base Clock, Boost Clock, Memory Clock (Frequency). This web app is capable of automatically calculating the theoretical performance of any of your cards, including: FP32(float), Texture Rate, Pixel Rate and Memory Bandwidth. The frontend UI supports adding, deleting and searching for specific graphics cards. GPU List utilizes a MongoDB database to store its data, implementing a Mongoose+Express Node.js backend and an axios Vite+React frontend.
->>>>>>> bedcb970e18752223a6c120c0e80f156c78baa75
 
 ### Features
 * Automatically calculates the theoretical performance of a graphics card: FP32(float), Texture Rate, Pixel Rate and Memory Bandwidth.
@@ -51,13 +47,7 @@ GPU List is a Single Page Application to store all of your graphics cards data, 
 
 ## Starting the web app
 ### Frontend
-<<<<<<< HEAD
 Main UI
-=======
-You only need to start one frontend at a time, if you wish to run both, follow the optional step below. Vite will automatically map each frontend to an available port, one will on port `:5173` and the other on `:5174`.
-
-Navigate to the main UI folder and install the necessary dependencies
->>>>>>> bedcb970e18752223a6c120c0e80f156c78baa75
   ```
   cd ./gpulist/client && npm install
   npm run dev
@@ -80,50 +70,23 @@ Development mode (hot reload with Nodemon)
   npm run dev
   ```
 
-<<<<<<< HEAD
 Production mode
   * Build frontend
-=======
-Start the backend
-  * On dev mode, using nodemon for hot reloading
->>>>>>> bedcb970e18752223a6c120c0e80f156c78baa75
     ```
-    Main UI
     cd ./gpulist/client && npm run build && cp -r ./dist ../server
     ```
 
-<<<<<<< HEAD
   * Or Alternative UI
     ```
     cd ./gpulist/alternate-client && npm run build && cp -r ./dist ../server
     ```
-=======
-  * The production mode uses a static build of the frontend UI
-    * Build the frontend
-      ```
-      Main UI
-      cd ./gpulist/client && npm run build && cp -r ./dist ../server
->>>>>>> bedcb970e18752223a6c120c0e80f156c78baa75
 
   * Start the backend server
     ```
     npm run start
     ```
 
-<<<<<<< HEAD
   * Access the frontend via the backend URL → http://localhost:3001
-=======
-      Alternative UI
-      cd ./gpulist/alternate-client && npm run build && cp -r ./dist ../server
-      ```
-
-    * Start the server in production mode
-      ```
-      npm run start
-      ```
-
-    * The frontend will be accessible on the same address as the backend server http://localhost:3001
->>>>>>> bedcb970e18752223a6c120c0e80f156c78baa75
 
 
 ## Navigating the UI
@@ -132,11 +95,7 @@ Start the backend
 Click the `Show` button for a single card or `Show all data` for all cards.
 
 #### Adding a new graphics card
-<<<<<<< HEAD
 Click the `Add Graphics Card` button → Fill all the required fields, none can be left empty.
-=======
-Click on the `Add Graphics Card` button and enter the following card data: Manufacturer, GPU Line, Model, Cores, TMUs, ROPs, VRAM (in GB), Bus Width (in bits), Memory Type, Base Clock (in MHz), Boost Clock (in Mhz), Memory Clock (in Gbps). All fields are mandatory and cannot be left empty. The placeholder values already have examples of what type of data format should be added in the form.
->>>>>>> bedcb970e18752223a6c120c0e80f156c78baa75
 
 #### Using the search button
 Click the `Search` button, search by manufacturer, GPU line or model (e.g., `rtx 40`).
@@ -254,15 +213,7 @@ Backend
 	* Alternative UI → http://localhost:5174
 
 
-<<<<<<< HEAD
 ## End-to-End (E2E) Testing
-=======
-## E2E Testing
-To run End-to-End tests with Cypress, you can either run Cypress manually through a terminal, or by using Docker Compose to set a multi container orchestration for running the tests. The backend will connect to a test database in MongoDB.
-
-`!Warning!` the E2E tests were designed to work with the Main UI only
-
->>>>>>> bedcb970e18752223a6c120c0e80f156c78baa75
 ### Manual testing
 Enter the `tests` folder and install the dependencies
   ```
