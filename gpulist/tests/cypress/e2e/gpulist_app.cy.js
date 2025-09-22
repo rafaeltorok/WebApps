@@ -146,7 +146,7 @@ describe('GPU List app', function() {
     })
 
     it('the GPU can be deleted', function() {
-      cy.get('.gpu-data-table tbody #delete-gpu-button').click()
+      cy.get('.gpu-data-table tfoot #delete-gpu-button').click()
       cy.get('.gpu-data-table').should('not.exist')
     })
   })
