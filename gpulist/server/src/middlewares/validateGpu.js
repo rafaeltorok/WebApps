@@ -3,7 +3,6 @@ module.exports = (request, response, next) => {
 
     const body = request.body;
     if (!body.manufacturer?.trim()) errors.push("Manufacturer is required");
-    if (!body.gpuline?.trim()) errors.push("GPU line is required");
     if (!body.model?.trim()) errors.push("Model is required");
     if (body.cores < 1) errors.push("Invalid core count");
     if (body.tmus < 1) errors.push("Invalid number of TMUs");

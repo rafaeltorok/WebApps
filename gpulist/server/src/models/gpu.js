@@ -2,7 +2,7 @@ const mongoose = require('mongoose')
 
 const gpuListSchema = new mongoose.Schema({
     manufacturer: { type: String, required: true, trim: true },
-    gpuline: { type: String, required: true, trim: true },
+    gpuline: { type: String, required: false, trim: true },
     model: { type: String, required: true, trim: true },
     cores: { type: Number, required: true },
     tmus: { type: Number, required: true },
