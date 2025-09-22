@@ -52,7 +52,6 @@ function App() {
   const addGpu = (gpuObject) => {
     if (
         gpuObject.manufacturer === '' ||
-        gpuObject.gpuline === '' ||
         gpuObject.model === '' ||
         gpuObject.cores < 1 ||
         gpuObject.tmus < 1 ||
@@ -98,7 +97,7 @@ function App() {
   };
   
   function scrollToIndex(gpuTableId) {
-    const element = document.getElementById('page-index');
+    const element = document.getElementById('add-gpu-form');
     if (element) {
       element.scrollIntoView({ behavior: 'smooth' });
 
