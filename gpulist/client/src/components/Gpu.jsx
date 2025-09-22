@@ -32,6 +32,7 @@ export default function Gpu ({ gpu, onDelete, showAll }) {
 		<table 
 			id={`${gpu.manufacturer.toLowerCase()}-${gpu.gpuline.toLowerCase()}-${gpu.model.toLowerCase()}`}
 			className='gpu-data-table'
+			aria-label={`${gpu.manufacturer} ${gpu.gpuline} ${gpu.model}`}
 		>
 			<thead>
 				<tr>
@@ -46,6 +47,8 @@ export default function Gpu ({ gpu, onDelete, showAll }) {
 						<button
 							className='show-hide-button'
 							onClick={() => setShowBody(!showBody)}
+							aria-expanded={showBody}
+							aria-controls={`${gpu.id}-specs ${gpu.id}-clocks ${gpu.id}-performance ${gpu.id}-delete`}
 						>
 							{showBody ? "Hide" : "Show"}
 						</button>
@@ -53,34 +56,50 @@ export default function Gpu ({ gpu, onDelete, showAll }) {
 				</tr>
 			</thead>
 			{showBody && (
-				<tbody>
-					<tr>
-						<th className="table-header" colSpan={2}>SPECIFICATIONS</th>
-					</tr>
-					<GpuDataRow header='CORES' data={`${gpu.cores}`} headerClass={gpuHeaderClass} />
-					<GpuDataRow header='TMUs' data={`${gpu.tmus}`} headerClass={gpuHeaderClass} />
-					<GpuDataRow header='ROPs' data={`${gpu.rops}`} headerClass={gpuHeaderClass} />
-					<GpuDataRow header='VRAM' data={`${gpu.vram}GB ${gpu.memtype}`} headerClass={gpuHeaderClass} />
-					<GpuDataRow header='BUS WIDTH' data={`${gpu.bus} bit`} headerClass={gpuHeaderClass} />
-					<tr>
-						<th className="table-header" colSpan={2}>CLOCK SPEEDS</th>
-					</tr>
-					<GpuDataRow header='BASE CLOCK' data={`${gpu.baseclock} MHz`} headerClass={gpuHeaderClass} />
-					<GpuDataRow header='BOOST CLOCK' data={`${gpu.boostclock} MHz`} headerClass={gpuHeaderClass} />
-					<GpuDataRow header='MEMORY CLOCK' data={`${gpu.memclock} Gbps effective`} headerClass={gpuHeaderClass} />
-					<tr>
-						<th className="table-header" colSpan={2}>THEORETICAL PERFORMANCE</th>
-					</tr>
-					<GpuDataRow header='FP32(float)' data={`${gpuPerformance[0]}`} headerClass={gpuHeaderClass} />
-					<GpuDataRow header='TEXTURE RATE' data={`${gpuPerformance[1]}`} headerClass={gpuHeaderClass} />
-					<GpuDataRow header='PIXEL RATE' data={`${gpuPerformance[2]}`} headerClass={gpuHeaderClass} />
-					<GpuDataRow header='BANDWIDTH' data={`${gpuPerformance[3]}`} headerClass={gpuHeaderClass} />
-					<tr>
-						<td colSpan={"2"} id='delete-gpu-button'>
-							<button onClick={() => onDelete(gpu.id, gpu.manufacturer, gpu.gpuline, gpu.model)}>Delete</button>
-						</td>
-					</tr>
-				</tbody>
+				<>
+					<tbody id={`${gpu.id}-clocks`} aria-labelledby={`${gpu.id}-specs-heading`}>
+						<tr>
+							<th className="table-header" colSpan={2}>SPECIFICATIONS</th>
+						</tr>
+						<GpuDataRow header='CORES' data={`${gpu.cores}`} headerClass={gpuHeaderClass} />
+						<GpuDataRow header='TMUs' data={`${gpu.tmus}`} headerClass={gpuHeaderClass} />
+						<GpuDataRow header='ROPs' data={`${gpu.rops}`} headerClass={gpuHeaderClass} />
+						<GpuDataRow header='VRAM' data={`${gpu.vram}GB ${gpu.memtype}`} headerClass={gpuHeaderClass} />
+						<GpuDataRow header='BUS WIDTH' data={`${gpu.bus} bit`} headerClass={gpuHeaderClass} />
+					</tbody>
+
+					<tbody id={`${gpu.id}-clocks`} aria-labelledby={`${gpu.id}-clocks-heading`}>
+						<tr>
+							<th className="table-header" colSpan={2}>CLOCK SPEEDS</th>
+						</tr>
+						<GpuDataRow header='BASE CLOCK' data={`${gpu.baseclock} MHz`} headerClass={gpuHeaderClass} />
+						<GpuDataRow header='BOOST CLOCK' data={`${gpu.boostclock} MHz`} headerClass={gpuHeaderClass} />
+						<GpuDataRow header='MEMORY CLOCK' data={`${gpu.memclock} Gbps effective`} headerClass={gpuHeaderClass} />
+					</tbody>
+
+					<tbody id={`${gpu.id}-clocks`} aria-labelledby={`${gpu.id}-performance-heading`}>
+						<tr>
+							<th className="table-header" colSpan={2}>THEORETICAL PERFORMANCE</th>
+						</tr>
+						<GpuDataRow header='FP32(float)' data={`${gpuPerformance[0]}`} headerClass={gpuHeaderClass} />
+						<GpuDataRow header='TEXTURE RATE' data={`${gpuPerformance[1]}`} headerClass={gpuHeaderClass} />
+						<GpuDataRow header='PIXEL RATE' data={`${gpuPerformance[2]}`} headerClass={gpuHeaderClass} />
+						<GpuDataRow header='BANDWIDTH' data={`${gpuPerformance[3]}`} headerClass={gpuHeaderClass} />
+					</tbody>
+					
+					<tfoot id={`${gpu.id}-delete`}>
+						<tr>
+							<td colSpan={"2"} id='delete-gpu-button'>
+								<button 
+									aria-label={`Delete ${gpu.manufacturer} ${gpu.gpuline} ${gpu.model}`}
+									onClick={() => onDelete(gpu.id, gpu.manufacturer, gpu.gpuline, gpu.model)}
+								>
+									Delete
+								</button>
+							</td>
+						</tr>
+					</tfoot>
+				</>
 			)}
 		</table>
 	);
