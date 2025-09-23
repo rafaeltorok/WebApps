@@ -49,26 +49,39 @@ function App() {
     setSearchGpu(event.target.value);
   };
 
-  const addGpu = (gpuObject) => {
+  const addGpu = (gpu) => {
     if (
-        gpuObject.manufacturer === '' ||
-        gpuObject.model === '' ||
-        gpuObject.cores < 1 ||
-        gpuObject.tmus < 1 ||
-        gpuObject.rops < 1 ||
-        gpuObject.vram < 0.02 ||
-        gpuObject.bus < 1 ||
-        gpuObject.memType === '' ||
-        gpuObject.baseclock < 1 ||
-        gpuObject.boostclock < 1 ||
-        gpuObject.memclock < 1
+        gpu.manufacturer.trim() === '' ||
+        gpu.model.trim() === '' ||
+        Number(gpu.cores.trim()) < 1 ||
+        Number(gpu.tmus.trim()) < 1 ||
+        Number(gpu.rops.trim()) < 1 ||
+        Number(gpu.vram.trim()) < 0.02 ||
+        Number(gpu.bus.trim()) < 1 ||
+        gpu.memtype.trim() === '' ||
+        Number(gpu.baseclock.trim()) < 1 ||
+        Number(gpu.boostclock.trim()) < 1 ||
+        Number(gpu.memclock.trim()) < 1
       ) {
       alert("Invalid GPU data");
       return;
     }
 
     gpuService
-      .create(gpuObject)
+      .create({
+        manufacturer: gpu.manufacturer.trim(),
+        gpuline: gpu.gpuline.trim(),
+        model: gpu.model.trim(),
+        cores: gpu.cores === "" ? null : Number(gpu.cores.trim()),
+        tmus: gpu.tmus === "" ? null : Number(gpu.tmus.trim()),
+        rops: gpu.rops === "" ? null : Number(gpu.rops.trim()),
+        vram: gpu.vram === "" ? null : Number(gpu.vram.trim()),
+        bus: gpu.bus === "" ? null : Number(gpu.bus.trim()),
+        memtype: gpu.memtype.trim(),
+        baseclock: gpu.baseclock === "" ? null : Number(gpu.baseclock.trim()),
+        boostclock: gpu.boostclock === "" ? null : Number(gpu.boostclock.trim()),
+        memclock: gpu.memclock === "" ? null : Number(gpu.memclock.trim()),
+      })
       .then(returnedObject => {
         setGpus((prevGpus) => [...prevGpus, returnedObject]) // Functional update for state
         console.log("GPU Specs Submitted:", returnedObject)

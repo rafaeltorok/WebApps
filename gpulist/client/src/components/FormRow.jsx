@@ -12,9 +12,9 @@ export default function FormRow ({ id, type, label, placeholder, value, onChange
           type={type}
           id={id}
           name={id}
-          value={value}
+          value={value ?? ""}
           placeholder={placeholder}
-          onChange={e => onChange(e.target.value)}
+          onChange={onChange}
         />
       </td>
     </tr>
@@ -27,7 +27,7 @@ FormRow.propTypes = {
   id: PropTypes.string.isRequired,
   type: PropTypes.string.isRequired,
   label: PropTypes.string.isRequired,
-  placeholder: PropTypes.string,
+  placeholder: PropTypes.string.isRequired,
   value: PropTypes.string.isRequired,
   onChange: PropTypes.func.isRequired
 };
