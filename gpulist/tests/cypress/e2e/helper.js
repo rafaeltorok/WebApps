@@ -1,6 +1,10 @@
 export function addGpu(gpu) {
   cy.contains('Add Graphics Card').click()
 
+  // NOTE: Ensure the input is visible and enabled before typing
+  // Cypress throws an error if you try to type into a disabled element, so we assert 'not.be.disabled' first
+  cy.get('#manufacturer').should('be.visible').and('not.be.disabled')
+
   const fillInputField = (fieldName, data) => {
     cy.get(fieldName).type(data)
   }
