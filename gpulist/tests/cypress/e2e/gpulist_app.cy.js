@@ -36,6 +36,25 @@ describe('GPU List app', function() {
       cy.contains('MSI GeForce RTX 3060 Gaming X Trio')
     })
 
+    it('the GPU Line field is not required to add a new one', function() {
+      addGpu({
+        manufacturer: 'NVIDIA',
+        gpuline: ' ',
+        model: 'RTX PRO 6000 Blackwell',
+        cores: 24064,
+        tmus: 752,
+        rops: 192,
+        vram: 96,
+        bus: 512,
+        memtype: 'GDDR7',
+        baseclock: 1590,
+        boostclock: 2617,
+        memclock: 28
+      })
+  
+      cy.contains('NVIDIA RTX PRO 6000 Blackwell')
+    })
+
     it('an empty name cannot be added', function() {
       addGpu({
         manufacturer: ' ',
@@ -197,6 +216,21 @@ describe('GPU List app', function() {
         boostclock: 1084,
         memclock: 5
       })
+
+      addGpu({
+        manufacturer: 'NVIDIA',
+        gpuline: ' ',
+        model: 'RTX PRO 6000 Blackwell',
+        cores: 24064,
+        tmus: 752,
+        rops: 192,
+        vram: 96,
+        bus: 512,
+        memtype: 'GDDR7',
+        baseclock: 1590,
+        boostclock: 2617,
+        memclock: 28
+      })
     })
 
     it('it expands all tables on the page', function() {
@@ -253,6 +287,24 @@ describe('GPU List app', function() {
           checkRowData('BOOST CLOCK', '1084 MHz')
           checkRowData('MEMORY CLOCK', '5 Gbps effective')
         })
+
+      cy.get('.gpu-data-table')
+        .eq(3)
+        .then(($table) => {
+          cy.wrap($table).find('thead tr th').should('contain', 'NVIDIA RTX PRO 6000 Blackwell')
+          cy.wrap($table)
+            .find('button')
+            .contains('Show')
+            .click()
+          checkRowData('CORES', 24064)
+          checkRowData('TMUs', 752)
+          checkRowData('ROPs', 192)
+          checkRowData('VRAM', '96GB GDDR7')
+          checkRowData('BUS WIDTH', '512 bit')
+          checkRowData('BASE CLOCK', '1590 MHz')
+          checkRowData('BOOST CLOCK', '2617 MHz')
+          checkRowData('MEMORY CLOCK', '28 Gbps effective')
+        })
     })
   })
 
@@ -302,6 +354,21 @@ describe('GPU List app', function() {
         boostclock: 1084,
         memclock: 5
       })
+
+      addGpu({
+        manufacturer: 'NVIDIA',
+        gpuline: ' ',
+        model: 'RTX PRO 6000 Blackwell',
+        cores: 24064,
+        tmus: 752,
+        rops: 192,
+        vram: 96,
+        bus: 512,
+        memtype: 'GDDR7',
+        baseclock: 1590,
+        boostclock: 2617,
+        memclock: 28
+      })
     })
 
     it('the index can be shown', function() {
@@ -332,6 +399,10 @@ describe('GPU List app', function() {
       cy.get('.page-index-list li')
         .eq(2)
         .contains('MSI GeForce GTX 650 OC')
+
+      cy.get('.page-index-list li')
+        .eq(3)
+        .contains('NVIDIA RTX PRO 6000 Blackwell')
     })
 
     it('clicking on an index item', function() {
@@ -379,6 +450,288 @@ describe('GPU List app', function() {
 
       cy.get('.page-index-list')
         .should('be.visible')
+    })
+  })
+
+  describe('testing the search bar', function() {
+    beforeEach(function() {
+      addGpu({
+        manufacturer: 'NVIDIA',
+        gpuline: 'GeForce',
+        model: 'RTX 3060',
+        cores: 3584,
+        tmus: 112,
+        rops: 48,
+        vram: 12,
+        bus: 192,
+        memtype: 'GDDR6',
+        baseclock: 1320,
+        boostclock: 1777,
+        memclock: 15
+      })
+
+      addGpu({
+        manufacturer: 'NVIDIA',
+        gpuline: 'GeForce',
+        model: 'GTX 970',
+        cores: 1664,
+        tmus: 104,
+        rops: 56,
+        vram: 4,
+        bus: 256,
+        memtype: 'GDDR5',
+        baseclock: 1050,
+        boostclock: 1178,
+        memclock: 7
+      })
+
+      addGpu({
+        manufacturer: 'NVIDIA',
+        gpuline: 'GeForce',
+        model: 'GTX 650',
+        cores: 384,
+        tmus: 32,
+        rops: 16,
+        vram: 1,
+        bus: 128,
+        memtype: 'GDDR5',
+        baseclock: 1058,
+        boostclock: 1058,
+        memclock: 5
+      })
+
+      addGpu({
+        manufacturer: 'NVIDIA',
+        gpuline: ' ',
+        model: 'RTX PRO 6000 Blackwell',
+        cores: 24064,
+        tmus: 752,
+        rops: 192,
+        vram: 96,
+        bus: 512,
+        memtype: 'GDDR7',
+        baseclock: 1590,
+        boostclock: 2617,
+        memclock: 28
+      })
+
+      addGpu({
+        manufacturer: 'AMD',
+        gpuline: 'Radeon',
+        model: 'RX 9070 XT',
+        cores: 4096,
+        tmus: 256,
+        rops: 128,
+        vram: 16,
+        bus: 256,
+        memtype: 'GDDR6',
+        baseclock: 1660,
+        boostclock: 2970,
+        memclock: 20
+      })
+
+      addGpu({
+        manufacturer: 'AMD',
+        gpuline: 'Radeon',
+        model: 'RX 7900 XTX',
+        cores: 6144,
+        tmus: 384,
+        rops: 192,
+        vram: 24,
+        bus: 384,
+        memtype: 'GDDR6',
+        baseclock: 1929,
+        boostclock: 2498,
+        memclock: 20
+      })
+
+      addGpu({
+        manufacturer: 'Intel',
+        gpuline: 'Arc',
+        model: 'B580',
+        cores: 2560,
+        tmus: 160,
+        rops: 80,
+        vram: 12,
+        bus: 192,
+        memtype: 'GDDR6',
+        baseclock: 2670,
+        boostclock: 2670,
+        memclock: 19
+      })
+
+      addGpu({
+        manufacturer: 'Intel',
+        gpuline: 'Arc',
+        model: 'A770',
+        cores: 4096,
+        tmus: 256,
+        rops: 128,
+        vram: 16,
+        bus: 256,
+        memtype: 'GDDR6',
+        baseclock: 2100,
+        boostclock: 2400,
+        memclock: 16
+      })
+    })
+
+    it('the search bar can be displayed', function() {
+      cy.get('#search-bar-field')
+        .find('button')
+        .contains('Search')
+        .click()
+        
+      cy.get('#search-bar-field')
+        .find('button')
+        .should('contain', 'Cancel')
+    })
+
+    it('the search bar can search for specific manufacturers only', function() {
+      cy.get('#search-bar-field')
+        .find('button')
+        .contains('Search')
+        .click()
+
+      // Searches for NVIDIA cards
+      cy.get('#search-bar-input')
+        .type('nvidia')
+
+      cy.get('.gpu-data-table').should('have.length', 4)
+
+      // NOTE: We query each '.gpu-data-table' fresh with cy.get() instead of using a stored $table from .then()
+      // This avoids Cypress errors caused by React re-rendering the DOM and detaching the previous element snapshot.
+      // If we used a $table snapshot and then called .find() on it, Cypress would throw:
+      // "cy.find() failed because the page updated as a result of this command, but the subject is no longer attached to the DOM."
+      cy.get('.gpu-data-table').eq(0).find('thead tr th').should('contain', 'NVIDIA GeForce RTX 3060')
+      cy.get('.gpu-data-table').eq(1).find('thead tr th').should('contain', 'NVIDIA GeForce GTX 970')
+      cy.get('.gpu-data-table').eq(2).find('thead tr th').should('contain', 'NVIDIA GeForce GTX 650')
+      cy.get('.gpu-data-table').eq(3).find('thead tr th').should('contain', 'NVIDIA RTX PRO 6000 Blackwell')
+
+      // Searches for AMD Radeon cards
+      cy.get('#search-bar-input')
+        .clear()
+        .type('amd')
+
+      cy.get('.gpu-data-table').should('have.length', 2)
+
+      cy.get('.gpu-data-table').eq(0).find('thead tr th').should('contain', 'AMD Radeon RX 9070 XT')
+      cy.get('.gpu-data-table').eq(1).find('thead tr th').should('contain', 'AMD Radeon RX 7900 XTX')
+
+      // Searches for Intel Arc cards
+      cy.get('#search-bar-input')
+        .clear()
+        .type('intel')
+
+      cy.get('.gpu-data-table').should('have.length', 2)
+
+      cy.get('.gpu-data-table').eq(0).find('thead tr th').should('contain', 'Intel Arc B580')
+      cy.get('.gpu-data-table').eq(1).find('thead tr th').should('contain', 'Intel Arc A770')
+    })
+
+    it('the search bar correctly filters the desired graphics card line', function() {
+      cy.get('#search-bar-field')
+        .find('button')
+        .contains('Search')
+        .click()
+
+      // Searches for NVIDIA GeForce cards
+      cy.get('#search-bar-input')
+        .type('geforce')
+
+      cy.get('.gpu-data-table').should('have.length', 3)
+
+      cy.get('.gpu-data-table').eq(0).find('thead tr th').should('contain', 'NVIDIA GeForce RTX 3060')
+      cy.get('.gpu-data-table').eq(1).find('thead tr th').should('contain', 'NVIDIA GeForce GTX 970')
+      cy.get('.gpu-data-table').eq(2).find('thead tr th').should('contain', 'NVIDIA GeForce GTX 650')
+
+      // Searches for AMD Radeon cards
+      cy.get('#search-bar-input')
+        .clear()
+        .type('radeon')
+
+      cy.get('.gpu-data-table').should('have.length', 2)
+
+      cy.get('.gpu-data-table').eq(0).find('thead tr th').should('contain', 'AMD Radeon RX 9070 XT')
+      cy.get('.gpu-data-table').eq(1).find('thead tr th').should('contain', 'AMD Radeon RX 7900 XTX')
+
+      // Searches for Intel Arc cards
+      cy.get('#search-bar-input')
+        .clear()
+        .type('arc')
+
+      cy.get('.gpu-data-table').should('have.length', 2)
+
+      cy.get('.gpu-data-table').eq(0).find('thead tr th').should('contain', 'Intel Arc B580')
+      cy.get('.gpu-data-table').eq(1).find('thead tr th').should('contain', 'Intel Arc A770')
+    })
+
+    it('the search bar can filter the cards by the secondary line', function() {
+      cy.get('#search-bar-field')
+        .find('button')
+        .contains('Search')
+        .click()
+
+      cy.get('#search-bar-input')
+        .type('rtx')
+
+      cy.get('.gpu-data-table').should('have.length', 2)
+
+      cy.get('.gpu-data-table').eq(0).find('thead tr th').should('contain', 'NVIDIA GeForce RTX 3060')
+      cy.get('.gpu-data-table').eq(1).find('thead tr th').should('contain', 'NVIDIA RTX PRO 6000 Blackwell')
+    })
+
+    it('the search bar can filter by specific model variations or names', function() {
+      // Searches by XTX variants only
+      cy.get('#search-bar-field')
+        .find('button')
+        .contains('Search')
+        .click()
+
+      cy.get('#search-bar-input')
+        .type('xtx')
+
+      cy.get('.gpu-data-table').should('have.length', 1)
+
+      cy.get('.gpu-data-table').eq(0).find('thead tr th').should('contain', 'AMD Radeon RX 7900 XTX')
+
+      // Searches by cards that contain a model name with '70'
+      cy.get('#search-bar-input')
+        .clear()
+        .type('70')
+
+      cy.get('.gpu-data-table').should('have.length', 3)
+
+      cy.get('.gpu-data-table').eq(0).find('thead tr th').should('contain', 'NVIDIA GeForce GTX 970')
+      cy.get('.gpu-data-table').eq(1).find('thead tr th').should('contain', 'AMD Radeon RX 9070 XT')
+      cy.get('.gpu-data-table').eq(2).find('thead tr th').should('contain', 'Intel Arc A770')
+    })
+
+    it('checking if the index is also filtered to follow the search results', function() {
+      cy.get('#search-bar-field')
+        .find('button')
+        .contains('Search')
+        .click()
+
+      cy.get('#search-bar-input')
+        .type('GeForce')
+
+      cy.get('#page-index')
+        .find('#show-index-button')
+        .contains('Show index')
+        .click()
+
+      cy.get('.page-index-list li')
+        .eq(0)
+        .contains('NVIDIA GeForce RTX 3060')
+
+      cy.get('.page-index-list li')
+        .eq(1)
+        .contains('NVIDIA GeForce GTX 970')
+
+      cy.get('.page-index-list li')
+        .eq(2)
+        .contains('NVIDIA GeForce GTX 650')
     })
   })
 })
