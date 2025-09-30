@@ -1,10 +1,10 @@
-import { forwardRef, useImperativeHandle, useState } from 'react';
+import { useState } from 'react';
 import FormRow from './FormRow';
 import PropTypes from 'prop-types';
 import '../styles/AddGpuForm.css';
 
 
-const AddGpuForm = forwardRef(({ createGpu }, ref) => {
+export default function AddGpuForm ({ createGpu, showAddForm, setShowAddForm }) {
 	const [gpu, setGpu] = useState({
 		manufacturer: "",
 		gpuline: "",
@@ -19,11 +19,6 @@ const AddGpuForm = forwardRef(({ createGpu }, ref) => {
 		boostclock: "",
 		memclock: ""
 	});
-	const [showAddForm, setShowAddForm] = useState(false); // Controls the visibility of the Add GPU form
-
-	useImperativeHandle(ref, () => ({
-	    toggleVisibility: () => setShowAddForm(prev => !prev)
-  	}));
 
 	const addGpu = (event) => {
 		event.preventDefault();
@@ -162,12 +157,12 @@ const AddGpuForm = forwardRef(({ createGpu }, ref) => {
 			</form>
 		</div>
 	);
-});
+};
 
 AddGpuForm.displayName = "AddGpuForm";
 
 AddGpuForm.propTypes = {
-	createGpu: PropTypes.func.isRequired
+	createGpu: PropTypes.func.isRequired,
+	showAddForm: PropTypes.bool.isRequired,
+	setShowAddForm: PropTypes.func.isRequired
 };
-
-export default AddGpuForm;

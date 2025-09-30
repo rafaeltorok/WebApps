@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef } from 'react';
+import { useState, useEffect } from 'react';
 import Gpu from './components/Gpu';
 import AddGpuForm from './components/AddGpuForm';
 import PageIndex from './components/PageIndex';
@@ -12,8 +12,7 @@ function App() {
   const [showAll, setShowAll] = useState(false); // Controls the visibility of all tables
   const [searchGpu, setSearchGpu] = useState('');
   const [gpusFound, setGpusFound] = useState([]);
-
-  const gpuFormRef = useRef();
+  const [showAddForm, setShowAddForm] = useState(false); // Controls the visibility of the Add GPU form
 
   useEffect(() => {
     gpuService
@@ -86,7 +85,7 @@ function App() {
         setGpus((prevGpus) => [...prevGpus, returnedObject]) // Functional update for state
         console.log("GPU Specs Submitted:", returnedObject)
         alert(`${returnedObject.manufacturer} ${returnedObject.gpuline} ${returnedObject.model} was added!`)
-        gpuFormRef.current.toggleVisibility()
+        setShowAddForm(false);
       })
       .catch (exception => {
         alert("Failed to add new GPU")
@@ -167,7 +166,8 @@ function App() {
         <h1 id='main-page-title'>GPU List</h1>
         <AddGpuForm 
           createGpu={addGpu}
-          ref={gpuFormRef}
+          showAddForm={showAddForm}
+          setShowAddForm={setShowAddForm}
         />
         <SearchBar
           handleSearchGpu={handleSearchGpu}
