@@ -1,10 +1,10 @@
-const testingRouter = require('express').Router()
-const Gpu = require('../models/gpu.js')
+const testingRouter = require("express").Router();
+const Gpu = require("../models/gpu.js");
 
-testingRouter.post('/reset', async (request, response) => {
-  await Gpu.deleteMany({})
+testingRouter.post("/reset", async (request, response) => {
+  await Gpu.deleteMany({});
 
-  response.status(204).end()
-})
+  response.status(204).end();
+});
 
-module.exports = testingRouter
+module.exports = testingRouter;

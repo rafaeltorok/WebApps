@@ -168,6 +168,30 @@ describe('GPU List app', function() {
       cy.get('.gpu-data-table tfoot #delete-gpu-button').click()
       cy.get('.gpu-data-table').should('not.exist')
     })
+
+    it('the amount of VRAM is correctly displayed as either GB or MB', function() {
+      cy.get('.gpu-data-table thead tr th').should('contain', 'MSI GeForce RTX 3060 Gaming X Trio')
+      checkRowData('VRAM', '12GB GDDR6')
+
+      addGpu({
+        manufacturer: 'NVIDIA',
+        gpuline: 'GeForce',
+        model: 'GT 210',
+        cores: 16,
+        tmus: 8,
+        rops: 4,
+        vram: 0.512,
+        bus: 64,
+        memtype: 'DDR3',
+        baseclock: 520,
+        boostclock: 520,
+        memclock: 0.8
+      })
+
+      showGPUData('NVIDIA GeForce GT 210')
+      cy.get('.gpu-data-table thead tr th').should('contain', 'NVIDIA GeForce GT 210')
+      checkRowData('VRAM', '512MB DDR3')
+    })
   })
 
   describe('the show all data button works', function() {

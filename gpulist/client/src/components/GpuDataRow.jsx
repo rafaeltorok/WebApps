@@ -1,5 +1,4 @@
-import PropTypes from 'prop-types';
-
+import PropTypes from "prop-types";
 
 export default function GpuDataRow({ header, data, headerClass }) {
   return (
@@ -15,5 +14,5 @@ GpuDataRow.displayName = "GpuDataRow";
 GpuDataRow.propTypes = {
   header: PropTypes.string.isRequired,
   data: PropTypes.string.isRequired,
-  headerClass: PropTypes.string.isRequired
+  headerClass: PropTypes.string.isRequired,
 };

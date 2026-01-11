@@ -1,43 +1,38 @@
-import { useState, useEffect } from 'react';
-import Gpu from './components/Gpu';
-import AddGpuForm from './components/AddGpuForm';
-import PageIndex from './components/PageIndex';
-import SearchBar from './components/SearchBar';
-import gpuService from './services/gpus';
-import './styles/App.css';
-
+import { useState, useEffect } from "react";
+import Gpu from "./components/Gpu";
+import AddGpuForm from "./components/AddGpuForm";
+import PageIndex from "./components/PageIndex";
+import SearchBar from "./components/SearchBar";
+import gpuService from "./services/gpus";
+import "./styles/App.css";
 
 function App() {
   const [gpus, setGpus] = useState([]);
   const [showAll, setShowAll] = useState(false); // Controls the visibility of all tables
-  const [searchGpu, setSearchGpu] = useState('');
+  const [searchGpu, setSearchGpu] = useState("");
   const [gpusFound, setGpusFound] = useState([]);
   const [showAddForm, setShowAddForm] = useState(false); // Controls the visibility of the Add GPU form
 
   useEffect(() => {
-    gpuService
-      .getAll()
-      .then(initialGpuList => {
-        setGpus(initialGpuList)
-      });
+    gpuService.getAll().then((initialGpuList) => {
+      setGpus(initialGpuList);
+    });
   }, []);
 
   // Debounce search input
   useEffect(() => {
     const handler = setTimeout(() => {
       if (searchGpu) {
-        const filteredGpus = (
-          gpus.filter(
-            g => (
-              g.manufacturer.toLowerCase() + 
-              g.gpuline.toLowerCase() + 
-              g.model.toLowerCase()
-            ).includes(searchGpu.toLowerCase())
-          )
-        )
-        setGpusFound(filteredGpus)
+        const filteredGpus = gpus.filter((g) =>
+          (
+            g.manufacturer.toLowerCase() +
+            g.gpuline.toLowerCase() +
+            g.model.toLowerCase()
+          ).includes(searchGpu.toLowerCase()),
+        );
+        setGpusFound(filteredGpus);
       } else {
-        setGpusFound([])
+        setGpusFound([]);
       }
     }, 300);
 
@@ -50,20 +45,20 @@ function App() {
 
   const addGpu = (gpu) => {
     if (
-        gpu.manufacturer.trim() === '' ||
-        gpu.model.trim() === '' ||
-        Number(gpu.cores.trim()) < 1 ||
-        Number(gpu.tmus.trim()) < 1 ||
-        Number(gpu.rops.trim()) < 1 ||
-        Number(gpu.vram.trim()) < 0.02 ||
-        Number(gpu.bus.trim()) < 1 ||
-        gpu.memtype.trim() === '' ||
-        Number(gpu.baseclock.trim()) < 1 ||
-        Number(gpu.boostclock.trim()) < 1 ||
-        Number(gpu.memclock.trim()) < 1
-      ) {
+      gpu.manufacturer.trim() === "" ||
+      gpu.model.trim() === "" ||
+      Number(gpu.cores.trim()) < 1 ||
+      Number(gpu.tmus.trim()) < 1 ||
+      Number(gpu.rops.trim()) < 1 ||
+      Number(gpu.vram.trim()) < 0.016 ||
+      Number(gpu.bus.trim()) < 1 ||
+      gpu.memtype.trim() === "" ||
+      Number(gpu.baseclock.trim()) < 1 ||
+      Number(gpu.boostclock.trim()) < 1 ||
+      Number(gpu.memclock.trim()) < 0.1
+    ) {
       alert("Invalid GPU data");
-      return;
+      return false;
     }
 
     gpuService
@@ -78,49 +73,58 @@ function App() {
         bus: gpu.bus === "" ? null : Number(gpu.bus.trim()),
         memtype: gpu.memtype.trim(),
         baseclock: gpu.baseclock === "" ? null : Number(gpu.baseclock.trim()),
-        boostclock: gpu.boostclock === "" ? null : Number(gpu.boostclock.trim()),
+        boostclock:
+          gpu.boostclock === "" ? null : Number(gpu.boostclock.trim()),
         memclock: gpu.memclock === "" ? null : Number(gpu.memclock.trim()),
       })
-      .then(returnedObject => {
-        setGpus((prevGpus) => [...prevGpus, returnedObject]) // Functional update for state
-        console.log("GPU Specs Submitted:", returnedObject)
-        alert(`${returnedObject.manufacturer} ${returnedObject.gpuline} ${returnedObject.model} was added!`)
+      .then((returnedObject) => {
+        setGpus((prevGpus) => [...prevGpus, returnedObject]); // Functional update for state
+        console.log("GPU Specs Submitted:", returnedObject);
+        alert(
+          `${returnedObject.manufacturer} ${returnedObject.gpuline} ${returnedObject.model} was added!`,
+        );
         setShowAddForm(false);
       })
-      .catch (exception => {
-        alert("Failed to add new GPU")
-        console.error("Error adding new GPU:", exception)
+      .catch((exception) => {
+        alert("Failed to add new GPU");
+        console.error("Error adding new GPU:", exception);
       });
-  }
+
+    // Confirms the GPU was added, so the AddGpuForm component can clear the form data
+    return true;
+  };
 
   const deleteGpu = (id, manufacturer, gpuline, model) => {
-    const confirmDeletion = window.confirm(`Remove ${manufacturer} ${gpuline} ${model} from the list?`);
+    const confirmDeletion = window.confirm(
+      `Remove ${manufacturer} ${gpuline} ${model} from the list?`,
+    );
 
     if (confirmDeletion) {
-      gpuService.remove(id)
-      .then(() => {
-        // Remove the GPU from the state
-        setGpus(gpus.filter(gpu => gpu.id !== id));
-      })
-      .catch(error => {
-        console.error('Error deleting GPU:', error);
-      });
+      gpuService
+        .remove(id)
+        .then(() => {
+          // Remove the GPU from the state
+          setGpus(gpus.filter((gpu) => gpu.id !== id));
+        })
+        .catch((error) => {
+          console.error("Error deleting GPU:", error);
+        });
     }
   };
-  
+
   function scrollToIndex(gpuTableId) {
-    const element = document.getElementById('add-gpu-form');
+    const element = document.getElementById("add-gpu-form");
     if (element) {
-      element.scrollIntoView({ behavior: 'smooth' });
+      element.scrollIntoView({ behavior: "smooth" });
 
       const gpuTable = document.getElementById(gpuTableId);
-      const hideButton = gpuTable.querySelector('.show-hide-button');
-      const showAllButton = document.getElementById('show-all-button');
-      
+      const hideButton = gpuTable.querySelector(".show-hide-button");
+      const showAllButton = document.getElementById("show-all-button");
+
       if (
-        hideButton && 
-        hideButton.textContent === 'Hide' && 
-        showAllButton.textContent === 'Show all data'
+        hideButton &&
+        hideButton.textContent === "Hide" &&
+        showAllButton.textContent === "Show all data"
       ) {
         hideButton.click();
       }
@@ -131,17 +135,12 @@ function App() {
   const renderGpuList = (gpuList) => (
     <>
       <PageIndex gpusData={gpuList} />
-      <div 
-        id='show-all-button'
-        className='button-area'
-      >
-        <button
-          onClick={() => setShowAll((prev) => !prev)}
-        >
+      <div id="show-all-button" className="button-area">
+        <button onClick={() => setShowAll((prev) => !prev)}>
           {showAll ? "Hide all data" : "Show all data"}
         </button>
       </div>
-      {gpuList.map(gpu => (
+      {gpuList.map((gpu) => (
         <div key={gpu.id}>
           <Gpu
             gpu={gpu}
@@ -150,11 +149,15 @@ function App() {
             id={`${gpu.manufacturer.toLowerCase()}-${gpu.gpuline.toLowerCase()}-${gpu.model.toLowerCase()}`}
           />
           <button
-            className='back-to-index-button'
-            onClick={() => scrollToIndex(
-              `${gpu.manufacturer.toLowerCase()}-${gpu.gpuline.toLowerCase()}-${gpu.model.toLowerCase()}`
-            )}
-          >Back to Index</button>
+            className="back-to-index-button"
+            onClick={() =>
+              scrollToIndex(
+                `${gpu.manufacturer.toLowerCase()}-${gpu.gpuline.toLowerCase()}-${gpu.model.toLowerCase()}`,
+              )
+            }
+          >
+            Back to Index
+          </button>
         </div>
       ))}
     </>
@@ -163,8 +166,8 @@ function App() {
   return (
     <>
       <div>
-        <h1 id='main-page-title'>GPU List</h1>
-        <AddGpuForm 
+        <h1 id="main-page-title">GPU List</h1>
+        <AddGpuForm
           createGpu={addGpu}
           showAddForm={showAddForm}
           setShowAddForm={setShowAddForm}
@@ -175,9 +178,11 @@ function App() {
           setSearchGpu={setSearchGpu}
         />
         {searchGpu ? (
-          gpusFound.length > 0
-            ? renderGpuList(gpusFound)
-            : <div>No GPUs found</div>
+          gpusFound.length > 0 ? (
+            renderGpuList(gpusFound)
+          ) : (
+            <div>No GPUs found</div>
+          )
         ) : (
           renderGpuList(gpus)
         )}

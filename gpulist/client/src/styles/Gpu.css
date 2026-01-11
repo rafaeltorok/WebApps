@@ -7,10 +7,10 @@
   border-collapse: separate;
   border-spacing: 0; /* visually the same as collapse */
   border-radius: 1rem;
-  overflow: hidden;    /* ensures inner cells don’t “leak out” */
+  overflow: hidden; /* ensures inner cells don’t “leak out” */
 }
 
-.gpu-data-table th, 
+.gpu-data-table th,
 .gpu-data-table td {
   border: 0.1rem solid black;
   border-style: groove;

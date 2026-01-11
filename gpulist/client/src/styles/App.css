@@ -4,12 +4,12 @@
   margin: 0 auto;
   padding: 2rem;
   text-align: center;
-  font-family: 'digital-dreamers', 'sans-serif';
+  font-family: "digital-dreamers", "sans-serif";
 }
 
 @font-face {
-  font-family: 'digital-dreamers';
-  src: url('../fonts/DigitalDreamers-jy99.ttf') format('truetype');
+  font-family: "digital-dreamers";
+  src: url("../fonts/DigitalDreamers-jy99.ttf") format("truetype");
 }
 
 h1,
@@ -29,7 +29,7 @@ h1 {
 button {
   background-color: black;
   font-size: 1rem;
-  font-family: 'digital-dreamers';
+  font-family: "digital-dreamers";
   margin-top: 1rem;
   border-style: outset;
 }
@@ -37,7 +37,7 @@ button {
 button:active {
   background-color: black;
   font-size: 1rem;
-  font-family: 'digital-dreamers';
+  font-family: "digital-dreamers";
   margin-top: 1rem;
   color: #505050;
   border-style: inset;
@@ -82,7 +82,7 @@ button:focus {
     text-align: left; /* Centers label text */
     margin-bottom: 0.3rem; /* Adds spacing between label and input */
   }
-  
+
   #add-gpu-table input {
     display: block; /* Ensures inputs are also on their own line */
     width: 100%; /* Matches label width */

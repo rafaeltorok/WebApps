@@ -1,8 +1,14 @@
-import PropTypes from 'prop-types';
+import PropTypes from "prop-types";
 
-
-export default function FormRow ({ id, type, label, placeholder, value, onChange }) {
-  return(
+export default function FormRow({
+  id,
+  type,
+  label,
+  placeholder,
+  value,
+  onChange,
+}) {
+  return (
     <tr>
       <th>
         <label htmlFor={id}>{label}</label>
@@ -29,5 +35,5 @@ FormRow.propTypes = {
   label: PropTypes.string.isRequired,
   placeholder: PropTypes.string.isRequired,
   value: PropTypes.string.isRequired,
-  onChange: PropTypes.func.isRequired
+  onChange: PropTypes.func.isRequired,
 };

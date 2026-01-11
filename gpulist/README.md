@@ -189,34 +189,34 @@ Backend
 
 Production Build (Serving a static build of the Frontend)
   ```bash
-  cd ./server && docker build -f ./Dockerfile.prod -t gpulist
+  cd ./server && docker build -f ./Dockerfile.prod -t gpulist .
   ```
 
 #### Running the containers
-  - Main UI
-    ```bash
-    docker run -d --name gpulist-webapp-client --network gpulist_webapp-network -p 5173:80 gpulist-webapp-client
-    ```
-    
-  - Alternative UI
-    ```bash
-    docker run -d --name gpulist-webapp-alt-client --network gpulist_webapp-network -p 5174:80 gpulist-webapp-alt-client
-    ```
+- Main UI
+  ```bash
+  docker run -d --name gpulist-webapp-client --network gpulist_webapp-network -p 5173:80 gpulist-webapp-client
+  ```
+  
+- Alternative UI
+  ```bash
+  docker run -d --name gpulist-webapp-alt-client --network gpulist_webapp-network -p 5174:80 gpulist-webapp-alt-client
+  ```
 
-  - Backend Server
-    ```bash
-    docker run -d --env-file .env --name gpulist-webapp-server --network gpulist_webapp-network -p 3001:3001 -ti gpulist-webapp-server
-    ```
+- Backend Server
+  ```bash
+  docker run -d --env-file .env --name gpulist-webapp-server --network gpulist_webapp-network -p 3001:3001 -ti gpulist-webapp-server
+  ```
 
-  - Backend Server (Static production build of the Frontend)
-    ```bash
-    docker run --name gpulist -p 3001:3001 --env-file ./.env gpulist
-    ```
+- Backend Server (Static production build of the Frontend)
+  ```bash
+  docker run --name gpulist -p 3001:3001 --env-file ./.env gpulist
+  ```
 
 #### Access
-  - API → http://localhost:3001/api/gpus
-	- Main UI → http://localhost:5173
-	- Alternative UI → http://localhost:5174
+- API → http://localhost:3001/api/gpus
+- Main UI → http://localhost:5173
+- Alternative UI → http://localhost:5174
 
 
 ## End-to-End (E2E) Testing
