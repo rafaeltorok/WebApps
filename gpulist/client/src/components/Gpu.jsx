@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import PropTypes from "prop-types";
-import calculatePerformance from "../calculatePerformance.js";
+import calculatePerformance from "../utils/calculatePerformance.js";
 import GpuDataRow from "./GpuDataRow.jsx";
 import "../styles/Gpu.css";
 import "../styles/ManufacturerColors.css";
