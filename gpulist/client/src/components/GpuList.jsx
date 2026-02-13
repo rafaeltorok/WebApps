@@ -5,8 +5,7 @@ import GpuContext from "../GpuContext";
 import Gpu from "./Gpu.jsx";
 
 export default function GpuList() {
-  const { scrollToIndex, gpus, searchGpu, gpusFound } =
-    useContext(GpuContext);
+  const { scrollToIndex, gpus, searchGpu, gpusFound } = useContext(GpuContext);
 
   function renderGpuList(gpuList) {
     return (
