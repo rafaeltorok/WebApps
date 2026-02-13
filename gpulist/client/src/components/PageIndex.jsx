@@ -1,8 +1,10 @@
-import { useState } from "react";
-import PropTypes from "prop-types";
+import { useState, useContext } from "react";
+import GpuContext from "../GpuContext";
+
 import "../styles/PageIndex.css";
 
-export default function PageIndex({ gpusData }) {
+export default function PageIndex() {
+  const { gpus, searchGpu, gpusFound } = useContext(GpuContext);
   const [showIndex, setShowIndex] = useState(false); // Controls the visibility of the Add GPU form
 
   // Scroll to gpu when index item is clicked
@@ -17,6 +19,45 @@ export default function PageIndex({ gpusData }) {
     }
   };
 
+  function renderIndexItems(gpuList) {
+    return (
+      <>
+        {gpuList.map((gpu) => (
+          <li key={gpu.id}>
+            <button
+              className="index-item-button"
+              onClick={() =>
+                scrollToGpu(
+                  `${gpu.manufacturer.toLowerCase()}-${gpu.gpuline.toLowerCase()}-${gpu.model.toLowerCase()}`,
+                )
+              }
+            >
+              <span
+                className={
+                  gpu.manufacturer.toLowerCase() === "nvidia"
+                    ? "nvidia-model-header"
+                    : gpu.manufacturer.toLowerCase() === "amd"
+                      ? "amd-model-header"
+                      : gpu.manufacturer.toLowerCase() === "intel"
+                        ? "intel-model-header"
+                        : gpu.gpuline.toLowerCase() === "geforce"
+                          ? "nvidia-model-header"
+                          : gpu.gpuline.toLowerCase() === "radeon"
+                            ? "amd-model-header"
+                            : gpu.gpuline.toLowerCase() === "arc"
+                              ? "intel-model-header"
+                              : "model-header"
+                }
+              >
+                {gpu.manufacturer} {gpu.gpuline} {gpu.model}
+              </span>
+            </button>
+          </li>
+        ))}
+      </>
+    );
+  }
+
   return (
     <div id="page-index">
       <h2 className="page-index-title">
@@ -30,38 +71,7 @@ export default function PageIndex({ gpusData }) {
       </h2>
       {showIndex && (
         <ul className="page-index-list">
-          {gpusData.map((gpu) => (
-            <li key={gpu.id}>
-              <button
-                className="index-item-button"
-                onClick={() =>
-                  scrollToGpu(
-                    `${gpu.manufacturer.toLowerCase()}-${gpu.gpuline.toLowerCase()}-${gpu.model.toLowerCase()}`,
-                  )
-                }
-              >
-                <span
-                  className={
-                    gpu.manufacturer.toLowerCase() === "nvidia"
-                      ? "nvidia-model-header"
-                      : gpu.manufacturer.toLowerCase() === "amd"
-                        ? "amd-model-header"
-                        : gpu.manufacturer.toLowerCase() === "intel"
-                          ? "intel-model-header"
-                          : gpu.gpuline.toLowerCase() === "geforce"
-                            ? "nvidia-model-header"
-                            : gpu.gpuline.toLowerCase() === "radeon"
-                              ? "amd-model-header"
-                              : gpu.gpuline.toLowerCase() === "arc"
-                                ? "intel-model-header"
-                                : "model-header"
-                  }
-                >
-                  {gpu.manufacturer} {gpu.gpuline} {gpu.model}
-                </span>
-              </button>
-            </li>
-          ))}
+          {searchGpu ? renderIndexItems(gpusFound) : renderIndexItems(gpus)}
         </ul>
       )}
     </div>
@@ -69,7 +79,3 @@ export default function PageIndex({ gpusData }) {
 }
 
 PageIndex.displayName = "PageIndex";
-
-PageIndex.propTypes = {
-  gpusData: PropTypes.array.isRequired,
-};

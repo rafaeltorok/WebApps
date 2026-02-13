@@ -1,9 +1,12 @@
-import { useState } from "react";
+import { useState, useContext } from "react";
+
 import FormRow from "./FormRow";
-import PropTypes from "prop-types";
+import GpuContext from "../GpuContext";
+
 import "../styles/AddGpuForm.css";
 
-export default function AddGpuForm({ createGpu, showAddForm, setShowAddForm }) {
+export default function AddGpuForm() {
+  const { createGpu, showAddForm, setShowAddForm } = useContext(GpuContext);
   const [gpu, setGpu] = useState({
     manufacturer: "",
     gpuline: "",
@@ -21,8 +24,38 @@ export default function AddGpuForm({ createGpu, showAddForm, setShowAddForm }) {
 
   const addGpu = (event) => {
     event.preventDefault();
-    const response = createGpu(gpu);
-    console.log(response);
+
+    if (
+      gpu.manufacturer.trim() === "" ||
+      gpu.model.trim() === "" ||
+      Number(gpu.cores.trim()) < 1 ||
+      Number(gpu.tmus.trim()) < 1 ||
+      Number(gpu.rops.trim()) < 1 ||
+      Number(gpu.vram.trim()) < 0.016 ||
+      Number(gpu.bus.trim()) < 1 ||
+      gpu.memtype.trim() === "" ||
+      Number(gpu.baseclock.trim()) < 1 ||
+      Number(gpu.boostclock.trim()) < 1 ||
+      Number(gpu.memclock.trim()) < 0.1
+    ) {
+      alert("Invalid GPU data");
+      return false;
+    }
+
+    const response = createGpu({
+      manufacturer: gpu.manufacturer.trim(),
+      gpuline: gpu.gpuline.trim(),
+      model: gpu.model.trim(),
+      cores: gpu.cores === "" ? null : Number(gpu.cores.trim()),
+      tmus: gpu.tmus === "" ? null : Number(gpu.tmus.trim()),
+      rops: gpu.rops === "" ? null : Number(gpu.rops.trim()),
+      vram: gpu.vram === "" ? null : Number(gpu.vram.trim()),
+      bus: gpu.bus === "" ? null : Number(gpu.bus.trim()),
+      memtype: gpu.memtype.trim(),
+      baseclock: gpu.baseclock === "" ? null : Number(gpu.baseclock.trim()),
+      boostclock: gpu.boostclock === "" ? null : Number(gpu.boostclock.trim()),
+      memclock: gpu.memclock === "" ? null : Number(gpu.memclock.trim()),
+    });
 
     if (response) {
       setGpu({
@@ -39,6 +72,7 @@ export default function AddGpuForm({ createGpu, showAddForm, setShowAddForm }) {
         boostclock: "",
         memclock: "",
       });
+      setShowAddForm(false);
     }
   };
 
@@ -175,9 +209,3 @@ export default function AddGpuForm({ createGpu, showAddForm, setShowAddForm }) {
 }
 
 AddGpuForm.displayName = "AddGpuForm";
-
-AddGpuForm.propTypes = {
-  createGpu: PropTypes.func.isRequired,
-  showAddForm: PropTypes.bool.isRequired,
-  setShowAddForm: PropTypes.func.isRequired,
-};

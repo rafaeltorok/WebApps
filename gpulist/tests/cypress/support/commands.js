@@ -25,8 +25,9 @@
 // Cypress.Commands.overwrite('visit', (originalFn, url, options) => { ... })
 //
 // Creates a new GPU object
-Cypress.Commands.add('createGpu', (
-  { 
+Cypress.Commands.add(
+  "createGpu",
+  ({
     manufacturer,
     gpuline,
     model,
@@ -38,27 +39,27 @@ Cypress.Commands.add('createGpu', (
     memtype,
     baseclock,
     boostclock,
-    memclock
-  }
-) => {
-  cy.request({
-    url: 'http://localhost:3001/api/gpus',
-    method: 'POST',
-    body: { 
-      manufacturer,
-      gpuline,
-      model,
-      cores,
-      tmus,
-      rops,
-      vram,
-      bus,
-      memtype,
-      baseclock,
-      boostclock,
-      memclock
-    }
-  })
+    memclock,
+  }) => {
+    cy.request({
+      url: "http://localhost:3001/api/gpus",
+      method: "POST",
+      body: {
+        manufacturer,
+        gpuline,
+        model,
+        cores,
+        tmus,
+        rops,
+        vram,
+        bus,
+        memtype,
+        baseclock,
+        boostclock,
+        memclock,
+      },
+    });
 
-  cy.visit('http://localhost:5173')
-})
+    cy.visit("http://localhost:5173");
+  },
+);

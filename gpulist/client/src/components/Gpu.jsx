@@ -1,13 +1,18 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useContext } from "react";
 import PropTypes from "prop-types";
+
 import calculatePerformance from "../utils/calculatePerformance.js";
+import GpuContext from "../GpuContext.js";
+
 import GpuDataRow from "./GpuDataRow.jsx";
+
 import "../styles/Gpu.css";
 import "../styles/ManufacturerColors.css";
 
-export default function Gpu({ gpu, onDelete, showAll }) {
-  const gpuPerformance = calculatePerformance(gpu);
+export default function Gpu({ gpu }) {
   const [showBody, setShowBody] = useState(false);
+  const { deleteGpu, showAll } = useContext(GpuContext);
+  const gpuPerformance = calculatePerformance(gpu);
   const vramToDisplay = gpu.vram < 1 ? `${gpu.vram * 1000}MB` : `${gpu.vram}GB`;
 
   // Sync individual state with global "Show All" toggle
@@ -158,7 +163,7 @@ export default function Gpu({ gpu, onDelete, showAll }) {
                 <button
                   aria-label={`Delete ${gpu.manufacturer} ${gpu.gpuline} ${gpu.model}`}
                   onClick={() =>
-                    onDelete(gpu.id, gpu.manufacturer, gpu.gpuline, gpu.model)
+                    deleteGpu(gpu.id, gpu.manufacturer, gpu.gpuline, gpu.model)
                   }
                 >
                   Delete
@@ -190,6 +195,4 @@ Gpu.propTypes = {
     boostclock: PropTypes.number.isRequired,
     memclock: PropTypes.number.isRequired,
   }).isRequired,
-  onDelete: PropTypes.func.isRequired,
-  showAll: PropTypes.bool.isRequired,
 };

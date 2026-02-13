@@ -1,9 +1,12 @@
 import { useState, useEffect } from "react";
-import Gpu from "./components/Gpu";
+import gpuService from "./services/gpus";
+import GpuContext from "./GpuContext";
+
+import GpuList from "./components/GpuList";
 import AddGpuForm from "./components/AddGpuForm";
 import PageIndex from "./components/PageIndex";
 import SearchBar from "./components/SearchBar";
-import gpuService from "./services/gpus";
+
 import "./styles/App.css";
 
 function App() {
@@ -45,60 +48,19 @@ function App() {
     return () => clearTimeout(handler);
   }, [searchGpu, gpus]);
 
-  const handleSearchGpu = (event) => {
-    setSearchGpu(event.target.value);
-  };
-
-  const addGpu = (gpu) => {
-    if (
-      gpu.manufacturer.trim() === "" ||
-      gpu.model.trim() === "" ||
-      Number(gpu.cores.trim()) < 1 ||
-      Number(gpu.tmus.trim()) < 1 ||
-      Number(gpu.rops.trim()) < 1 ||
-      Number(gpu.vram.trim()) < 0.016 ||
-      Number(gpu.bus.trim()) < 1 ||
-      gpu.memtype.trim() === "" ||
-      Number(gpu.baseclock.trim()) < 1 ||
-      Number(gpu.boostclock.trim()) < 1 ||
-      Number(gpu.memclock.trim()) < 0.1
-    ) {
-      alert("Invalid GPU data");
-      return false;
+  async function createGpu(newGpu) {
+    try {
+      const gpu = await gpuService.create(newGpu);
+      setGpus([...gpus, gpu]);
+      console.log("GPU Specs Submitted:", gpu);
+      alert(`${gpu.manufacturer} ${gpu.gpuline} ${gpu.model} was added!`);
+    } catch (err) {
+      console.error("Error adding new GPU:", err);
     }
-
-    gpuService
-      .create({
-        manufacturer: gpu.manufacturer.trim(),
-        gpuline: gpu.gpuline.trim(),
-        model: gpu.model.trim(),
-        cores: gpu.cores === "" ? null : Number(gpu.cores.trim()),
-        tmus: gpu.tmus === "" ? null : Number(gpu.tmus.trim()),
-        rops: gpu.rops === "" ? null : Number(gpu.rops.trim()),
-        vram: gpu.vram === "" ? null : Number(gpu.vram.trim()),
-        bus: gpu.bus === "" ? null : Number(gpu.bus.trim()),
-        memtype: gpu.memtype.trim(),
-        baseclock: gpu.baseclock === "" ? null : Number(gpu.baseclock.trim()),
-        boostclock:
-          gpu.boostclock === "" ? null : Number(gpu.boostclock.trim()),
-        memclock: gpu.memclock === "" ? null : Number(gpu.memclock.trim()),
-      })
-      .then((returnedObject) => {
-        setGpus((prevGpus) => [...prevGpus, returnedObject]); // Functional update for state
-        console.log("GPU Specs Submitted:", returnedObject);
-        alert(
-          `${returnedObject.manufacturer} ${returnedObject.gpuline} ${returnedObject.model} was added!`,
-        );
-        setShowAddForm(false);
-      })
-      .catch((exception) => {
-        alert("Failed to add new GPU");
-        console.error("Error adding new GPU:", exception);
-      });
 
     // Confirms the GPU was added, so the AddGpuForm component can clear the form data
     return true;
-  };
+  }
 
   const deleteGpu = (id, manufacturer, gpuline, model) => {
     const confirmDeletion = window.confirm(
@@ -137,63 +99,37 @@ function App() {
     }
   }
 
-  // Helper to render GPU list and index
-  const renderGpuList = (gpuList) => (
-    <>
-      <PageIndex gpusData={gpuList} />
-      <div id="show-all-button" className="button-area">
-        <button onClick={() => setShowAll((prev) => !prev)}>
-          {showAll ? "Hide all data" : "Show all data"}
-        </button>
-      </div>
-      {gpuList.map((gpu) => (
-        <div key={gpu.id}>
-          <Gpu
-            gpu={gpu}
-            onDelete={deleteGpu}
-            showAll={showAll}
-            id={`${gpu.manufacturer.toLowerCase()}-${gpu.gpuline.toLowerCase()}-${gpu.model.toLowerCase()}`}
-          />
-          <button
-            className="back-to-index-button"
-            onClick={() =>
-              scrollToIndex(
-                `${gpu.manufacturer.toLowerCase()}-${gpu.gpuline.toLowerCase()}-${gpu.model.toLowerCase()}`,
-              )
-            }
-          >
-            Back to Index
-          </button>
-        </div>
-      ))}
-    </>
-  );
-
   return (
-    <>
+    <GpuContext.Provider
+      value={{
+        gpus,
+        setGpus,
+        showAll,
+        setShowAll,
+        searchGpu,
+        setSearchGpu,
+        gpusFound,
+        setGpusFound,
+        showAddForm,
+        setShowAddForm,
+        scrollToIndex,
+        createGpu,
+        deleteGpu,
+      }}
+    >
       <div>
         <h1 id="main-page-title">GPU List</h1>
-        <AddGpuForm
-          createGpu={addGpu}
-          showAddForm={showAddForm}
-          setShowAddForm={setShowAddForm}
-        />
-        <SearchBar
-          handleSearchGpu={handleSearchGpu}
-          searchGpu={searchGpu}
-          setSearchGpu={setSearchGpu}
-        />
-        {searchGpu ? (
-          gpusFound.length > 0 ? (
-            renderGpuList(gpusFound)
-          ) : (
-            <div>No GPUs found</div>
-          )
-        ) : (
-          renderGpuList(gpus)
-        )}
+        <AddGpuForm />
+        <SearchBar />
+        <PageIndex />
+        <div id="show-all-button" className="button-area">
+          <button onClick={() => setShowAll((prev) => !prev)}>
+            {showAll ? "Hide all data" : "Show all data"}
+          </button>
+        </div>
+        <GpuList />
       </div>
-    </>
+    </GpuContext.Provider>
   );
 }
 
