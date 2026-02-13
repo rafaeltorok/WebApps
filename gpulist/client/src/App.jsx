@@ -62,21 +62,18 @@ function App() {
     return true;
   }
 
-  const deleteGpu = (id, manufacturer, gpuline, model) => {
+  async function deleteGpu(id, manufacturer, gpuline, model) {
     const confirmDeletion = window.confirm(
       `Remove ${manufacturer} ${gpuline} ${model} from the list?`,
     );
 
     if (confirmDeletion) {
-      gpuService
-        .remove(id)
-        .then(() => {
-          // Remove the GPU from the state
-          setGpus(gpus.filter((gpu) => gpu.id !== id));
-        })
-        .catch((error) => {
-          console.error("Error deleting GPU:", error);
-        });
+      try {
+        await gpuService.remove(id);
+        setGpus(gpus.filter((gpu) => gpu.id !== id));
+      } catch (err) {
+        console.error("Error deleting GPU:", err);
+      }
     }
   };
 
