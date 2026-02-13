@@ -5,7 +5,7 @@ import GpuContext from "../GpuContext";
 import Gpu from "./Gpu.jsx";
 
 export default function GpuList() {
-  const { scrollToIndex, deleteGpu, gpus, searchGpu, gpusFound } =
+  const { scrollToIndex, gpus, searchGpu, gpusFound } =
     useContext(GpuContext);
 
   function renderGpuList(gpuList) {
@@ -15,8 +15,6 @@ export default function GpuList() {
           <div key={gpu.id}>
             <Gpu
               gpu={gpu}
-              onDelete={deleteGpu}
-              id={`${gpu.manufacturer.toLowerCase()}-${gpu.gpuline.toLowerCase()}-${gpu.model.toLowerCase()}`}
             />
             <button
               className="back-to-index-button"
