@@ -14,9 +14,15 @@ function App() {
   const [showAddForm, setShowAddForm] = useState(false); // Controls the visibility of the Add GPU form
 
   useEffect(() => {
-    gpuService.getAll().then((initialGpuList) => {
-      setGpus(initialGpuList);
-    });
+    async function getData() {
+      try {
+        const data = await gpuService.getAll();
+        setGpus(data);
+      } catch (err) {
+        console.error("Failed to fetch GPUs data:", err);
+      }
+    }
+    getData();
   }, []);
 
   // Debounce search input
