@@ -33,9 +33,10 @@ Single Page Application to store all of your graphics cards data, including the 
 
   <img src="../github/screenshots/gpulist_main-ui.png" alt="GPU List app main UI" width="300"/>
 
-- Alternative UI (Beta)
+- Alternative UI
 
   <img src="../github/screenshots/gpulist_alt-ui.png" alt="GPU List app alternative UI" width="500"/>
+  <img src="../github/screenshots/gpulist_alt-ui_card-view.png" alt="GPU List app alternative UI card info" width="500"/>
 
 
 ## Prerequisites
@@ -59,7 +60,7 @@ Alternative UI (Optional)
 
 Vite auto-selects ports: 
   - Main UI → http://localhost:5173
-  - Alternative UI → http://localhost:5174
+  - Alternative UI → http://localhost:5174/alt/
 
 ### Backend
 Development mode (hot reload with Nodemon)
@@ -70,12 +71,12 @@ Development mode (hot reload with Nodemon)
 Production mode
   - Build frontend
     ```bash
-    cd ./gpulist/client && npm run build && cp -r ./dist ../server
+    cd ./gpulist/client && npm run build && cp -r ./dist/* ../server/dist/man-client
     ```
 
   - Or Alternative UI
     ```bash
-    cd ./gpulist/alternate-client && npm run build && cp -r ./dist ../server
+    cd ./gpulist/alternate-client && npm run build && cp -r ./dist/* ../server/dist/alt-client
     ```
 
   - Start the backend server
@@ -83,7 +84,7 @@ Production mode
     npm run start
     ```
 
-  - Access the frontend via the backend URL → http://localhost:3001
+  - Access the frontend via the backend URL → http://localhost:3001 or http://localhost:3001/alt/
 
 
 ## Navigating the UI
@@ -162,7 +163,7 @@ Delete
 ## Running the web app with Docker
 ### Docker Compose
   ```bash
-  cd ./gpulist && docker-compose up -d
+  cd ./gpulist && docker compose up -d
   ```
 
 ### Docker containers
@@ -187,9 +188,9 @@ Backend
   docker build -t gpulist-webapp-server ./server
   ```
 
-Production Build (Serving a static build of the Frontend)
+Production Build (Serving a static build for each frontend)
   ```bash
-  cd ./server && docker build -f ./Dockerfile.prod -t gpulist .
+  cd ./server && docker build -f ./Dockerfile.prod -t rafaeltorok/gpulist:latest .
   ```
 
 #### Running the containers
@@ -208,15 +209,20 @@ Production Build (Serving a static build of the Frontend)
   docker run -d --env-file .env --name gpulist-webapp-server --network gpulist_webapp-network -p 3001:3001 -ti gpulist-webapp-server
   ```
 
-- Backend Server (Static production build of the Frontend)
+- Backend Server (Static production build of each Frontend)
   ```bash
-  docker run --name gpulist -p 3001:3001 --env-file ./.env gpulist
+  docker run --name gpulist -p 3001:3001 --env-file ./.env rafaeltorok/gpulist:latest
   ```
 
-#### Access
+#### Compose access
 - API → http://localhost:3001/api/gpus
 - Main UI → http://localhost:5173
-- Alternative UI → http://localhost:5174
+- Alternative UI → http://localhost:5174/alt/
+
+#### Static production build
+- API → http://localhost:3001/api/gpus
+- Main UI → http://localhost:3001
+- Alternative UI → http://localhost:3001/alt/
 
 
 ## End-to-End (E2E) Testing
