@@ -1,11 +1,13 @@
-import { useState, useContext } from "react";
+import { useContext } from "react";
 import GpuContext from "../GpuContext";
 
 import "../styles/PageIndex.css";
 
 export default function PageIndex() {
-  const { gpus, searchGpu, gpusFound } = useContext(GpuContext);
-  const [showIndex, setShowIndex] = useState(false); // Controls the visibility of the Add GPU form
+  const {
+    state: { gpus, searchGpu, gpusFound, showIndex },
+    dispatch,
+  } = useContext(GpuContext);
 
   // Scroll to gpu when index item is clicked
   const scrollToGpu = (id) => {
@@ -64,7 +66,11 @@ export default function PageIndex() {
         <button
           id="show-index-button"
           type="button"
-          onClick={() => setShowIndex((prev) => !prev)}
+          onClick={() =>
+            dispatch({
+              type: "TOGGLE_INDEX",
+            })
+          }
         >
           {showIndex ? "Hide index" : "Show index"}
         </button>

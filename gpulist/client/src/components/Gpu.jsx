@@ -11,7 +11,10 @@ import "../styles/ManufacturerColors.css";
 
 export default function Gpu({ gpu }) {
   const [showBody, setShowBody] = useState(false);
-  const { deleteGpu, showAll } = useContext(GpuContext);
+  const {
+    deleteGpu,
+    state: { showAll },
+  } = useContext(GpuContext);
   const gpuPerformance = calculatePerformance(gpu);
   const vramToDisplay = gpu.vram < 1 ? `${gpu.vram * 1000}MB` : `${gpu.vram}GB`;
 
@@ -65,7 +68,7 @@ export default function Gpu({ gpu }) {
       {showBody && (
         <>
           <tbody
-            id={`${gpu.id}-clocks`}
+            id={`${gpu.id}-specs`}
             aria-labelledby={`${gpu.id}-specs-heading`}
           >
             <tr>
@@ -127,7 +130,7 @@ export default function Gpu({ gpu }) {
           </tbody>
 
           <tbody
-            id={`${gpu.id}-clocks`}
+            id={`${gpu.id}-performance`}
             aria-labelledby={`${gpu.id}-performance-heading`}
           >
             <tr>

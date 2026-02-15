@@ -1,6 +1,7 @@
-import { useState, useEffect } from "react";
+import { useEffect, useReducer } from "react";
 import gpuService from "./services/gpus";
 import GpuContext from "./GpuContext";
+import gpuReducer from "./reducers/gpuReducer";
 
 import GpuList from "./components/GpuList";
 import AddGpuForm from "./components/AddGpuForm";
@@ -10,18 +11,28 @@ import SearchBar from "./components/SearchBar";
 import "./styles/App.css";
 
 function App() {
-  const [gpus, setGpus] = useState([]);
-  const [showAll, setShowAll] = useState(false); // Controls the visibility of all tables
-  const [searchGpu, setSearchGpu] = useState("");
-  const [gpusFound, setGpusFound] = useState([]);
-  const [showAddForm, setShowAddForm] = useState(false); // Controls the visibility of the Add GPU form
+  const [state, dispatch] = useReducer(gpuReducer, {
+    gpus: [],
+    searchGpu: "",
+    gpusFound: [],
+    showAll: false,
+    showAddForm: false,
+    showSearch: false,
+    showIndex: false,
+    onLoading: false,
+    onError: false,
+  });
 
   useEffect(() => {
     async function getData() {
       try {
+        dispatch({ type: "FETCH_LOADING", payload: true }); // Sets loading data message on screen
         const data = await gpuService.getAll();
-        setGpus(data);
+        dispatch({ type: "SET_GPUS", payload: data });
+        dispatch({ type: "FETCH_LOADING", payload: false }); // After data is retrieved, remove the loading message
       } catch (err) {
+        dispatch({ type: "FETCH_ERROR", payload: true });
+        dispatch({ type: "FETCH_LOADING", payload: false });
         console.error("Failed to fetch GPUs data:", err);
       }
     }
@@ -31,27 +42,36 @@ function App() {
   // Debounce search input
   useEffect(() => {
     const handler = setTimeout(() => {
-      if (searchGpu) {
-        const filteredGpus = gpus.filter((g) =>
+      if (state.searchGpu) {
+        const filteredGpus = state.gpus.filter((g) =>
           (
             g.manufacturer.toLowerCase() +
             g.gpuline.toLowerCase() +
             g.model.toLowerCase()
-          ).includes(searchGpu.toLowerCase()),
+          ).includes(state.searchGpu.toLowerCase()),
         );
-        setGpusFound(filteredGpus);
+        dispatch({
+          type: "SET_FOUND",
+          payload: filteredGpus,
+        });
       } else {
-        setGpusFound([]);
+        dispatch({
+          type: "SET_FOUND",
+          payload: [],
+        });
       }
     }, 300);
 
     return () => clearTimeout(handler);
-  }, [searchGpu, gpus]);
+  }, [state.searchGpu, state.gpus]);
 
   async function createGpu(newGpu) {
     try {
       const gpu = await gpuService.create(newGpu);
-      setGpus([...gpus, gpu]);
+      dispatch({
+        type: "ADD_GPU",
+        payload: gpu,
+      });
       console.log("GPU Specs Submitted:", gpu);
       alert(`${gpu.manufacturer} ${gpu.gpuline} ${gpu.model} was added!`);
     } catch (err) {
@@ -70,48 +90,27 @@ function App() {
     if (confirmDeletion) {
       try {
         await gpuService.remove(id);
-        setGpus(gpus.filter((gpu) => gpu.id !== id));
+        dispatch({
+          type: "SET_GPUS",
+          payload: state.gpus.filter((gpu) => gpu.id !== id),
+        });
       } catch (err) {
         console.error("Error deleting GPU:", err);
       }
     }
-  };
-
-  function scrollToIndex(gpuTableId) {
-    const element = document.getElementById("add-gpu-form");
-    if (element) {
-      element.scrollIntoView({ behavior: "smooth" });
-
-      const gpuTable = document.getElementById(gpuTableId);
-      const hideButton = gpuTable.querySelector(".show-hide-button");
-      const showAllButton = document.getElementById("show-all-button");
-
-      if (
-        hideButton &&
-        hideButton.textContent === "Hide" &&
-        showAllButton.textContent === "Show all data"
-      ) {
-        hideButton.click();
-      }
-    }
   }
+
+  if (state.onLoading) return <h2>Loading GPU data, please wait...</h2>;
+
+  if (state.onError) return <h2>Failed to retrieve GPU data</h2>;
 
   return (
     <GpuContext.Provider
       value={{
-        gpus,
-        setGpus,
-        showAll,
-        setShowAll,
-        searchGpu,
-        setSearchGpu,
-        gpusFound,
-        setGpusFound,
-        showAddForm,
-        setShowAddForm,
-        scrollToIndex,
         createGpu,
         deleteGpu,
+        state,
+        dispatch,
       }}
     >
       <div>
@@ -120,8 +119,14 @@ function App() {
         <SearchBar />
         <PageIndex />
         <div id="show-all-button" className="button-area">
-          <button onClick={() => setShowAll((prev) => !prev)}>
-            {showAll ? "Hide all data" : "Show all data"}
+          <button
+            onClick={() =>
+              dispatch({
+                type: "TOGGLE_SHOW_ALL",
+              })
+            }
+          >
+            {state.showAll ? "Hide all data" : "Show all data"}
           </button>
         </div>
         <GpuList />

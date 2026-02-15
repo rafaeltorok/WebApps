@@ -1,32 +1,44 @@
-import { useState, useEffect, useContext } from "react";
+import { useEffect, useContext } from "react";
 import GpuContext from "../GpuContext";
 
 import "../styles/SearchBar.css";
 
 export default function SearchBar() {
-  const [showSearchBar, setShowSearchBar] = useState(false);
-  const { searchGpu, setSearchGpu } = useContext(GpuContext);
+  const {
+    state: { showSearch, searchGpu },
+    dispatch,
+  } = useContext(GpuContext);
 
   const handleSearch = (event) => {
-    setSearchGpu(event.target.value);
+    dispatch({
+      type: "SET_SEARCH",
+      payload: event.target.value,
+    });
   };
 
   useEffect(() => {
-    if (!showSearchBar) {
-      setSearchGpu("");
+    if (!showSearch) {
+      dispatch({
+        type: "SET_SEARCH",
+        payload: "",
+      });
     }
-  }, [showSearchBar, setSearchGpu]);
+  }, [showSearch, dispatch]);
 
   return (
     <div id="search-bar-field">
       <button
         id="show-search-button"
         type="button"
-        onClick={() => setShowSearchBar((prev) => !prev)}
+        onClick={() =>
+          dispatch({
+            type: "TOGGLE_SEARCH",
+          })
+        }
       >
-        {showSearchBar ? "Cancel" : "Search"}
+        {showSearch ? "Cancel" : "Search"}
       </button>
-      {showSearchBar && (
+      {showSearch && (
         <form>
           <input
             type="text"

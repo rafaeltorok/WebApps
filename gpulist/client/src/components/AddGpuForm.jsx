@@ -6,7 +6,12 @@ import GpuContext from "../GpuContext";
 import "../styles/AddGpuForm.css";
 
 export default function AddGpuForm() {
-  const { createGpu, showAddForm, setShowAddForm } = useContext(GpuContext);
+  const {
+    createGpu,
+    state: { showAddForm },
+    dispatch,
+  } = useContext(GpuContext);
+
   const [gpu, setGpu] = useState({
     manufacturer: "",
     gpuline: "",
@@ -72,7 +77,9 @@ export default function AddGpuForm() {
         boostclock: "",
         memclock: "",
       });
-      setShowAddForm(false);
+      dispatch({
+        type: "TOGGLE_ADD_FORM",
+      });
     }
   };
 
@@ -86,7 +93,11 @@ export default function AddGpuForm() {
                 <button
                   id="add-gpu-button"
                   type="button"
-                  onClick={() => setShowAddForm((prev) => !prev)}
+                  onClick={() =>
+                    dispatch({
+                      type: "TOGGLE_ADD_FORM",
+                    })
+                  }
                 >
                   {showAddForm ? "Cancel" : "Add Graphics Card"}
                 </button>
