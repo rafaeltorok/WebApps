@@ -22,11 +22,11 @@
 }
 
 .gpu-detail-card.amd {
-  border-color: #ED1C24;
+  border-color: #ed1c24;
 }
 
 .gpu-detail-card.intel {
-  border-color: #0068B5;
+  border-color: #0068b5;
 }
 
 .gpu-detail-header {
@@ -46,11 +46,11 @@
 }
 
 .gpu-detail-card.amd .gpu-detail-header h1 {
-  color: #ED1C24;
+  color: #ed1c24;
 }
 
 .gpu-detail-card.intel .gpu-detail-header h1 {
-  color: #0068B5;
+  color: #0068b5;
 }
 
 .back-button {
@@ -110,11 +110,11 @@
 }
 
 .gpu-detail-card.amd .spec-value {
-  color: #ED1C24;
+  color: #ed1c24;
 }
 
 .gpu-detail-card.intel .spec-value {
-  color: #0068B5;
+  color: #0068b5;
 }
 
 .gpu-detail-actions {

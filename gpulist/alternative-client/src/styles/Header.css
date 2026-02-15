@@ -11,7 +11,7 @@
 .header-logo h1 {
   margin: 0;
   font-size: 4.5rem;
-  background: linear-gradient(90deg, #76b900, #ED1C24, #0068B5);
+  background: linear-gradient(90deg, #76b900, #ed1c24, #0068b5);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   text-align: center; /* Ensure the title is centered */

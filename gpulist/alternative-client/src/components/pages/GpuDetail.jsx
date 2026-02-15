@@ -1,53 +1,49 @@
-import { useParams, useNavigate } from 'react-router-dom'
-import PropTypes from 'prop-types'
+import { useParams, useNavigate } from "react-router-dom";
+import PropTypes from "prop-types";
 
-import getBrand from '../../utils/getBrand'
-import calculatePerformance from '../../utils/calculatePerformance'
+import getBrand from "../../utils/getBrand";
+import calculatePerformance from "../../utils/calculatePerformance";
 
-import '../../styles/GpuDetail.css'
+import "../../styles/GpuDetail.css";
 
 function GpuDetail({ gpus, onDelete }) {
-  const { id } = useParams()
-  const navigate = useNavigate()
-  
-  const gpu = gpus.find(gpu => gpu.id === id)
-  
+  const { id } = useParams();
+  const navigate = useNavigate();
+
+  const gpu = gpus.find((gpu) => gpu.id === id);
+
   if (!gpu) {
     return (
       <div className="gpu-detail-container">
         <div className="gpu-detail-card">
           <h2>GPU Not Found</h2>
-          <button 
-            className="back-button"
-            onClick={() => navigate('/')}
-          >
+          <button className="back-button" onClick={() => navigate("/")}>
             Back to Catalog
           </button>
         </div>
       </div>
-    )
+    );
   }
-  
-  const gpuPerformance = calculatePerformance(gpu)
-  
+
+  const gpuPerformance = calculatePerformance(gpu);
+
   const handleDelete = () => {
-    onDelete(gpu.id, gpu.manufacturer, gpu.gpuline, gpu.model)
-    navigate('/')
-  }
-  
+    onDelete(gpu.id, gpu.manufacturer, gpu.gpuline, gpu.model);
+    navigate("/");
+  };
+
   return (
     <div className="gpu-detail-container">
       <div className={`gpu-detail-card ${getBrand(gpu)}`}>
         <div className="gpu-detail-header">
-          <button 
-            className="back-button"
-            onClick={() => navigate('/')}
-          >
+          <button className="back-button" onClick={() => navigate("/")}>
             ⬅ Back to Catalog
           </button>
-          <h1>{gpu.manufacturer} {gpu.gpuline} {gpu.model}</h1>
+          <h1>
+            {gpu.manufacturer} {gpu.gpuline} {gpu.model}
+          </h1>
         </div>
-        
+
         <div className="gpu-detail-content">
           <div className="gpu-detail-section">
             <h2>Specifications</h2>
@@ -66,7 +62,9 @@ function GpuDetail({ gpus, onDelete }) {
               </div>
               <div className="spec-item">
                 <span className="spec-label">VRAM</span>
-                <span className="spec-value">{gpu.vram}GB {gpu.memtype}</span>
+                <span className="spec-value">
+                  {gpu.vram}GB {gpu.memtype}
+                </span>
               </div>
               <div className="spec-item">
                 <span className="spec-label">Bus Width</span>
@@ -74,7 +72,7 @@ function GpuDetail({ gpus, onDelete }) {
               </div>
             </div>
           </div>
-          
+
           <div className="gpu-detail-section">
             <h2>Clock Speeds</h2>
             <div className="specs-grid">
@@ -92,7 +90,7 @@ function GpuDetail({ gpus, onDelete }) {
               </div>
             </div>
           </div>
-          
+
           <div className="gpu-detail-section">
             <h2>Performance</h2>
             <div className="specs-grid">
@@ -115,23 +113,20 @@ function GpuDetail({ gpus, onDelete }) {
             </div>
           </div>
         </div>
-        
+
         <div className="gpu-detail-actions">
-          <button 
-            className="delete-button"
-            onClick={handleDelete}
-          >
+          <button className="delete-button" onClick={handleDelete}>
             Delete GPU
           </button>
         </div>
       </div>
     </div>
-  )
+  );
 }
 
 GpuDetail.propTypes = {
   gpus: PropTypes.array.isRequired,
-  onDelete: PropTypes.func.isRequired
-}
+  onDelete: PropTypes.func.isRequired,
+};
 
-export default GpuDetail
+export default GpuDetail;

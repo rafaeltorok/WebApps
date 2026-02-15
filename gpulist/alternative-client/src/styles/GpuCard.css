@@ -32,11 +32,11 @@
 }
 
 .gpu-card.amd {
-  border-color: #ED1C24;
+  border-color: #ed1c24;
 }
 
 .gpu-card.intel {
-  border-color: #0068B5;
+  border-color: #0068b5;
 }
 
 .gpu-card-header {
@@ -52,12 +52,12 @@
 
 .gpu-card.amd .gpu-card-header h2,
 .gpu-card.amd .gpu-card-header h3 {
-  color: #ED1C24;
+  color: #ed1c24;
 }
 
 .gpu-card.intel .gpu-card-header h2,
 .gpu-card.intel .gpu-card-header h3 {
-  color: #0068B5;
+  color: #0068b5;
 }
 
 .gpu-card-header h2 {
@@ -103,11 +103,11 @@
 }
 
 .gpu-card.amd .spec-value {
-  color: #ED1C24;
+  color: #ed1c24;
 }
 
 .gpu-card.intel .spec-value {
-  color: #0068B5;
+  color: #0068b5;
 }
 
 .gpu-card-footer {

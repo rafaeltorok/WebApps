@@ -1,68 +1,72 @@
-import { useState, useEffect } from 'react';
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import { useState, useEffect } from "react";
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 
-import Header from './components/layout/Header';
-import Footer from './components/layout/Footer';
-import Home from './components/pages/Home';
-import GpuDetail from './components/pages/GpuDetail';
+import Header from "./components/layout/Header";
+import Footer from "./components/layout/Footer";
+import Home from "./components/pages/Home";
+import GpuDetail from "./components/pages/GpuDetail";
 
-import gpuService from './services/gpus';
+import gpuService from "./services/gpus";
 
-import './styles/App.css';
+import "./styles/App.css";
 
 function App() {
-  const [gpus, setGpus] = useState([])
-  const [searchTerm, setSearchTerm] = useState('')
-  
+  const [gpus, setGpus] = useState([]);
+  const [searchTerm, setSearchTerm] = useState("");
+
   useEffect(() => {
     async function getData() {
       try {
         const data = await gpuService.getAll();
         setGpus(data);
       } catch (err) {
-        console.error('Failed to fetch GPU data:', err);
+        console.error("Failed to fetch GPU data:", err);
       }
     }
     getData();
-  }, [])
+  }, []);
 
   async function addGpu(gpuObject) {
     if (
-        gpuObject.manufacturer === '' ||
-        gpuObject.gpuline === '' ||
-        gpuObject.model === '' ||
-        gpuObject.cores < 1 ||
-        gpuObject.tmus < 1 ||
-        gpuObject.rops < 1 ||
-        gpuObject.vram < 0.02 ||
-        gpuObject.bus < 1 ||
-        gpuObject.memType === '' ||
-        gpuObject.baseclock < 1 ||
-        gpuObject.boostclock < 1 ||
-        gpuObject.memclock < 1
-      ) {
+      gpuObject.manufacturer === "" ||
+      gpuObject.gpuline === "" ||
+      gpuObject.model === "" ||
+      gpuObject.cores < 1 ||
+      gpuObject.tmus < 1 ||
+      gpuObject.rops < 1 ||
+      gpuObject.vram < 0.02 ||
+      gpuObject.bus < 1 ||
+      gpuObject.memType === "" ||
+      gpuObject.baseclock < 1 ||
+      gpuObject.boostclock < 1 ||
+      gpuObject.memclock < 1
+    ) {
       alert("Invalid GPU data");
       return;
     }
 
     try {
       const returnedObject = await gpuService.create(gpuObject);
-      setGpus((prevGpus) => [ ...prevGpus, returnedObject ]);
-      alert(`${returnedObject.manufacturer} ${returnedObject.gpuline} ${returnedObject.model} was added!`);
+      setGpus((prevGpus) => [...prevGpus, returnedObject]);
+      alert(
+        `${returnedObject.manufacturer} ${returnedObject.gpuline} ${returnedObject.model} was added!`,
+      );
     } catch (err) {
-      console.error('Failed to add new Graphics Card:', err);
+      console.error("Failed to add new Graphics Card:", err);
     }
   }
 
   async function deleteGpu(id, manufacturer, gpuline, model) {
-    const confirmDeletion = window.confirm(`Remove ${manufacturer} ${gpuline} ${model} from the list?`);
+    const confirmDeletion = window.confirm(
+      `Remove ${manufacturer} ${gpuline} ${model} from the list?`,
+    );
 
     if (confirmDeletion) {
       try {
         await gpuService.remove(id);
-        setGpus(gpus.filter(gpu => gpu.id !== id));
+        setGpus(gpus.filter((gpu) => gpu.id !== id));
       } catch (err) {
-        console.error('Failed do remove GPU from the list:', err);
+        console.error("Failed do remove GPU from the list:", err);
       }
     }
   }
@@ -71,10 +75,11 @@ function App() {
     setSearchTerm(term);
   }
 
-  const filteredGpus = gpus.filter(gpu => {
-    const fullName = `${gpu.manufacturer} ${gpu.gpuline} ${gpu.model}`.toLowerCase();
+  const filteredGpus = gpus.filter((gpu) => {
+    const fullName =
+      `${gpu.manufacturer} ${gpu.gpuline} ${gpu.model}`.toLowerCase();
     return fullName.includes(searchTerm.toLowerCase());
-  })
+  });
 
   return (
     <Router>
@@ -82,25 +87,20 @@ function App() {
         <Header />
         <main className="main-content">
           <Routes>
-            <Route 
-              path="/" 
+            <Route
+              path="/"
               element={
-                <Home 
-                  gpus={filteredGpus} 
+                <Home
+                  gpus={filteredGpus}
                   onSearch={handleSearch}
                   searchTerm={searchTerm}
                   addGpu={addGpu}
                 />
-              } 
+              }
             />
-            <Route 
-              path="/gpu/:id" 
-              element={
-                <GpuDetail 
-                  gpus={gpus}
-                  onDelete={deleteGpu}
-                />
-              } 
+            <Route
+              path="/gpu/:id"
+              element={<GpuDetail gpus={gpus} onDelete={deleteGpu} />}
             />
           </Routes>
         </main>

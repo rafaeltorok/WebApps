@@ -1,11 +1,11 @@
 @font-face {
-  font-family: 'digital-dreamers';
-  src: url('./fonts/DigitalDreamers-jy99.ttf') format('truetype');
+  font-family: "digital-dreamers";
+  src: url("./fonts/DigitalDreamers-jy99.ttf") format("truetype");
 }
 
 .app-container {
   padding: 1rem;
-  font-family: 'digital-dreamers', 'sans-serif';
+  font-family: "digital-dreamers", "sans-serif";
 }
 
 /* Default for large screens */
@@ -24,7 +24,7 @@ button {
   border: 2px solid;
   border-style: outset;
   padding: 0.6rem 1.2rem;
-  font-family: 'digital-dreamers', 'sans-serif';
+  font-family: "digital-dreamers", "sans-serif";
   font-size: 1rem;
   cursor: pointer;
   transition: all 0.2s ease;
@@ -40,7 +40,9 @@ button:active {
 }
 
 /* Common styles */
-h1, h2, h3 {
+h1,
+h2,
+h3 {
   margin: 0;
 }
 
@@ -55,11 +57,11 @@ a {
 }
 
 .amd {
-  --brand-color: #ED1C24;
+  --brand-color: #ed1c24;
 }
 
 .intel {
-  --brand-color: #0068B5;
+  --brand-color: #0068b5;
 }
 
 /* Override for smaller screens */

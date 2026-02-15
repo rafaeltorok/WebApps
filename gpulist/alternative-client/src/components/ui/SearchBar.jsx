@@ -1,5 +1,5 @@
-import PropTypes from 'prop-types'
-import '../../styles/SearchBar.css'
+import PropTypes from "prop-types";
+import "../../styles/SearchBar.css";
 
 function SearchBar({ onSearch, searchTerm }) {
   return (
@@ -11,12 +11,12 @@ function SearchBar({ onSearch, searchTerm }) {
         onChange={(e) => onSearch(e.target.value)}
       />
     </div>
-  )
+  );
 }
 
 SearchBar.propTypes = {
   onSearch: PropTypes.func.isRequired,
-  searchTerm: PropTypes.string.isRequired
-}
+  searchTerm: PropTypes.string.isRequired,
+};
 
-export default SearchBar
+export default SearchBar;
