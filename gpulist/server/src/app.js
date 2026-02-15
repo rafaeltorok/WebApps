@@ -21,7 +21,8 @@ mongoose
   });
 
 app.use(cors());
-app.use(express.static("dist"));
+app.use(express.static("dist/main-client"));
+app.use("/alt", express.static("dist/alt-client"));
 app.use(express.json());
 app.use(middleware.requestLogger);
 

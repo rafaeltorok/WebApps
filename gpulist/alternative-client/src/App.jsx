@@ -82,7 +82,7 @@ function App() {
   });
 
   return (
-    <Router>
+    <Router basename="/alt">
       <div className="app-container">
         <Header />
         <main className="main-content">
