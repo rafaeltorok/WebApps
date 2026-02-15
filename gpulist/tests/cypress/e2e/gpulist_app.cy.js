@@ -3,7 +3,7 @@ import { addGpu, showGPUData, checkRowData, indexSelector } from "./helper";
 describe("GPU List app", function () {
   beforeEach(function () {
     cy.request("POST", `${Cypress.env("BACKEND")}/api/testing/reset`);
-    cy.visit("");
+    cy.visit("/");
   });
 
   it("debug env", () => {
@@ -234,7 +234,7 @@ describe("GPU List app", function () {
 
   describe("testing the GPU data table", function () {
     beforeEach(function () {
-      addGpu({
+      cy.request("POST", "/api/gpus", {
         manufacturer: "MSI",
         gpuline: "GeForce",
         model: "RTX 3060 Gaming X Trio",
@@ -248,6 +248,8 @@ describe("GPU List app", function () {
         boostclock: 1965,
         memclock: 15,
       });
+
+      cy.visit("/");
 
       showGPUData("MSI GeForce RTX 3060 Gaming X Trio");
     });
@@ -286,7 +288,7 @@ describe("GPU List app", function () {
       );
       checkRowData("VRAM", "12GB GDDR6");
 
-      addGpu({
+      cy.request("POST", "/api/gpus", {
         manufacturer: "NVIDIA",
         gpuline: "GeForce",
         model: "GT 210",
@@ -300,6 +302,8 @@ describe("GPU List app", function () {
         boostclock: 520,
         memclock: 0.8,
       });
+      
+      cy.visit("/");
 
       showGPUData("NVIDIA GeForce GT 210");
       cy.get(".gpu-data-table thead tr th").should(
@@ -312,7 +316,7 @@ describe("GPU List app", function () {
 
   describe("the show all data button works", function () {
     beforeEach(function () {
-      addGpu({
+      cy.request("POST", "/api/gpus", {
         manufacturer: "MSI",
         gpuline: "GeForce",
         model: "RTX 3060 Gaming X Trio",
@@ -327,7 +331,7 @@ describe("GPU List app", function () {
         memclock: 15,
       });
 
-      addGpu({
+      cy.request("POST", "/api/gpus", {
         manufacturer: "MSI",
         gpuline: "GeForce",
         model: "GTX 970 OC",
@@ -342,7 +346,7 @@ describe("GPU List app", function () {
         memclock: 7,
       });
 
-      addGpu({
+      cy.request("POST", "/api/gpus", {
         manufacturer: "MSI",
         gpuline: "GeForce",
         model: "GTX 650 OC",
@@ -357,7 +361,7 @@ describe("GPU List app", function () {
         memclock: 5,
       });
 
-      addGpu({
+      cy.request("POST", "/api/gpus", {
         manufacturer: "NVIDIA",
         gpuline: " ",
         model: "RTX PRO 6000 Blackwell",
@@ -371,6 +375,8 @@ describe("GPU List app", function () {
         boostclock: 2617,
         memclock: 28,
       });
+
+      cy.visit("/");
     });
 
     it("it expands all tables on the page", function () {
@@ -446,7 +452,7 @@ describe("GPU List app", function () {
 
   describe("testing the index", function () {
     beforeEach(function () {
-      addGpu({
+      cy.request("POST", "/api/gpus", {
         manufacturer: "MSI",
         gpuline: "GeForce",
         model: "RTX 3060 Gaming X Trio",
@@ -461,7 +467,7 @@ describe("GPU List app", function () {
         memclock: 15,
       });
 
-      addGpu({
+      cy.request("POST", "/api/gpus", {
         manufacturer: "MSI",
         gpuline: "GeForce",
         model: "GTX 970 OC",
@@ -476,7 +482,7 @@ describe("GPU List app", function () {
         memclock: 7,
       });
 
-      addGpu({
+      cy.request("POST", "/api/gpus", {
         manufacturer: "MSI",
         gpuline: "GeForce",
         model: "GTX 650 OC",
@@ -491,7 +497,7 @@ describe("GPU List app", function () {
         memclock: 5,
       });
 
-      addGpu({
+      cy.request("POST", "/api/gpus", {
         manufacturer: "NVIDIA",
         gpuline: " ",
         model: "RTX PRO 6000 Blackwell",
@@ -505,6 +511,8 @@ describe("GPU List app", function () {
         boostclock: 2617,
         memclock: 28,
       });
+
+      cy.visit("/");
     });
 
     it("the index can be shown", function () {
@@ -565,7 +573,7 @@ describe("GPU List app", function () {
 
   describe("testing the search bar", function () {
     beforeEach(function () {
-      addGpu({
+      cy.request("POST", "/api/gpus", {
         manufacturer: "NVIDIA",
         gpuline: "GeForce",
         model: "RTX 3060",
@@ -580,7 +588,7 @@ describe("GPU List app", function () {
         memclock: 15,
       });
 
-      addGpu({
+      cy.request("POST", "/api/gpus", {
         manufacturer: "NVIDIA",
         gpuline: "GeForce",
         model: "GTX 970",
@@ -595,7 +603,7 @@ describe("GPU List app", function () {
         memclock: 7,
       });
 
-      addGpu({
+      cy.request("POST", "/api/gpus", {
         manufacturer: "NVIDIA",
         gpuline: "GeForce",
         model: "GTX 650",
@@ -610,7 +618,7 @@ describe("GPU List app", function () {
         memclock: 5,
       });
 
-      addGpu({
+      cy.request("POST", "/api/gpus", {
         manufacturer: "NVIDIA",
         gpuline: " ",
         model: "RTX PRO 6000 Blackwell",
@@ -625,7 +633,7 @@ describe("GPU List app", function () {
         memclock: 28,
       });
 
-      addGpu({
+      cy.request("POST", "/api/gpus", {
         manufacturer: "AMD",
         gpuline: "Radeon",
         model: "RX 9070 XT",
@@ -640,7 +648,7 @@ describe("GPU List app", function () {
         memclock: 20,
       });
 
-      addGpu({
+      cy.request("POST", "/api/gpus", {
         manufacturer: "AMD",
         gpuline: "Radeon",
         model: "RX 7900 XTX",
@@ -655,7 +663,7 @@ describe("GPU List app", function () {
         memclock: 20,
       });
 
-      addGpu({
+      cy.request("POST", "/api/gpus", {
         manufacturer: "Intel",
         gpuline: "Arc",
         model: "B580",
@@ -670,7 +678,7 @@ describe("GPU List app", function () {
         memclock: 19,
       });
 
-      addGpu({
+      cy.request("POST", "/api/gpus", {
         manufacturer: "Intel",
         gpuline: "Arc",
         model: "A770",
@@ -684,6 +692,8 @@ describe("GPU List app", function () {
         boostclock: 2400,
         memclock: 16,
       });
+
+      cy.visit("/");
     });
 
     it("the search bar can be displayed", function () {
