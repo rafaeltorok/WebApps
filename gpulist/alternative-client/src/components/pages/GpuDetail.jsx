@@ -1,6 +1,9 @@
 import { useParams, useNavigate } from 'react-router-dom'
 import PropTypes from 'prop-types'
-import calculatePerformance from '../../calculatePerformance'
+
+import getBrand from '../../utils/getBrand'
+import calculatePerformance from '../../utils/calculatePerformance'
+
 import '../../styles/GpuDetail.css'
 
 function GpuDetail({ gpus, onDelete }) {
@@ -26,10 +29,6 @@ function GpuDetail({ gpus, onDelete }) {
   }
   
   const gpuPerformance = calculatePerformance(gpu)
-  const brandClass = 
-    gpu.manufacturer.toLowerCase() === 'nvidia' ? 'nvidia' :
-    gpu.manufacturer.toLowerCase() === 'amd' ? 'amd' :
-    gpu.manufacturer.toLowerCase() === 'intel' ? 'intel' : ''
   
   const handleDelete = () => {
     onDelete(gpu.id, gpu.manufacturer, gpu.gpuline, gpu.model)
@@ -38,7 +37,7 @@ function GpuDetail({ gpus, onDelete }) {
   
   return (
     <div className="gpu-detail-container">
-      <div className={`gpu-detail-card ${brandClass}`}>
+      <div className={`gpu-detail-card ${getBrand(gpu)}`}>
         <div className="gpu-detail-header">
           <button 
             className="back-button"

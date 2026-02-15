@@ -1,25 +1,32 @@
-import { useState, useEffect } from 'react'
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom'
-import Header from './components/layout/Header'
-import Footer from './components/layout/Footer'
-import Home from './components/pages/Home'
-import GpuDetail from './components/pages/GpuDetail'
-import gpuService from './services/gpus'
-import './styles/App.css'
+import { useState, useEffect } from 'react';
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+
+import Header from './components/layout/Header';
+import Footer from './components/layout/Footer';
+import Home from './components/pages/Home';
+import GpuDetail from './components/pages/GpuDetail';
+
+import gpuService from './services/gpus';
+
+import './styles/App.css';
 
 function App() {
   const [gpus, setGpus] = useState([])
   const [searchTerm, setSearchTerm] = useState('')
   
   useEffect(() => {
-    gpuService
-      .getAll()
-      .then(initialGpuList => {
-        setGpus(initialGpuList)
-      })
+    async function getData() {
+      try {
+        const data = await gpuService.getAll();
+        setGpus(data);
+      } catch (err) {
+        console.error('Failed to fetch GPU data:', err);
+      }
+    }
+    getData();
   }, [])
 
-  const addGpu = (gpuObject) => {
+  async function addGpu(gpuObject) {
     if (
         gpuObject.manufacturer === '' ||
         gpuObject.gpuline === '' ||
@@ -34,43 +41,39 @@ function App() {
         gpuObject.boostclock < 1 ||
         gpuObject.memclock < 1
       ) {
-      alert("Invalid GPU data")
-      return
+      alert("Invalid GPU data");
+      return;
     }
 
-    gpuService
-      .create(gpuObject)
-      .then(returnedObject => {
-        setGpus((prevGpus) => [...prevGpus, returnedObject])
-        alert(`${returnedObject.manufacturer} ${returnedObject.gpuline} ${returnedObject.model} was added!`)
-      })
-      .catch(exception => {
-        alert("Failed to add new GPU")
-        console.error("Error adding new GPU:", exception)
-      })
+    try {
+      const returnedObject = await gpuService.create(gpuObject);
+      setGpus((prevGpus) => [ ...prevGpus, returnedObject ]);
+      alert(`${returnedObject.manufacturer} ${returnedObject.gpuline} ${returnedObject.model} was added!`);
+    } catch (err) {
+      console.error('Failed to add new Graphics Card:', err);
+    }
   }
 
-  const deleteGpu = (id, manufacturer, gpuline, model) => {
-    const confirmDeletion = window.confirm(`Remove ${manufacturer} ${gpuline} ${model} from the list?`)
+  async function deleteGpu(id, manufacturer, gpuline, model) {
+    const confirmDeletion = window.confirm(`Remove ${manufacturer} ${gpuline} ${model} from the list?`);
 
     if (confirmDeletion) {
-      gpuService.remove(id)
-      .then(() => {
-        setGpus(gpus.filter(gpu => gpu.id !== id))
-      })
-      .catch(error => {
-        console.error('Error deleting GPU:', error)
-      })
+      try {
+        await gpuService.remove(id);
+        setGpus(gpus.filter(gpu => gpu.id !== id));
+      } catch (err) {
+        console.error('Failed do remove GPU from the list:', err);
+      }
     }
   }
 
-  const handleSearch = (term) => {
-    setSearchTerm(term)
+  function handleSearch(term) {
+    setSearchTerm(term);
   }
 
   const filteredGpus = gpus.filter(gpu => {
-    const fullName = `${gpu.manufacturer} ${gpu.gpuline} ${gpu.model}`.toLowerCase()
-    return fullName.includes(searchTerm.toLowerCase())
+    const fullName = `${gpu.manufacturer} ${gpu.gpuline} ${gpu.model}`.toLowerCase();
+    return fullName.includes(searchTerm.toLowerCase());
   })
 
   return (
@@ -104,7 +107,7 @@ function App() {
         <Footer />
       </div>
     </Router>
-  )
+  );
 }
 
-export default App
+export default App;

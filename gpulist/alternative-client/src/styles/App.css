@@ -3,31 +3,15 @@
   src: url('./fonts/DigitalDreamers-jy99.ttf') format('truetype');
 }
 
-body, html {
-  margin: 0;
-  padding: 0;
-  width: 100%;
-  overflow-x: hidden; /* Prevent horizontal scroll */
-}
-
 .app-container {
-  max-width: 1200px; /* Limit the width of the app */
-  margin: 0 auto; /* Center the app horizontally */
   padding: 1rem;
   font-family: 'digital-dreamers', 'sans-serif';
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center; /* Center content horizontally */
-  justify-content: center; /* Center content vertically */
-  box-sizing: border-box;
 }
 
 /* Default for large screens */
 .main-content,
 .home-container {
   width: 100%;
-  max-width: 1200px;
   margin: 0 auto;
   padding: 1rem;
   box-sizing: border-box;

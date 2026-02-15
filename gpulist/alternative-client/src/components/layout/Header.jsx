@@ -1,5 +1,5 @@
-import { Link } from 'react-router-dom'
-import '../../styles/Header.css'
+import { Link } from 'react-router-dom';
+import '../../styles/Header.css';
 
 function Header() {
   return (
@@ -8,7 +8,7 @@ function Header() {
         <h1>GPU LIST</h1>
       </Link>
     </header>
-  )
+  );
 }
 
-export default Header
+export default Header;

@@ -221,7 +221,7 @@ const AddGpuForm = (({ createGpu }) => {
 								/>
 							</td>
 						</tr>
-						<tr>
+						<tr className='add-gpu-button-area'>
 							<td colSpan={2}>
 								<button 
 									id='add-gpu-submit-button'

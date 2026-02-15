@@ -10,14 +10,6 @@ function SearchBar({ onSearch, searchTerm }) {
         value={searchTerm}
         onChange={(e) => onSearch(e.target.value)}
       />
-      {searchTerm && (
-        <button 
-          className="clear-search"
-          onClick={() => onSearch('')}
-        >
-          ×
-        </button>
-      )}
     </div>
   )
 }

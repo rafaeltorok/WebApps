@@ -1,16 +1,14 @@
-import { Link } from 'react-router-dom'
-import PropTypes from 'prop-types'
-import '../../styles/GpuCard.css'
+import { Link } from 'react-router-dom';
+import PropTypes from 'prop-types';
 
-function GpuCard({ gpu }) {  
-  const brandClass = 
-    gpu.manufacturer.toLowerCase() === 'nvidia' ? 'nvidia' :
-    gpu.manufacturer.toLowerCase() === 'amd' ? 'amd' :
-    gpu.manufacturer.toLowerCase() === 'intel' ? 'intel' : ''
-  
+import getBrand from '../../utils/getBrand';
+
+import '../../styles/GpuCard.css';
+
+function GpuCard({ gpu }) { 
   return (
     <Link to={`/gpu/${gpu.id}`} className="gpu-card-link">
-      <div className={`gpu-card ${brandClass}`}>
+      <div className={`gpu-card ${getBrand(gpu)}`}>
         <div className="gpu-card-header">
           <h2>{gpu.manufacturer} {gpu.gpuline}</h2>
           <h3>{gpu.model}</h3>

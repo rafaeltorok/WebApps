@@ -1,14 +1,7 @@
 .home-container {
-  width: 100%;
-  max-width: 1200px; /* Limit the width of the home page */
-  margin: 0 auto; /* Center the container horizontally */
-  padding: 1rem;
   display: flex;
   flex-direction: column;
   align-items: center; /* Center content horizontally */
-  justify-content: center; /* Center content vertically */
-  box-sizing: border-box;
-  overflow-x: hidden;
 }
 
 @media (min-width: 768px) {
@@ -24,32 +17,20 @@
 }
 
 .home-header {
-  margin-bottom: 2rem;
+  margin-bottom: 1rem;
   padding: 1rem;
-  background-color: rgba(0, 0, 0, 0.9);
+  background-color: rgba(0, 0, 0, 0.5);
   border-radius: 1rem;
-  display: flex;
-  flex-direction: column;
-  align-items: center; /* Center children horizontally */
-  justify-content: center; /* Center children vertically */
-  text-align: center; /* Ensure text alignment */
-  gap: 1rem;
-}
-
-.home-header h1 {
-  margin: 0; /* Remove extra margins */
-  font-size: 2.5rem;
-  text-decoration: underline;
-  width: 100%; /* Ensure it spans the full width */
 }
 
 .home-actions {
   display: flex;
   flex-direction: column;
+  margin: 0 auto;
 }
 
 .add-gpu-toggle {
-  min-width: 120px;
+  min-width: 100%;
 }
 
 .add-form-container {
@@ -72,6 +53,15 @@
   padding: 0.5rem; /* Add padding for better usability */
   box-sizing: border-box; /* Include padding in width */
   text-align: right;
+  font: inherit;
+}
+
+.add-gpu-button-area {
+  text-align: center;
+}
+
+#add-gpu-submit-button {
+  margin-top: 1rem;
 }
 
 .gpu-grid {
