@@ -3,6 +3,7 @@ import PropTypes from "prop-types";
 
 import getBrand from "../../utils/getBrand";
 import calculatePerformance from "../../utils/calculatePerformance";
+import displayVramAmount from "../../utils/displayVramAmount";
 
 import "../../styles/GpuDetail.css";
 
@@ -63,7 +64,7 @@ function GpuDetail({ gpus, onDelete }) {
               <div className="spec-item">
                 <span className="spec-label">VRAM</span>
                 <span className="spec-value">
-                  {gpu.vram}GB {gpu.memtype}
+                  {displayVramAmount(gpu.vram)} {gpu.memtype}
                 </span>
               </div>
               <div className="spec-item">

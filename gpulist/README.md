@@ -211,7 +211,7 @@ Production Build (Serving a static build for each frontend)
 
 - Backend Server (Static production build of each Frontend)
   ```bash
-  docker run --name gpulist -p 3001:3001 --env-file ./.env rafaeltorok/gpulist:latest
+  cd ./server && docker run --name gpulist -p 3001:3001 --env-file ./.env rafaeltorok/gpulist:latest
   ```
 
 #### Compose access

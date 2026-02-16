@@ -2,6 +2,7 @@ import { Link } from "react-router-dom";
 import PropTypes from "prop-types";
 
 import getBrand from "../../utils/getBrand";
+import displayVramAmount from "../../utils/displayVramAmount";
 
 import "../../styles/GpuCard.css";
 
@@ -20,7 +21,7 @@ function GpuCard({ gpu }) {
           <div className="gpu-card-spec">
             <span className="spec-label">VRAM</span>
             <span className="spec-value">
-              {gpu.vram}GB {gpu.memtype}
+              {displayVramAmount(gpu.vram)} {gpu.memtype}
             </span>
           </div>
         </div>
