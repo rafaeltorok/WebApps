@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import PropTypes from "prop-types";
 
 import SearchBar from "../ui/SearchBar";
@@ -7,12 +7,20 @@ import AddGpuForm from "../AddGpuForm";
 
 import "../../styles/Home.css";
 
-function Home({ gpus, onSearch, searchTerm, addGpu }) {
+function Home({ gpus, onSearch, searchTerm, addGpu, scrollToGpu }) {
   const [showAddForm, setShowAddForm] = useState(false);
 
   const toggleAddForm = () => {
     setShowAddForm(!showAddForm);
   };
+
+  useEffect(() => {
+    if (scrollToGpu) {
+      document
+        .getElementById(scrollToGpu)
+        .scrollIntoView({ behavior: "instant" });
+    }
+  }, [scrollToGpu]);
 
   return (
     <div className="home-container">
@@ -51,6 +59,7 @@ Home.propTypes = {
   onSearch: PropTypes.func.isRequired,
   searchTerm: PropTypes.string.isRequired,
   addGpu: PropTypes.func.isRequired,
+  scrollToGpu: PropTypes.string,
 };
 
 export default Home;

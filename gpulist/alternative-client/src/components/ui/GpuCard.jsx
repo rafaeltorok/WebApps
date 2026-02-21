@@ -8,29 +8,31 @@ import "../../styles/GpuCard.css";
 
 function GpuCard({ gpu }) {
   return (
-    <Link to={`/gpu/${gpu.id}`} className="gpu-card-link">
-      <div className={`gpu-card ${getBrand(gpu)}`}>
-        <div className="gpu-card-header">
-          <h2>
-            {gpu.manufacturer} {gpu.gpuline}
-          </h2>
-          <h3>{gpu.model}</h3>
-        </div>
+    <div id={gpu.id}>
+      <Link to={`/gpu/${gpu.id}`} className="gpu-card-link">
+        <div className={`gpu-card ${getBrand(gpu)}`}>
+          <div className="gpu-card-header">
+            <h2>
+              {gpu.manufacturer} {gpu.gpuline}
+            </h2>
+            <h3>{gpu.model}</h3>
+          </div>
 
-        <div className="gpu-card-specs">
-          <div className="gpu-card-spec">
-            <span className="spec-label">VRAM</span>
-            <span className="spec-value">
-              {displayVramAmount(gpu.vram)} {gpu.memtype}
-            </span>
+          <div className="gpu-card-specs">
+            <div className="gpu-card-spec">
+              <span className="spec-label">VRAM</span>
+              <span className="spec-value">
+                {displayVramAmount(gpu.vram)} {gpu.memtype}
+              </span>
+            </div>
+          </div>
+
+          <div className="gpu-card-footer">
+            <span className="view-details">View Details</span>
           </div>
         </div>
-
-        <div className="gpu-card-footer">
-          <span className="view-details">View Details</span>
-        </div>
-      </div>
-    </Link>
+      </Link>
+    </div>
   );
 }
 

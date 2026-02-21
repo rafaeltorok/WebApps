@@ -1,3 +1,4 @@
+import { useEffect } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import PropTypes from "prop-types";
 
@@ -7,39 +8,52 @@ import displayVramAmount from "../../utils/displayVramAmount";
 
 import "../../styles/GpuDetail.css";
 
-function GpuDetail({ gpus, onDelete }) {
+function GpuDetail({ gpus, onDelete, handleReturn }) {
   const { id } = useParams();
   const navigate = useNavigate();
 
   const gpu = gpus.find((gpu) => gpu.id === id);
 
+  useEffect(() => {
+    document
+      .querySelector(".gpu-detail-container")
+      .scrollIntoView({ behavior: "smooth" });
+  }, []);
+
+  const handleDelete = async () => {
+    const confirm = await onDelete(
+      gpu.id,
+      gpu.manufacturer,
+      gpu.gpuline,
+      gpu.model,
+    );
+    if (confirm) {
+      navigate("/");
+    }
+  };
+
+  const handleReturnCatalog = () => {
+    navigate("/");
+    handleReturn(gpu.id);
+  };
+
   if (!gpu) {
     return (
       <div className="gpu-detail-container">
-        <div className="gpu-detail-card">
-          <h2>GPU Not Found</h2>
-          <button className="back-button" onClick={() => navigate("/")}>
-            Back to Catalog
-          </button>
-        </div>
+        <h2>GPU Not Found</h2>
+        <button className="back-button" onClick={() => navigate("/")}>
+          ⬅ Back to Catalog
+        </button>
       </div>
     );
   }
 
   const gpuPerformance = calculatePerformance(gpu);
 
-  const handleDelete = () => {
-    onDelete(gpu.id, gpu.manufacturer, gpu.gpuline, gpu.model);
-    navigate("/");
-  };
-
   return (
     <div className="gpu-detail-container">
       <div className={`gpu-detail-card ${getBrand(gpu)}`}>
         <div className="gpu-detail-header">
-          <button className="back-button" onClick={() => navigate("/")}>
-            ⬅ Back to Catalog
-          </button>
           <h1>
             {gpu.manufacturer} {gpu.gpuline} {gpu.model}
           </h1>
@@ -121,6 +135,9 @@ function GpuDetail({ gpus, onDelete }) {
           </button>
         </div>
       </div>
+      <button className="back-button" onClick={handleReturnCatalog}>
+        ⬅ Back to Catalog
+      </button>
     </div>
   );
 }
@@ -128,6 +145,7 @@ function GpuDetail({ gpus, onDelete }) {
 GpuDetail.propTypes = {
   gpus: PropTypes.array.isRequired,
   onDelete: PropTypes.func.isRequired,
+  handleReturn: PropTypes.func.isRequired,
 };
 
 export default GpuDetail;

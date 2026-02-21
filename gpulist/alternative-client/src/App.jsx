@@ -13,6 +13,7 @@ import "./styles/App.css";
 function App() {
   const [gpus, setGpus] = useState([]);
   const [searchTerm, setSearchTerm] = useState("");
+  const [scrollToGpu, setScrollToGpu] = useState(null);
 
   useEffect(() => {
     async function getData() {
@@ -65,14 +66,20 @@ function App() {
       try {
         await gpuService.remove(id);
         setGpus(gpus.filter((gpu) => gpu.id !== id));
+        return true;
       } catch (err) {
         console.error("Failed do remove GPU from the list:", err);
       }
     }
+    return false;
   }
 
   function handleSearch(term) {
     setSearchTerm(term);
+  }
+
+  function handleReturn(id) {
+    setScrollToGpu(id);
   }
 
   const filteredGpus = gpus.filter((gpu) => {
@@ -95,12 +102,19 @@ function App() {
                   onSearch={handleSearch}
                   searchTerm={searchTerm}
                   addGpu={addGpu}
+                  scrollToGpu={scrollToGpu}
                 />
               }
             />
             <Route
               path="/gpu/:id"
-              element={<GpuDetail gpus={gpus} onDelete={deleteGpu} />}
+              element={
+                <GpuDetail
+                  gpus={gpus}
+                  onDelete={deleteGpu}
+                  handleReturn={handleReturn}
+                />
+              }
             />
           </Routes>
         </main>
