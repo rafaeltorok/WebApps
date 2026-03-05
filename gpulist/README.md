@@ -12,6 +12,7 @@
   - [End-to-End (E2E) testing](#end-to-end-e2e-testing)
     - [Manual testing](#manual-testing)
     - [Testing via Docker](#testing-via-docker)
+  - [Integration tests (Backend)](#integration-tests-backend)
   - [Backend server structure](#backend-server-structure)
   - [Troubleshooting](#troubleshooting)
 
@@ -31,7 +32,7 @@ Single Page Application to store all of your graphics cards data, including the 
 ### Screenshots
 - Main UI
 
-  <img src="../github/screenshots/gpulist_main-ui.png" alt="GPU List app main UI" width="300"/>
+  <img src="../github/screenshots/gpulist_main-ui.png" alt="GPU List app main UI" width="400"/>
 
 - Alternative UI
 
@@ -63,12 +64,12 @@ Vite auto-selects ports:
   - Alternative UI → http://localhost:5174/alt/
 
 ### Backend
-Development mode (hot reload with Nodemon)
-  ```bash
-  cd ./gpulist/server && npm install && npm run dev
-  ```
+#### Development mode (watch mode with tsx)
+```bash
+cd ./gpulist/server && npm install && npm run dev
+```
 
-Production mode
+#### Production mode
   - Build frontend
     ```bash
     cd ./gpulist/client && npm run build && cp -r ./dist/* ../server/dist/man-client
@@ -79,12 +80,35 @@ Production mode
     cd ./gpulist/alternate-client && npm run build && cp -r ./dist/* ../server/dist/alt-client
     ```
 
+  - Compile the backend server into JavaScript code
+    ```bash
+    cd ./gpulist/server && npm install && npm run tsc
+    ```
+
   - Start the backend server
     ```bash
     npm run start
     ```
 
   - Access the frontend via the backend URL → http://localhost:3001 or http://localhost:3001/alt/
+
+#### Testing mode (Backend only)
+  - These modes use the test database from MongoDB to prevent losing important data from the main one.
+
+  - Compile the TypeScript code to JavaScript
+    ```bash
+    cd ./gpulist/server && npm install && npm run tsc
+    ```
+
+  - Running the production build
+    ```bash
+    npm run start:test
+    ```
+
+  - Running the server in development mode with tsx (uses the watch flag for hot reloading)
+    ```bash
+    npm run dev:test
+    ```
 
 
 ## Navigating the UI
@@ -206,7 +230,7 @@ Production Build (Serving a static build for each frontend)
 
 - Backend Server
   ```bash
-  docker run -d --env-file .env --name gpulist-webapp-server --network gpulist_webapp-network -p 3001:3001 -ti gpulist-webapp-server
+  cd ./server && docker run -d --env-file .env --name gpulist-webapp-server --network gpulist_webapp-network -p 3001:3001 -ti gpulist-webapp-server
   ```
 
 - Backend Server (Static production build of each Frontend)
@@ -259,6 +283,13 @@ Run Cypress
   ```
 
 Note: ⚠️ E2E tests were designed for the Main UI only
+
+
+## Integration tests (Backend)
+Running the tests (uses the test database)
+```bash
+cd ./gpulist/server && npm install && npm run test
+```
 
 
 ## Backend server structure

@@ -1,9 +1,22 @@
-FROM node:20-alpine
+# Build stage
+FROM node:20-alpine AS build
 
 WORKDIR /usr/src/app
 
 COPY ./package*.json .
 COPY ./src ./src
+COPY ./environment.d.ts .
+COPY tsconfig.json .
+
+RUN npm install
+RUN npm run tsc
+
+# Production stage
+FROM node:20-alpine AS production
+
+WORKDIR /usr/src/app
+COPY ./package*.json .
+COPY --from=build /usr/src/app/build .
 
 RUN npm ci
 
@@ -11,4 +24,4 @@ EXPOSE 3001
 
 ENV PORT=3001
 
-CMD ["npm", "start"]
+CMD ["node", "./index.js"]
