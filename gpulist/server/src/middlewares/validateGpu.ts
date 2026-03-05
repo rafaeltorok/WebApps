@@ -1,7 +1,9 @@
-module.exports = (request, response, next) => {
+import type { Request, Response, NextFunction } from "express";
+
+export default function validateGpu(req: Request, res: Response, next: NextFunction) {
   const errors = [];
 
-  const body = request.body;
+  const body = req.body;
   if (!body.manufacturer?.trim()) errors.push("Manufacturer is required");
   if (!body.model?.trim()) errors.push("Model is required");
   if (body.cores < 1) errors.push("Invalid core count");
@@ -16,7 +18,7 @@ module.exports = (request, response, next) => {
     errors.push("Memory clock must be at least 100 Mbps");
 
   if (errors.length > 0) {
-    return response.status(400).json({ errors });
+    return res.status(400).json({ errors });
   }
 
   next();
