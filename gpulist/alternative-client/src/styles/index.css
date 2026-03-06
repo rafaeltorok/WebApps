@@ -23,3 +23,13 @@
 body {
   min-width: 500px;
 }
+
+@media only screen and (hover: none) and (pointer: coarse) {
+  :root {
+    font-size: 0.9rem;
+  }
+
+  body {
+    min-width: 320px;
+  }
+}

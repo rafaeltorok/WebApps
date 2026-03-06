@@ -35,7 +35,7 @@ function App() {
       gpuObject.cores < 1 ||
       gpuObject.tmus < 1 ||
       gpuObject.rops < 1 ||
-      gpuObject.vram < 0.02 ||
+      gpuObject.vram < 0.016 ||
       gpuObject.bus < 1 ||
       gpuObject.memType === "" ||
       gpuObject.baseclock < 1 ||
