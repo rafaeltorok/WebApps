@@ -5,10 +5,10 @@ import assert from "node:assert";
 // Requirements for running HTTP requests to the MongoDB server
 import mongoose from "mongoose";
 import supertest from "supertest";
-import GpuModel from "../models/gpu.js";
+import GpuModel from "../src/models/gpu.js";
 
 // Importing the server itself plus the initial data
-import app from "../app.js";
+import app from "../src/app.js";
 import { gpuList } from "./data.js";
 
 const api = supertest(app);
@@ -96,10 +96,9 @@ describe("POST route", () => {
       memclock: 21,
     };
 
-    const newGpu = new GpuModel(gpuData);
     const postResponse = await api
       .post("/api/gpus")
-      .send(newGpu.toJSON())
+      .send(gpuData)
       .expect(201)
       .expect("Content-Type", /application\/json/);
 
@@ -133,10 +132,9 @@ describe("POST route", () => {
       memclock: 28,
     };
 
-    const newGpu = new GpuModel(gpuData);
     const postResponse = await api
       .post("/api/gpus")
-      .send(newGpu.toJSON())
+      .send(gpuData)
       .expect(201)
       .expect("Content-Type", /application\/json/);
 
@@ -164,17 +162,15 @@ describe("POST route", () => {
       memclock: 20,
     };
 
-    const newGpu = new GpuModel(gpuData);
     const postResponse = await api
       .post("/api/gpus")
-      .send(newGpu.toJSON())
+      .send(gpuData)
       .expect(400);
 
-    // Checks the error response message
-    assert(postResponse.body.error.includes("Gpu validation failed"));
-    assert(postResponse.body.error.includes("ROPs count is required"));
-    assert(postResponse.body.error.includes("Cores must be at least 1"));
-    assert(postResponse.body.error.includes("TMUs must be at least 1"));
+    // Checks if the error response messages exists for the invalid values
+    assert.ok(postResponse.body.errors.cores);
+    assert.ok(postResponse.body.errors.tmus);
+    assert.ok(postResponse.body.errors.rops);
 
     // Checks if the number of objects on the database has not been increased
     const getResponse = await api.get("/api/gpus");
@@ -197,17 +193,15 @@ describe("POST route", () => {
       memclock: "a",
     };
 
-    const newGpu = new GpuModel(gpuData);
     const postResponse = await api
       .post("/api/gpus")
-      .send(newGpu.toJSON())
+      .send(gpuData)
       .expect(400);
 
-    // Checks the error response message
-    assert(postResponse.body.error.includes("Gpu validation failed"));
-    assert(postResponse.body.error.includes("Memory clock is required"));
-    assert(postResponse.body.error.includes("Base clock must be at least 1"));
-    assert(postResponse.body.error.includes("Boost clock must be at least 1"));
+    // Checks if the error response messages exists for the invalid values
+    assert.ok(postResponse.body.errors.baseclock);
+    assert.ok(postResponse.body.errors.boostclock);
+    assert.ok(postResponse.body.errors.memclock);
 
     // Checks if the number of objects on the database has not been increased
     const getResponse = await api.get("/api/gpus");
@@ -227,17 +221,15 @@ describe("POST route", () => {
       memclock: 20,
     };
 
-    const newGpu = new GpuModel(gpuData);
     const postResponse = await api
       .post("/api/gpus")
-      .send(newGpu.toJSON())
+      .send(gpuData)
       .expect(400);
 
-    // Checks the error response message
-    assert(postResponse.body.error.includes("Gpu validation failed"));
-    assert(postResponse.body.error.includes("Cores count is required"));
-    assert(postResponse.body.error.includes("TMUs count is required"));
-    assert(postResponse.body.error.includes("ROPs count is required"));
+    // Checks if the error response messages exists for the invalid values
+    assert.ok(postResponse.body.errors.cores);
+    assert.ok(postResponse.body.errors.tmus);
+    assert.ok(postResponse.body.errors.rops);
 
     // Checks if the number of objects on the database has not been increased
     const getResponse = await api.get("/api/gpus");
@@ -260,19 +252,48 @@ describe("POST route", () => {
       memclock: 20,
     };
 
-    const newGpu = new GpuModel(gpuData);
     const postResponse = await api
       .post("/api/gpus")
-      .send(newGpu.toJSON())
+      .send(gpuData)
       .expect(400);
 
-    // Checks the error response message
-    assert(postResponse.body.error.includes("Gpu validation failed"));
-    assert(postResponse.body.error.includes("Manufacturer is required"));
-    assert(postResponse.body.error.includes("Model is required"));
-    assert(postResponse.body.error.includes("Memory type is required"));
+    // Checks if the error response messages exists for the invalid values
+    assert.ok(postResponse.body.errors.manufacturer);
+    assert.ok(postResponse.body.errors.model);
+    assert.ok(postResponse.body.errors.memtype);
 
     // Checks if the number of objects on the database has not been increased
+    const getResponse = await api.get("/api/gpus");
+    assert.strictEqual(getResponse.body.length, initialDataLength);
+  });
+
+  test("A duplicated graphics card will not be added", async () => {
+    const gpuData = {
+      manufacturer: "NVIDIA",
+      gpuline: "GeForce",
+      model: "RTX 3060",
+      cores: 3584,
+      tmus: 112,
+      rops: 48,
+      vram: 12,
+      bus: 192,
+      memtype: "GDDR6",
+      baseclock: 1320,
+      boostclock: 1777,
+      memclock: 15,
+    };
+
+    // Tries to add an already existing card to the database
+    const postResponse = await api
+      .post("/api/gpus")
+      .send(gpuData)
+      .expect(409)
+      .expect("Content-Type", /application\/json/);
+
+    // Assert that the response message properly warns the user of the issue
+    assert.strictEqual(postResponse.body.error, "The graphics card has already been added to the list");
+
+    // Check if the total document count remained the same
     const getResponse = await api.get("/api/gpus");
     assert.strictEqual(getResponse.body.length, initialDataLength);
   });
@@ -296,10 +317,9 @@ describe("DELETE route", () => {
     };
 
     // Adds a GPU to be removed
-    const newGpu = new GpuModel(gpuData);
     const postResponse = await api
       .post("/api/gpus")
-      .send(newGpu.toJSON())
+      .send(gpuData)
       .expect(201)
       .expect("Content-type", /application\/json/);
 
@@ -407,10 +427,10 @@ describe("PUT route", () => {
       .send(gpuData)
       .expect(400);
 
-    assert.strictEqual(
-      putResponse.body.error,
-      "Validation failed: rops: ROPs must be at least 1, tmus: TMUs must be at least 1, cores: Cores must be at least 1",
-    );
+    // Checks if the error response messages exists for the invalid values
+    assert.notStrictEqual(putResponse.body.errors.cores, undefined, 'Data should be defined');
+    assert.notStrictEqual(putResponse.body.errors.tmus, undefined, 'Data should be defined');
+    assert.notStrictEqual(putResponse.body.errors.rops, undefined, 'Data should be defined');
 
     // Fetches the GPU data to assure it hasn't been updated
     const rtx3060 = await api
@@ -440,10 +460,8 @@ describe("PUT route", () => {
       .send(gpuData)
       .expect(400);
 
-    assert.strictEqual(
-      putResponse.body.error,
-      'Cast to Number failed for value \"cores\" (type string) at path \"cores\"',
-    );
+    // Checks if the error response message contains the Mongoose cast error
+    assert.strictEqual(putResponse.body.errors.cores, "Invalid Number");
 
     // Fetches the GPU data to assure it hasn't been updated
     const rtx3060 = await api

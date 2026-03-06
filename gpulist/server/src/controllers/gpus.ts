@@ -113,9 +113,6 @@ gpusRouter.post("/", async (req: Request, res: Response, next: NextFunction) => 
     });
 
     const savedGpu = await newGpu.save();
-    if (!savedGpu) {
-      throw new Error("Failed to create new GPU");
-    }
     return res.status(201).json(savedGpu);
   } catch (err: unknown) {
     next(err);
@@ -153,11 +150,10 @@ gpusRouter.put("/:id", async (req: Request, res: Response, next: NextFunction) =
 // DELETE a graphics card form the database
 gpusRouter.delete("/:id", async (req: Request, res: Response, next: NextFunction) => {
   try {
-    const gpu = await Gpu.findById(req.params.id);
+    const gpu = await Gpu.findByIdAndDelete(req.params.id);
     if (!gpu) {
       return res.status(404).json({ error: "GPU not found" });
     }
-    await Gpu.findByIdAndDelete(req.params.id);
     return res.status(204).end();
   } catch (err: unknown) {
     next(err);

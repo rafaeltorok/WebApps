@@ -1,4 +1,4 @@
-import type { GpuType } from "../types.js";
+import type { GpuType } from "../src/types.js";
 
 export const gpuList: GpuType[] = [
   {

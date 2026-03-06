@@ -20,4 +20,4 @@ export type HideClockSpeeds = Omit<
 
 export type HideVram = Omit<GpuType, "vram" | "memtype">;
 
-export type FormatGpuCalc = Omit<GpuType, "id" | "manufacturer" | "gpuline">;
+export type FormatGpuCalc = Omit<GpuType, "manufacturer" | "gpuline">;
