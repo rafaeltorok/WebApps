@@ -32,7 +32,9 @@ if (config.MONGODB_URI) {
 // Setting the Express server
 const app = express();
 app.use(cors());
-app.use(morgan(':method :url :status :res[content-length] - :response-time ms'));
+app.use(
+  morgan(":method :url :status :res[content-length] - :response-time ms"),
+);
 app.use(express.static("dist/main-client"));
 app.use("/alt", express.static("dist/alt-client"));
 app.use(express.json());

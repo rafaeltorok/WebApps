@@ -162,10 +162,7 @@ describe("POST route", () => {
       memclock: 20,
     };
 
-    const postResponse = await api
-      .post("/api/gpus")
-      .send(gpuData)
-      .expect(400);
+    const postResponse = await api.post("/api/gpus").send(gpuData).expect(400);
 
     // Checks if the error response messages exists for the invalid values
     assert.ok(postResponse.body.errors.cores);
@@ -193,10 +190,7 @@ describe("POST route", () => {
       memclock: "a",
     };
 
-    const postResponse = await api
-      .post("/api/gpus")
-      .send(gpuData)
-      .expect(400);
+    const postResponse = await api.post("/api/gpus").send(gpuData).expect(400);
 
     // Checks if the error response messages exists for the invalid values
     assert.ok(postResponse.body.errors.baseclock);
@@ -221,10 +215,7 @@ describe("POST route", () => {
       memclock: 20,
     };
 
-    const postResponse = await api
-      .post("/api/gpus")
-      .send(gpuData)
-      .expect(400);
+    const postResponse = await api.post("/api/gpus").send(gpuData).expect(400);
 
     // Checks if the error response messages exists for the invalid values
     assert.ok(postResponse.body.errors.cores);
@@ -252,10 +243,7 @@ describe("POST route", () => {
       memclock: 20,
     };
 
-    const postResponse = await api
-      .post("/api/gpus")
-      .send(gpuData)
-      .expect(400);
+    const postResponse = await api.post("/api/gpus").send(gpuData).expect(400);
 
     // Checks if the error response messages exists for the invalid values
     assert.ok(postResponse.body.errors.manufacturer);
@@ -291,7 +279,10 @@ describe("POST route", () => {
       .expect("Content-Type", /application\/json/);
 
     // Assert that the response message properly warns the user of the issue
-    assert.strictEqual(postResponse.body.error, "The graphics card has already been added to the list");
+    assert.strictEqual(
+      postResponse.body.error,
+      "The graphics card has already been added to the list",
+    );
 
     // Check if the total document count remained the same
     const getResponse = await api.get("/api/gpus");
@@ -428,9 +419,21 @@ describe("PUT route", () => {
       .expect(400);
 
     // Checks if the error response messages exists for the invalid values
-    assert.notStrictEqual(putResponse.body.errors.cores, undefined, 'Data should be defined');
-    assert.notStrictEqual(putResponse.body.errors.tmus, undefined, 'Data should be defined');
-    assert.notStrictEqual(putResponse.body.errors.rops, undefined, 'Data should be defined');
+    assert.notStrictEqual(
+      putResponse.body.errors.cores,
+      undefined,
+      "Data should be defined",
+    );
+    assert.notStrictEqual(
+      putResponse.body.errors.tmus,
+      undefined,
+      "Data should be defined",
+    );
+    assert.notStrictEqual(
+      putResponse.body.errors.rops,
+      undefined,
+      "Data should be defined",
+    );
 
     // Fetches the GPU data to assure it hasn't been updated
     const rtx3060 = await api
@@ -501,7 +504,7 @@ describe("PUT route", () => {
   test("A non-existing id returns a proper error message", async () => {
     // Creates dummy data in order for the PUT request to work
     const gpuData = {
-      cores: 1000
+      cores: 1000,
     };
 
     const putResponse = await api
@@ -515,7 +518,7 @@ describe("PUT route", () => {
   test("An invalid id returns a proper error message", async () => {
     // Creates dummy data in order for the PUT request to work
     const gpuData = {
-      cores: 1000
+      cores: 1000,
     };
 
     const putResponse = await api

@@ -7,9 +7,14 @@ import type { Request, Response, NextFunction } from "express";
 
 function unknownEndpoint(_req: Request, res: Response) {
   res.status(404).send({ error: "unknown endpoint" });
-};
+}
 
-function errorHandler(err: unknown, _req: Request, res: Response, next: NextFunction) {
+function errorHandler(
+  err: unknown,
+  _req: Request,
+  res: Response,
+  next: NextFunction,
+) {
   if (err instanceof Error) logger.error(err.message);
 
   // Narrows down validation errors
@@ -32,12 +37,12 @@ function errorHandler(err: unknown, _req: Request, res: Response, next: NextFunc
     }
     return res.status(400).json({
       errors: {
-        [err.path]: `Invalid ${err.kind}`
-      }
+        [err.path]: `Invalid ${err.kind}`,
+      },
     });
   }
 
   next(err);
-};
+}
 
 export default { unknownEndpoint, errorHandler };
