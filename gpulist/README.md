@@ -17,7 +17,10 @@
   - [Troubleshooting](#troubleshooting)
 
 ## About
-Single Page Application to store all of your graphics cards data, including the main chip specifications and clock speeds. 
+Single Page Application to store all of your graphics cards data and to calculate the theoretical performance for the card. Focusing on the main chip specifications and clock speeds.
+
+- App available on Render: https://gpulist.onrender.com
+- Alternative client: https://gpulist.onrender.com/alt
 
 ### Features
 - Automatically calculates the theoretical performance of a graphics card: FP32(float), Texture Rate, Pixel Rate and Memory Bandwidth.
