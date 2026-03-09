@@ -9,11 +9,9 @@ import FormRow from "./FormRow.jsx";
 import "../styles/AddGpuForm.css";
 
 export default function AddGpuForm() {
-  const {
-    createGpu,
-    state: { showAddForm },
-    dispatch,
-  } = useContext(GpuContext);
+  const context = useContext(GpuContext);
+  if (!context) throw new Error("GpuContext must be used within a Provider");
+  const { createGpu, uiState, uiDispatch } = context;
 
   const [gpu, setGpu] = useState({
     manufacturer: "",
@@ -30,7 +28,7 @@ export default function AddGpuForm() {
     memclock: "",
   });
 
-  const addGpu = (event: Event) => {
+  const addGpu = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
     if (
@@ -50,19 +48,19 @@ export default function AddGpuForm() {
       return false;
     }
 
-    const response: boolean = createGpu({
+    const response: boolean = await createGpu({
       manufacturer: gpu.manufacturer.trim(),
       gpuline: gpu.gpuline.trim(),
       model: gpu.model.trim(),
-      cores: gpu.cores === "" ? null : Number(gpu.cores.trim()),
-      tmus: gpu.tmus === "" ? null : Number(gpu.tmus.trim()),
-      rops: gpu.rops === "" ? null : Number(gpu.rops.trim()),
-      vram: gpu.vram === "" ? null : Number(gpu.vram.trim()),
-      bus: gpu.bus === "" ? null : Number(gpu.bus.trim()),
+      cores: Number(gpu.cores.trim()),
+      tmus: Number(gpu.tmus.trim()),
+      rops: Number(gpu.rops.trim()),
+      vram: Number(gpu.vram.trim()),
+      bus: Number(gpu.bus.trim()),
       memtype: gpu.memtype.trim(),
-      baseclock: gpu.baseclock === "" ? null : Number(gpu.baseclock.trim()),
-      boostclock: gpu.boostclock === "" ? null : Number(gpu.boostclock.trim()),
-      memclock: gpu.memclock === "" ? null : Number(gpu.memclock.trim()),
+      baseclock: Number(gpu.baseclock.trim()),
+      boostclock: Number(gpu.boostclock.trim()),
+      memclock: Number(gpu.memclock.trim()),
     });
 
     if (response) {
@@ -80,7 +78,7 @@ export default function AddGpuForm() {
         boostclock: "",
         memclock: "",
       });
-      dispatch({
+      uiDispatch({
         type: "TOGGLE_ADD_FORM",
       });
     }
@@ -97,17 +95,17 @@ export default function AddGpuForm() {
                   id="add-gpu-button"
                   type="button"
                   onClick={() =>
-                    dispatch({
+                    uiDispatch({
                       type: "TOGGLE_ADD_FORM",
                     })
                   }
                 >
-                  {showAddForm ? "Cancel" : "Add Graphics Card"}
+                  {uiState.showAddForm ? "Cancel" : "Add Graphics Card"}
                 </button>
               </th>
             </tr>
           </thead>
-          {showAddForm && (
+          {uiState.showAddForm && (
             <tbody>
               <FormRow
                 id="manufacturer"
@@ -115,7 +113,9 @@ export default function AddGpuForm() {
                 label="Manufacturer"
                 placeholder="NVIDIA"
                 value={gpu.manufacturer}
-                onChange={(e: Event) => setGpu({ ...gpu, manufacturer: e.target.value })}
+                onChange={(e) =>
+                  setGpu({ ...gpu, manufacturer: e.target.value })
+                }
               />
               <FormRow
                 id="gpuline"

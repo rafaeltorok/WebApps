@@ -2,8 +2,8 @@
 import { useEffect, useReducer } from "react";
 import gpuService from "./services/gpus.js";
 import GpuContext from "./GpuContext.js";
-import gpuDataReducer from './reducers/gpuDataReducer.js';
-import gpuUiReducer from "./reducers/gpuUiReducer.js";
+import dataReducer from "./reducers/dataReducer.js";
+import uiReducer from "./reducers/uiReducer.js";
 
 // Components
 import GpuList from "./components/GpuList.js";
@@ -13,35 +13,50 @@ import SearchBar from "./components/SearchBar.js";
 
 // CSS Styles
 import "./styles/App.css";
-import type { GpuType, GpuInputType } from "./types.js";
+import type { GpuType, GpuInputType } from "./types/gpu";
 
+// TypeScript types
+import type {
+  DataState,
+  DataActions,
+  UiState,
+  UiActions,
+} from "./types/gpu.js";
+
+// Main App component
 function App() {
-  const [dataState, dataDispatch] = useReducer(gpuDataReducer, {
+  const [dataState, dataDispatch] = useReducer<
+    React.Reducer<DataState, DataActions>
+  >(dataReducer, {
     gpus: [],
     gpusFound: [],
     loading: false,
     error: false,
   });
 
-  const [uiState, uiDispatch] = useReducer(gpuUiReducer, {
-    searchGpu: "",
-    showAll: false,
-    showAddForm: false,
-    showSearch: false,
-    showIndex: false,
-  });
+  const [uiState, uiDispatch] = useReducer<React.Reducer<UiState, UiActions>>(
+    uiReducer,
+    {
+      searchGpu: "",
+      showSearch: false,
+      showAll: false,
+      showAddForm: false,
+      showIndex: false,
+    },
+  );
 
   useEffect(() => {
     async function getData() {
       try {
         dataDispatch({ type: "FETCH_LOADING", payload: true }); // Sets loading data message on screen
-        const data = await gpuService.getAll();
+        const data: GpuType[] = await gpuService.getAll();
         dataDispatch({ type: "SET_GPUS", payload: data });
         dataDispatch({ type: "FETCH_LOADING", payload: false }); // After data is retrieved, remove the loading message
-      } catch (err) {
+      } catch (err: unknown) {
         dataDispatch({ type: "FETCH_ERROR", payload: true });
         dataDispatch({ type: "FETCH_LOADING", payload: false });
-        console.error("Failed to fetch GPUs data:", err);
+        if (err instanceof Error)
+          console.error("Failed to fetch GPUs data:", err);
       }
     }
     getData();
@@ -51,12 +66,10 @@ function App() {
   useEffect(() => {
     const handler = setTimeout(() => {
       if (uiState.searchGpu) {
-        const filteredGpus = dataState.gpus.filter((g) =>
-          (
-            g.manufacturer.toLowerCase() +
-            g.gpuline.toLowerCase() +
-            g.model.toLowerCase()
-          ).includes(uiState.searchGpu.toLowerCase()),
+        const filteredGpus: GpuType[] = dataState.gpus.filter((g) =>
+          `${g.manufacturer}${g.gpuline}${g.model}`
+            .toLowerCase()
+            .includes(uiState.searchGpu.toLowerCase()),
         );
         dataDispatch({
           type: "SET_FOUND",
@@ -82,35 +95,29 @@ function App() {
       });
       console.log("GPU Specs Submitted:", gpu);
       alert(`${gpu.manufacturer} ${gpu.gpuline} ${gpu.model} was added!`);
-    } catch (err) {
-      console.error("Error adding new GPU:", err);
+    } catch (err: unknown) {
+      if (err instanceof Error) console.error("Error adding new GPU:", err);
+      return false;
     }
 
     // Confirms the GPU was added, so the AddGpuForm component can clear the form data
     return true;
   }
 
-  async function deleteGpu(
-    id: string, 
-    manufacturer: string, 
-    gpuline: string, 
-    model: string
-  ): Promise<void> {
+  async function deleteGpu(gpu: GpuType): Promise<void> {
     const confirmDeletion: boolean = window.confirm(
-      `Remove ${manufacturer} ${gpuline} ${model} from the list?`,
+      `Remove ${gpu.manufacturer} ${gpu.gpuline} ${gpu.model} from the list?`,
     );
 
     if (confirmDeletion) {
       try {
-        await gpuService.remove(id);
+        await gpuService.remove(gpu.id);
         dataDispatch({
           type: "SET_GPUS",
-          payload: dataState.gpus.filter((gpu: GpuType) => gpu.id !== id),
+          payload: dataState.gpus.filter((g) => g.id !== gpu.id),
         });
       } catch (err: unknown) {
-        if (err instanceof Error) {
-          console.error("Error deleting GPU:", err);
-        }
+        if (err instanceof Error) console.error("Error deleting GPU:", err);
       }
     }
   }
@@ -127,7 +134,7 @@ function App() {
         dataState,
         dataDispatch,
         uiState,
-        uiDispatch
+        uiDispatch,
       }}
     >
       <div>

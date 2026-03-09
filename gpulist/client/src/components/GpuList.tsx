@@ -6,24 +6,26 @@ import GpuContext from "../GpuContext.js";
 import Gpu from "./Gpu.jsx";
 
 // TypeScript types
-import type { GpuType } from "../types.js";
+import type { GpuType } from "../types/gpu.js";
 
 export default function GpuList() {
+  const context = useContext(GpuContext);
+  if (!context) throw new Error("GpuContext must be used within a Provider");
   const {
-    state: { gpus, searchGpu, gpusFound },
-  } = useContext(GpuContext);
+    dataState: { gpus, gpusFound },
+    uiState: { searchGpu },
+  } = context;
 
   function scrollToIndex(gpuTableId: string) {
     const element = document.getElementById("add-gpu-form");
     if (element) {
       element.scrollIntoView({ behavior: "smooth" });
 
-      let hideButton: HTMLButtonElement | null;
       const gpuTable = document.getElementById(gpuTableId);
-      if (gpuTable) {
-        hideButton = gpuTable.querySelector(".show-hide-button");
-      }
-      const showAllButton: HTMLElement | null = document.getElementById("show-all-button");
+      const hideButton =
+        gpuTable?.querySelector<HTMLButtonElement>(".show-hide-button");
+      const showAllButton: HTMLElement | null =
+        document.getElementById("show-all-button");
 
       if (
         hideButton &&

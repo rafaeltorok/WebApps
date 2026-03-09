@@ -1,20 +1,6 @@
-import type { GpuType } from "../types";
+import type { DataState, DataActions } from "../types/gpu";
 
-type State = {
-  gpus: GpuType[];
-  loading: boolean;
-  error: boolean;
-  gpusFound: GpuType[];
-};
-
-type Action = 
-  | { type: "FETCH_LOADING", payload: boolean }
-  | { type: "FETCH_ERROR", payload: boolean }
-  | { type: "SET_GPUS", payload: GpuType[] }
-  | { type: "SET_FOUND", payload: GpuType[] }
-  | { type: "ADD_GPU", payload: GpuType };
-
-const gpuDataReducer = (state: State, action: Action): State => {
+const dataReducer = (state: DataState, action: DataActions): DataState => {
   switch (action.type) {
     case "FETCH_LOADING":
       return {
@@ -46,4 +32,4 @@ const gpuDataReducer = (state: State, action: Action): State => {
   }
 };
 
-export default gpuDataReducer;
+export default dataReducer;

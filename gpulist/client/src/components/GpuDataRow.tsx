@@ -4,7 +4,11 @@ type GpuDataRowProps = {
   headerClass: string;
 };
 
-export default function GpuDataRow({ header, data, headerClass }: GpuDataRowProps) {
+export default function GpuDataRow({
+  header,
+  data,
+  headerClass,
+}: GpuDataRowProps) {
   return (
     <tr>
       <th>{header}</th>

@@ -6,20 +6,24 @@ import GpuContext from "../GpuContext";
 import "../styles/PageIndex.css";
 
 // TypeScript types
-import type { GpuType } from "../types";
+import type { GpuType } from "../types/gpu";
 
 export default function PageIndex() {
+  const context = useContext(GpuContext);
+  if (!context) throw new Error("GpuContext must be used within a Provider");
   const {
-    state: { gpus, searchGpu, gpusFound, showIndex },
-    dispatch,
-  } = useContext(GpuContext);
+    dataState: { gpus, gpusFound },
+    uiState: { searchGpu, showIndex },
+    uiDispatch,
+  } = context;
 
   // Scroll to gpu when index item is clicked
   const scrollToGpu = (id: string) => {
     const gpuTable = document.getElementById(id);
     if (gpuTable) {
       gpuTable.scrollIntoView({ behavior: "smooth" });
-      const button = gpuTable.querySelector(".show-hide-button");
+      const button =
+        gpuTable.querySelector<HTMLButtonElement>(".show-hide-button");
       if (button && button.textContent === "Show") {
         button.click();
       }
@@ -72,7 +76,7 @@ export default function PageIndex() {
           id="show-index-button"
           type="button"
           onClick={() =>
-            dispatch({
+            uiDispatch({
               type: "TOGGLE_INDEX",
             })
           }

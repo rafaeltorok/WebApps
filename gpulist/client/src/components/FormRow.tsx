@@ -4,7 +4,7 @@ type formRowProps = {
   label: string;
   placeholder: string;
   value: string | number;
-  onChange: () => {};
+  onChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
 };
 
 export default function FormRow({

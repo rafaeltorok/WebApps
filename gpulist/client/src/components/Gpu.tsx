@@ -9,7 +9,7 @@ import calculatePerformance from "../utils/calculatePerformance.js";
 import GpuDataRow from "./GpuDataRow.js";
 
 // TypeScript types
-import type { GpuType } from "../types.js";
+import type { GpuType } from "../types/gpu";
 
 // CSS Styles
 import "../styles/Gpu.css";
@@ -17,14 +17,20 @@ import "../styles/ManufacturerColors.css";
 
 type GpuProps = {
   gpu: GpuType;
-}
+};
 
 export default function Gpu({ gpu }: GpuProps) {
   const [showBody, setShowBody] = useState(false);
+
+  // Access the React context
+  const context = useContext(GpuContext);
+  if (!context) throw new Error("GpuContext must be used within a Provider");
   const {
     deleteGpu,
-    state: { showAll },
-  } = useContext(GpuContext);
+    uiState: { showAll },
+  } = context;
+
+  // Utilities
   const gpuPerformance = calculatePerformance(gpu);
   const vramToDisplay = gpu.vram < 1 ? `${gpu.vram * 1000}MB` : `${gpu.vram}GB`;
 
@@ -33,19 +39,26 @@ export default function Gpu({ gpu }: GpuProps) {
     setShowBody(showAll);
   }, [showAll]);
 
-  const headerClassMap = {
-    nvidia: "nvidia-model-header",
-    amd: "amd-model-header",
-    intel: "intel-model-header",
-    geforce: "nvidia-model-header",
-    radeon: "amd-model-header",
-    arc: "intel-model-header",
-  };
+  function getClass(fullModelName: string): string {
+    if (fullModelName.includes("nvidia") || fullModelName.includes("geforce")) {
+      return "nvidia-model-header";
+    } else if (
+      fullModelName.includes("radeon") ||
+      fullModelName.includes("radeon")
+    ) {
+      return "amd-model-header";
+    } else if (
+      fullModelName.includes("intel") ||
+      fullModelName.includes("arc")
+    ) {
+      return "intel-model-header";
+    }
+    return "model-header";
+  }
 
-  const m = gpu.manufacturer?.trim().toLowerCase() ?? "";
-  const line = gpu.gpuline?.trim().toLowerCase() ?? "";
-  const gpuHeaderClass =
-    headerClassMap[m] ?? headerClassMap[line] ?? "model-header";
+  const gpuHeaderClass = getClass(
+    `${gpu.manufacturer} ${gpu.gpuline} ${gpu.model}`.toLowerCase(),
+  );
 
   return (
     <table
@@ -175,9 +188,7 @@ export default function Gpu({ gpu }: GpuProps) {
               <td colSpan={2} id="delete-gpu-button">
                 <button
                   aria-label={`Delete ${gpu.manufacturer} ${gpu.gpuline} ${gpu.model}`}
-                  onClick={() =>
-                    deleteGpu(gpu.id, gpu.manufacturer, gpu.gpuline, gpu.model)
-                  }
+                  onClick={() => deleteGpu(gpu)}
                 >
                   Delete
                 </button>

@@ -6,26 +6,28 @@ import GpuContext from "../GpuContext";
 import "../styles/SearchBar.css";
 
 export default function SearchBar() {
+  const context = useContext(GpuContext);
+  if (!context) throw new Error("GpuContext must be used within a Provider");
   const {
-    state: { showSearch, searchGpu },
-    dispatch,
-  } = useContext(GpuContext);
+    uiState: { showSearch, searchGpu },
+    uiDispatch,
+  } = context;
 
-  const handleSearch = (event) => {
-    dispatch({
+  const handleSearch = (searchTerm: string) => {
+    uiDispatch({
       type: "SET_SEARCH",
-      payload: event.target.value,
+      payload: searchTerm,
     });
   };
 
   useEffect(() => {
     if (!showSearch) {
-      dispatch({
+      uiDispatch({
         type: "SET_SEARCH",
         payload: "",
       });
     }
-  }, [showSearch, dispatch]);
+  }, [showSearch, uiDispatch]);
 
   return (
     <div id="search-bar-field">
@@ -33,7 +35,7 @@ export default function SearchBar() {
         id="show-search-button"
         type="button"
         onClick={() =>
-          dispatch({
+          uiDispatch({
             type: "TOGGLE_SEARCH",
           })
         }
@@ -47,7 +49,7 @@ export default function SearchBar() {
             id="search-bar-input"
             placeholder="Search"
             value={searchGpu}
-            onChange={handleSearch}
+            onChange={(e) => handleSearch(e.target.value)}
           />
         </form>
       )}

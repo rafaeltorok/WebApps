@@ -1,19 +1,6 @@
-type State = {
-  searchGpu: string;
-  showSearch: boolean;
-  showAll: boolean;
-  showAddForm: boolean;
-  showIndex: boolean;
-};
+import type { UiState, UiActions } from "../types/gpu";
 
-type Action = 
-  | { type: "SET_SEARCH", payload: string }
-  | { type: "TOGGLE_SEARCH" }
-  | { type: "TOGGLE_SHOW_ALL" }
-  | { type: "TOGGLE_ADD_FORM" }
-  | { type: "TOGGLE_INDEX" };
-
-const gpuUiReducer = (state: State, action: Action): State => {
+const uiReducer = (state: UiState, action: UiActions): UiState => {
   switch (action.type) {
     case "SET_SEARCH":
       return {
@@ -45,4 +32,4 @@ const gpuUiReducer = (state: State, action: Action): State => {
   }
 };
 
-export default gpuUiReducer;
+export default uiReducer;
