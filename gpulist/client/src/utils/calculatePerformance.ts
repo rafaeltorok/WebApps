@@ -1,4 +1,6 @@
-function calculatePerformance(gpu) {
+import type { GpuType } from "../types";
+
+function calculatePerformance(gpu: GpuType): string[] {
   return [
     getFp32(gpu.model, gpu.cores, gpu.boostclock),
     getTextureRate(gpu.tmus, gpu.boostclock),
@@ -7,7 +9,7 @@ function calculatePerformance(gpu) {
   ];
 }
 
-function getFp32(model, cores, coreclock) {
+function getFp32(model: string, cores: number, coreclock: number): string {
   const factor =
     model.toLowerCase().includes("rx 7") ||
     model.toLowerCase().includes("rx 90")
@@ -19,15 +21,15 @@ function getFp32(model, cores, coreclock) {
     : fp32Performance.toFixed(2) + " TFLOPS";
 }
 
-function getTextureRate(tmus, coreclock) {
+function getTextureRate(tmus: number, coreclock: number): string {
   return ((tmus * coreclock) / 1000).toFixed(2) + " GTexel/s";
 }
 
-function getPixelRate(rops, coreclock) {
+function getPixelRate(rops: number, coreclock: number): string {
   return ((rops * coreclock) / 1000).toFixed(2) + " GPixel/s";
 }
 
-function getBandwidth(bus, memclock) {
+function getBandwidth(bus: number, memclock: number): string {
   return ((bus * memclock) / 8).toFixed(2) + " GB/s";
 }
 

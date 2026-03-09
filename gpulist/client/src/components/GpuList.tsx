@@ -1,34 +1,41 @@
+// React context
 import { useContext } from "react";
+import GpuContext from "../GpuContext.js";
 
-import GpuContext from "../GpuContext";
-
+// React components
 import Gpu from "./Gpu.jsx";
+
+// TypeScript types
+import type { GpuType } from "../types.js";
 
 export default function GpuList() {
   const {
     state: { gpus, searchGpu, gpusFound },
   } = useContext(GpuContext);
 
-  function scrollToIndex(gpuTableId) {
+  function scrollToIndex(gpuTableId: string) {
     const element = document.getElementById("add-gpu-form");
     if (element) {
       element.scrollIntoView({ behavior: "smooth" });
 
+      let hideButton: HTMLButtonElement | null;
       const gpuTable = document.getElementById(gpuTableId);
-      const hideButton = gpuTable.querySelector(".show-hide-button");
-      const showAllButton = document.getElementById("show-all-button");
+      if (gpuTable) {
+        hideButton = gpuTable.querySelector(".show-hide-button");
+      }
+      const showAllButton: HTMLElement | null = document.getElementById("show-all-button");
 
       if (
         hideButton &&
         hideButton.textContent === "Hide" &&
-        showAllButton.textContent === "Show all data"
+        showAllButton?.textContent === "Show all data"
       ) {
         hideButton.click();
       }
     }
   }
 
-  function renderGpuList(gpuList) {
+  function renderGpuList(gpuList: GpuType[]) {
     return (
       <>
         {gpuList.map((gpu) => (
@@ -64,5 +71,3 @@ export default function GpuList() {
     </>
   );
 }
-
-GpuList.displayName = "GpuList";

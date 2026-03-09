@@ -1,6 +1,8 @@
+// Component dependencies
 import { useEffect, useContext } from "react";
 import GpuContext from "../GpuContext";
 
+// CSS Styles
 import "../styles/SearchBar.css";
 
 export default function SearchBar() {
@@ -52,5 +54,3 @@ export default function SearchBar() {
     </div>
   );
 }
-
-SearchBar.displayName = "SearchBar";

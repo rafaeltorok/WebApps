@@ -1,4 +1,11 @@
-import PropTypes from "prop-types";
+type formRowProps = {
+  id: string;
+  type: string;
+  label: string;
+  placeholder: string;
+  value: string | number;
+  onChange: () => {};
+};
 
 export default function FormRow({
   id,
@@ -7,7 +14,7 @@ export default function FormRow({
   placeholder,
   value,
   onChange,
-}) {
+}: formRowProps) {
   return (
     <tr>
       <th>
@@ -26,14 +33,3 @@ export default function FormRow({
     </tr>
   );
 }
-
-FormRow.displayName = "FormRow";
-
-FormRow.propTypes = {
-  id: PropTypes.string.isRequired,
-  type: PropTypes.string.isRequired,
-  label: PropTypes.string.isRequired,
-  placeholder: PropTypes.string.isRequired,
-  value: PropTypes.string.isRequired,
-  onChange: PropTypes.func.isRequired,
-};

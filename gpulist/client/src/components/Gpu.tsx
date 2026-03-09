@@ -1,15 +1,25 @@
+// Component dependencies
 import { useState, useEffect, useContext } from "react";
-import PropTypes from "prop-types";
-
-import calculatePerformance from "../utils/calculatePerformance.js";
 import GpuContext from "../GpuContext.js";
 
-import GpuDataRow from "./GpuDataRow.jsx";
+// Utils
+import calculatePerformance from "../utils/calculatePerformance.js";
 
+// React components
+import GpuDataRow from "./GpuDataRow.js";
+
+// TypeScript types
+import type { GpuType } from "../types.js";
+
+// CSS Styles
 import "../styles/Gpu.css";
 import "../styles/ManufacturerColors.css";
 
-export default function Gpu({ gpu }) {
+type GpuProps = {
+  gpu: GpuType;
+}
+
+export default function Gpu({ gpu }: GpuProps) {
   const [showBody, setShowBody] = useState(false);
   const {
     deleteGpu,
@@ -162,7 +172,7 @@ export default function Gpu({ gpu }) {
 
           <tfoot id={`${gpu.id}-delete`}>
             <tr>
-              <td colSpan={"2"} id="delete-gpu-button">
+              <td colSpan={2} id="delete-gpu-button">
                 <button
                   aria-label={`Delete ${gpu.manufacturer} ${gpu.gpuline} ${gpu.model}`}
                   onClick={() =>
@@ -179,23 +189,3 @@ export default function Gpu({ gpu }) {
     </table>
   );
 }
-
-Gpu.displayName = "Gpu";
-
-Gpu.propTypes = {
-  gpu: PropTypes.shape({
-    id: PropTypes.string.isRequired,
-    manufacturer: PropTypes.string.isRequired,
-    gpuline: PropTypes.string.isRequired,
-    model: PropTypes.string.isRequired,
-    cores: PropTypes.number.isRequired,
-    tmus: PropTypes.number.isRequired,
-    rops: PropTypes.number.isRequired,
-    vram: PropTypes.number.isRequired,
-    bus: PropTypes.number.isRequired,
-    memtype: PropTypes.string.isRequired,
-    baseclock: PropTypes.number.isRequired,
-    boostclock: PropTypes.number.isRequired,
-    memclock: PropTypes.number.isRequired,
-  }).isRequired,
-};

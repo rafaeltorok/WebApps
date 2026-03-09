@@ -1,8 +1,11 @@
+// Component dependencies
 import { useState, useContext } from "react";
+import GpuContext from "../GpuContext.js";
 
-import FormRow from "./FormRow";
-import GpuContext from "../GpuContext";
+// React components
+import FormRow from "./FormRow.jsx";
 
+// CSS Styles
 import "../styles/AddGpuForm.css";
 
 export default function AddGpuForm() {
@@ -27,7 +30,7 @@ export default function AddGpuForm() {
     memclock: "",
   });
 
-  const addGpu = (event) => {
+  const addGpu = (event: Event) => {
     event.preventDefault();
 
     if (
@@ -47,7 +50,7 @@ export default function AddGpuForm() {
       return false;
     }
 
-    const response = createGpu({
+    const response: boolean = createGpu({
       manufacturer: gpu.manufacturer.trim(),
       gpuline: gpu.gpuline.trim(),
       model: gpu.model.trim(),
@@ -112,9 +115,7 @@ export default function AddGpuForm() {
                 label="Manufacturer"
                 placeholder="NVIDIA"
                 value={gpu.manufacturer}
-                onChange={(e) =>
-                  setGpu({ ...gpu, manufacturer: e.target.value })
-                }
+                onChange={(e: Event) => setGpu({ ...gpu, manufacturer: e.target.value })}
               />
               <FormRow
                 id="gpuline"

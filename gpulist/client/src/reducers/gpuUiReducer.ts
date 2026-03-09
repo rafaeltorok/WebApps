@@ -1,34 +1,24 @@
-const gpuReducer = (state, action) => {
+type State = {
+  searchGpu: string;
+  showSearch: boolean;
+  showAll: boolean;
+  showAddForm: boolean;
+  showIndex: boolean;
+};
+
+type Action = 
+  | { type: "SET_SEARCH", payload: string }
+  | { type: "TOGGLE_SEARCH" }
+  | { type: "TOGGLE_SHOW_ALL" }
+  | { type: "TOGGLE_ADD_FORM" }
+  | { type: "TOGGLE_INDEX" };
+
+const gpuUiReducer = (state: State, action: Action): State => {
   switch (action.type) {
-    case "FETCH_LOADING":
-      return {
-        ...state,
-        onLoading: action.payload,
-      };
-    case "FETCH_ERROR":
-      return {
-        ...state,
-        onError: action.payload,
-      };
-    case "SET_GPUS":
-      return {
-        ...state,
-        gpus: action.payload,
-      };
     case "SET_SEARCH":
       return {
         ...state,
         searchGpu: action.payload,
-      };
-    case "SET_FOUND":
-      return {
-        ...state,
-        gpusFound: action.payload,
-      };
-    case "ADD_GPU":
-      return {
-        ...state,
-        gpus: [...state.gpus, action.payload],
       };
     case "TOGGLE_SEARCH":
       return {
@@ -55,4 +45,4 @@ const gpuReducer = (state, action) => {
   }
 };
 
-export default gpuReducer;
+export default gpuUiReducer;

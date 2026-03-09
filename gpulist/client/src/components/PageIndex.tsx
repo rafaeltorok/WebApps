@@ -1,7 +1,12 @@
+// React Context
 import { useContext } from "react";
 import GpuContext from "../GpuContext";
 
+// CSS Styles
 import "../styles/PageIndex.css";
+
+// TypeScript types
+import type { GpuType } from "../types";
 
 export default function PageIndex() {
   const {
@@ -10,7 +15,7 @@ export default function PageIndex() {
   } = useContext(GpuContext);
 
   // Scroll to gpu when index item is clicked
-  const scrollToGpu = (id) => {
+  const scrollToGpu = (id: string) => {
     const gpuTable = document.getElementById(id);
     if (gpuTable) {
       gpuTable.scrollIntoView({ behavior: "smooth" });
@@ -21,7 +26,7 @@ export default function PageIndex() {
     }
   };
 
-  function renderIndexItems(gpuList) {
+  function renderIndexItems(gpuList: GpuType[]) {
     return (
       <>
         {gpuList.map((gpu) => (
@@ -83,5 +88,3 @@ export default function PageIndex() {
     </div>
   );
 }
-
-PageIndex.displayName = "PageIndex";
