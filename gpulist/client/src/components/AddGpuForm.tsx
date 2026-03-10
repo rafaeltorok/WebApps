@@ -1,6 +1,6 @@
 // Component dependencies
 import { useState, useContext } from "react";
-import GpuContext from "../GpuContext.js";
+import GpuContext from "../GpuContext";
 
 // React components
 import FormRow from "./FormRow.jsx";

@@ -1,15 +1,15 @@
 // Client base dependencies
 import { useEffect, useReducer } from "react";
-import gpuService from "./services/gpus.js";
-import GpuContext from "./GpuContext.js";
-import dataReducer from "./reducers/dataReducer.js";
-import uiReducer from "./reducers/uiReducer.js";
+import gpuService from "./services/gpus";
+import GpuContext from "./GpuContext";
+import dataReducer from "./reducers/dataReducer";
+import uiReducer from "./reducers/uiReducer";
 
 // Components
-import GpuList from "./components/GpuList.js";
-import AddGpuForm from "./components/AddGpuForm.js";
-import PageIndex from "./components/PageIndex.js";
-import SearchBar from "./components/SearchBar.js";
+import GpuList from "./components/GpuList";
+import AddGpuForm from "./components/AddGpuForm";
+import PageIndex from "./components/PageIndex";
+import SearchBar from "./components/SearchBar";
 
 // CSS Styles
 import "./styles/App.css";

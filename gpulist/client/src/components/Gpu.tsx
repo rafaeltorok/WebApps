@@ -1,6 +1,6 @@
 // Component dependencies
 import { useState, useEffect, useContext } from "react";
-import GpuContext from "../GpuContext.js";
+import GpuContext from "../GpuContext";
 
 // Utils
 import calculatePerformance from "../utils/calculatePerformance.js";

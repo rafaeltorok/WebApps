@@ -1,12 +1,12 @@
 // React context
 import { useContext } from "react";
-import GpuContext from "../GpuContext.js";
+import GpuContext from "../GpuContext";
 
 // React components
-import Gpu from "./Gpu.jsx";
+import Gpu from "./Gpu";
 
 // TypeScript types
-import type { GpuType } from "../types/gpu.js";
+import type { GpuType } from "../types/gpu";
 
 export default function GpuList() {
   const context = useContext(GpuContext);
