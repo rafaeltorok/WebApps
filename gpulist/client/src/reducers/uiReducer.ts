@@ -36,8 +36,12 @@ const uiReducer = (state: UiState, action: UiActions): UiState => {
         showIndex: !state.showIndex,
       };
     default:
-      throw new Error("Invalid action");
+      return assertNever(action);
   }
 };
+
+function assertNever(x: never): never {
+  throw new Error("Unexpected action: " + x);
+}
 
 export default uiReducer;

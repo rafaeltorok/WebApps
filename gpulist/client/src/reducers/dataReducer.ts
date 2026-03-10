@@ -9,21 +9,23 @@ export const initialDataState: DataState = {
 
 const dataReducer = (state: DataState, action: DataActions): DataState => {
   switch (action.type) {
-    case "FETCH_LOADING":
+    case "FETCH_START":
       return {
         ...state,
-        loading: action.payload,
-        error: action.payload ? null : state.error,
+        loading: true,
+        error: null,
       };
-    case "FETCH_ERROR":
+    case "FETCH_SUCCESS":
       return {
         ...state,
-        error: action.payload,
-      };
-    case "SET_GPUS":
-      return {
-        ...state,
+        loading: false,
         gpus: action.payload,
+      };
+    case "FETCH_FAILURE":
+      return {
+        ...state,
+        loading: false,
+        error: action.payload,
       };
     case "SET_FOUND":
       return {
@@ -36,8 +38,12 @@ const dataReducer = (state: DataState, action: DataActions): DataState => {
         gpus: [...state.gpus, action.payload],
       };
     default:
-      throw new Error("Invalid action");
+      return assertNever(action);
   }
 };
+
+function assertNever(x: never): never {
+  throw new Error("Unexpected action: " + x);
+}
 
 export default dataReducer;

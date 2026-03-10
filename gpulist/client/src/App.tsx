@@ -25,17 +25,15 @@ function App() {
   useEffect(() => {
     async function getData() {
       try {
-        dataDispatch({ type: "FETCH_LOADING", payload: true }); // Sets loading data message on screen
+        dataDispatch({ type: "FETCH_START" });
         const data: GpuType[] = await gpuService.getAll();
-        dataDispatch({ type: "SET_GPUS", payload: data });
-        dataDispatch({ type: "FETCH_LOADING", payload: false }); // After data is retrieved, remove the loading message
+        dataDispatch({ type: "FETCH_SUCCESS", payload: data });
       } catch (err: unknown) {
         if (err instanceof Error) {
-          dataDispatch({ type: "FETCH_ERROR", payload: err.message });
+          dataDispatch({ type: "FETCH_FAILURE", payload: err.message });
         } else {
-          dataDispatch({ type: "FETCH_ERROR", payload: String(err) });
+          dataDispatch({ type: "FETCH_FAILURE", payload: String(err) });
         }
-        dataDispatch({ type: "FETCH_LOADING", payload: false });
       }
     }
     getData();
@@ -92,7 +90,7 @@ function App() {
       try {
         await gpuService.remove(gpu.id);
         dataDispatch({
-          type: "SET_GPUS",
+          type: "FETCH_SUCCESS",
           payload: dataState.gpus.filter((g) => g.id !== gpu.id),
         });
       } catch (err: unknown) {

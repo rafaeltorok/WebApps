@@ -23,9 +23,9 @@ export type DataState = {
 };
 
 export type DataActions =
-  | { type: "FETCH_LOADING"; payload: boolean }
-  | { type: "FETCH_ERROR"; payload: string }
-  | { type: "SET_GPUS"; payload: GpuType[] }
+  | { type: "FETCH_START" }
+  | { type: "FETCH_SUCCESS"; payload: GpuType[] }
+  | { type: "FETCH_FAILURE"; payload: string }
   | { type: "SET_FOUND"; payload: GpuType[] }
   | { type: "ADD_GPU"; payload: GpuType };
 
