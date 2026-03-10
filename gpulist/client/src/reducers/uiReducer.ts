@@ -1,4 +1,12 @@
-import type { UiState, UiActions } from "../types/gpu";
+import type { UiState, UiActions } from "../types/context";
+
+export const initialUiState: UiState = {
+  searchGpu: "",
+  showSearch: false,
+  showAll: false,
+  showAddForm: false,
+  showIndex: false,
+};
 
 const uiReducer = (state: UiState, action: UiActions): UiState => {
   switch (action.type) {

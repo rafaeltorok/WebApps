@@ -1,4 +1,11 @@
-import type { DataState, DataActions } from "../types/gpu";
+import type { DataState, DataActions } from "../types/context";
+
+export const initialDataState: DataState = {
+  gpus: [],
+  gpusFound: [],
+  loading: false,
+  error: null,
+};
 
 const dataReducer = (state: DataState, action: DataActions): DataState => {
   switch (action.type) {
@@ -6,6 +13,7 @@ const dataReducer = (state: DataState, action: DataActions): DataState => {
       return {
         ...state,
         loading: action.payload,
+        error: action.payload ? null : state.error,
       };
     case "FETCH_ERROR":
       return {
