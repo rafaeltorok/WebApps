@@ -1,12 +1,12 @@
 // Component dependencies
-import { useState, useEffect, useContext } from "react";
-import GpuContext from "../GpuContext";
+import { useState, useEffect } from "react";
+import useGpuContext from "../hooks/useGpuContext";
 
 // Utils
-import calculatePerformance from "../utils/calculatePerformance.js";
+import calculatePerformance from "../utils/calculatePerformance";
 
 // React components
-import GpuDataRow from "./GpuDataRow.js";
+import GpuDataRow from "./GpuDataRow";
 
 // TypeScript types
 import type { GpuType } from "../types/gpu";
@@ -23,12 +23,10 @@ export default function Gpu({ gpu }: GpuProps) {
   const [showBody, setShowBody] = useState(false);
 
   // Access the React context
-  const context = useContext(GpuContext);
-  if (!context) throw new Error("GpuContext must be used within a Provider");
   const {
     deleteGpu,
     uiState: { showAll },
-  } = context;
+  } = useGpuContext();
 
   // Utilities
   const gpuPerformance = calculatePerformance(gpu);

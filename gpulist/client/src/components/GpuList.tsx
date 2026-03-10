@@ -1,6 +1,5 @@
 // React context
-import { useContext } from "react";
-import GpuContext from "../GpuContext";
+import useGpuContext from "../hooks/useGpuContext";
 
 // React components
 import Gpu from "./Gpu";
@@ -9,12 +8,10 @@ import Gpu from "./Gpu";
 import type { GpuType } from "../types/gpu";
 
 export default function GpuList() {
-  const context = useContext(GpuContext);
-  if (!context) throw new Error("GpuContext must be used within a Provider");
   const {
     dataState: { gpus, gpusFound },
     uiState: { searchGpu },
-  } = context;
+  } = useGpuContext();
 
   function scrollToIndex(gpuTableId: string) {
     const element = document.getElementById("add-gpu-form");

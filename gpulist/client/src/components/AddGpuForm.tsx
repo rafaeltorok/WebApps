@@ -1,17 +1,15 @@
 // Component dependencies
-import { useState, useContext } from "react";
-import GpuContext from "../GpuContext";
+import { useState } from "react";
+import useGpuContext from "../hooks/useGpuContext";
 
 // React components
-import FormRow from "./FormRow.jsx";
+import FormRow from "./FormRow";
 
 // CSS Styles
 import "../styles/AddGpuForm.css";
 
 export default function AddGpuForm() {
-  const context = useContext(GpuContext);
-  if (!context) throw new Error("GpuContext must be used within a Provider");
-  const { createGpu, uiState, uiDispatch } = context;
+  const { createGpu, uiState, uiDispatch } = useGpuContext();
 
   const [gpu, setGpu] = useState({
     manufacturer: "",

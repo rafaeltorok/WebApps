@@ -1,7 +1,7 @@
 // Client base dependencies
 import { useEffect, useReducer } from "react";
 import gpuService from "./services/gpus";
-import GpuContext from "./GpuContext";
+import GpuContext from "./Context/GpuContext.js";
 import dataReducer, { initialDataState } from "./reducers/dataReducer";
 import uiReducer, { initialUiState } from "./reducers/uiReducer";
 
@@ -101,7 +101,8 @@ function App() {
 
   if (dataState.loading) return <h2>Loading GPU data, please wait...</h2>;
 
-  if (dataState.error) return <h2>Failed to retrieve GPU data: {dataState.error}</h2>;
+  if (dataState.error)
+    return <h2>Failed to retrieve GPU data: {dataState.error}</h2>;
 
   return (
     <GpuContext.Provider

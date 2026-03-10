@@ -1,6 +1,5 @@
 // React Context
-import { useContext } from "react";
-import GpuContext from "../GpuContext";
+import useGpuContext from "../hooks/useGpuContext";
 
 // CSS Styles
 import "../styles/PageIndex.css";
@@ -9,13 +8,11 @@ import "../styles/PageIndex.css";
 import type { GpuType } from "../types/gpu";
 
 export default function PageIndex() {
-  const context = useContext(GpuContext);
-  if (!context) throw new Error("GpuContext must be used within a Provider");
   const {
     dataState: { gpus, gpusFound },
     uiState: { searchGpu, showIndex },
     uiDispatch,
-  } = context;
+  } = useGpuContext();
 
   // Scroll to gpu when index item is clicked
   const scrollToGpu = (id: string) => {

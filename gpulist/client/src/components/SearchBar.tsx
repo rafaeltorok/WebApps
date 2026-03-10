@@ -1,17 +1,15 @@
 // Component dependencies
-import { useEffect, useContext } from "react";
-import GpuContext from "../GpuContext";
+import { useEffect } from "react";
+import useGpuContext from "../hooks/useGpuContext";
 
 // CSS Styles
 import "../styles/SearchBar.css";
 
 export default function SearchBar() {
-  const context = useContext(GpuContext);
-  if (!context) throw new Error("GpuContext must be used within a Provider");
   const {
     uiState: { showSearch, searchGpu },
     uiDispatch,
-  } = context;
+  } = useGpuContext();
 
   const handleSearch = (searchTerm: string) => {
     uiDispatch({
