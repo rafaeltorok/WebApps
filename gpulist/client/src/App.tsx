@@ -2,8 +2,8 @@
 import { useEffect, useReducer } from "react";
 import gpuService from "./services/gpus";
 import GpuContext from "./GpuContext";
-import dataReducer from "./reducers/dataReducer";
-import uiReducer from "./reducers/uiReducer";
+import dataReducer, { initialDataState } from "./reducers/dataReducer";
+import uiReducer, { initialUiState } from "./reducers/uiReducer";
 
 // Components
 import GpuList from "./components/GpuList";
@@ -13,37 +13,14 @@ import SearchBar from "./components/SearchBar";
 
 // CSS Styles
 import "./styles/App.css";
-import type { GpuType, GpuInputType } from "./types/gpu";
 
 // TypeScript types
-import type {
-  DataState,
-  DataActions,
-  UiState,
-  UiActions,
-} from "./types/gpu.js";
+import type { GpuType, GpuInputType } from "./types/gpu.js";
 
 // Main App component
 function App() {
-  const [dataState, dataDispatch] = useReducer<
-    React.Reducer<DataState, DataActions>
-  >(dataReducer, {
-    gpus: [],
-    gpusFound: [],
-    loading: false,
-    error: false,
-  });
-
-  const [uiState, uiDispatch] = useReducer<React.Reducer<UiState, UiActions>>(
-    uiReducer,
-    {
-      searchGpu: "",
-      showSearch: false,
-      showAll: false,
-      showAddForm: false,
-      showIndex: false,
-    },
-  );
+  const [dataState, dataDispatch] = useReducer(dataReducer, initialDataState);
+  const [uiState, uiDispatch] = useReducer(uiReducer, initialUiState);
 
   useEffect(() => {
     async function getData() {
@@ -53,10 +30,12 @@ function App() {
         dataDispatch({ type: "SET_GPUS", payload: data });
         dataDispatch({ type: "FETCH_LOADING", payload: false }); // After data is retrieved, remove the loading message
       } catch (err: unknown) {
-        dataDispatch({ type: "FETCH_ERROR", payload: true });
+        if (err instanceof Error) {
+          dataDispatch({ type: "FETCH_ERROR", payload: err.message });
+        } else {
+          dataDispatch({ type: "FETCH_ERROR", payload: String(err) });
+        }
         dataDispatch({ type: "FETCH_LOADING", payload: false });
-        if (err instanceof Error)
-          console.error("Failed to fetch GPUs data:", err);
       }
     }
     getData();
@@ -124,7 +103,7 @@ function App() {
 
   if (dataState.loading) return <h2>Loading GPU data, please wait...</h2>;
 
-  if (dataState.error) return <h2>Failed to retrieve GPU data</h2>;
+  if (dataState.error) return <h2>Failed to retrieve GPU data: {dataState.error}</h2>;
 
   return (
     <GpuContext.Provider
