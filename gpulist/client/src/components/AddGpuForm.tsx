@@ -104,9 +104,7 @@ export default function AddGpuForm() {
               label="Manufacturer"
               placeholder="NVIDIA"
               value={gpu.manufacturer}
-              onChange={(e) =>
-                setGpu({ ...gpu, manufacturer: e.target.value })
-              }
+              onChange={(e) => setGpu({ ...gpu, manufacturer: e.target.value })}
             />
             <FormRow
               id="gpuline"

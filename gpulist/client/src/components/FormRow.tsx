@@ -18,7 +18,7 @@ export default function FormRow({
   return (
     <div className="form-row">
       <label htmlFor={id}>{label}</label>
-      <input 
+      <input
         id={id}
         name={id}
         type={type}

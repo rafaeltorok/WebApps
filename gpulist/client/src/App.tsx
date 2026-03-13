@@ -121,7 +121,7 @@ function App() {
         <AddGpuForm />
         <SearchBar />
         <PageIndex />
-        <ShowAllButton />        
+        <ShowAllButton />
         <GpuList />
       </div>
     </GpuContext.Provider>

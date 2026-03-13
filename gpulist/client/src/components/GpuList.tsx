@@ -14,7 +14,7 @@ export default function GpuList() {
   } = useGpuContext();
 
   function scrollToIndex(gpuTableId: string) {
-    const element = document.getElementById("add-gpu-form");
+    const element = document.querySelector(".add-gpu-form");
     if (element) {
       element.scrollIntoView({ behavior: "smooth" });
 
