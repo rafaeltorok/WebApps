@@ -3,7 +3,7 @@ type formRowProps = {
   type: string;
   label: string;
   placeholder: string;
-  value: string | number;
+  value: string;
   onChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
 };
 
@@ -16,20 +16,16 @@ export default function FormRow({
   onChange,
 }: formRowProps) {
   return (
-    <tr>
-      <th>
-        <label htmlFor={id}>{label}</label>
-      </th>
-      <td>
-        <input
-          type={type}
-          id={id}
-          name={id}
-          value={value ?? ""}
-          placeholder={placeholder}
-          onChange={onChange}
-        />
-      </td>
-    </tr>
+    <div className="form-row">
+      <label htmlFor={id}>{label}</label>
+      <input 
+        id={id}
+        name={id}
+        type={type}
+        placeholder={placeholder}
+        value={value}
+        onChange={onChange}
+      />
+    </div>
   );
 }

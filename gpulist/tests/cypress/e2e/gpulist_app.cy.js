@@ -189,11 +189,11 @@ describe("GPU List app", function () {
           cy.get(".gpu-data-table").should("not.exist");
         })
         .then(() => {
-          cy.get("#add-gpu-button").contains("Cancel");
+          cy.get(".add-gpu-button").contains("Cancel");
         });
     });
 
-    it("invalid data does erase the current user inputs inside the form", function () {
+    it("invalid data does not erase the current inputs", function () {
       addGpu({
         manufacturer: "MSI",
         gpuline: "GeForce",

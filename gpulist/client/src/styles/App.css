@@ -27,7 +27,7 @@ h1 {
 }
 
 button {
-  background-color: black;
+  background-color: #050505;
   font-size: 1rem;
   font-family: "digital-dreamers";
   margin-top: 1rem;
@@ -35,7 +35,7 @@ button {
 }
 
 button:active {
-  background-color: black;
+  background-color: #151515;
   font-size: 1rem;
   font-family: "digital-dreamers";
   margin-top: 1rem;
@@ -51,7 +51,7 @@ button:focus {
 .button-area {
   width: 100%;
   max-width: 100%;
-  background-color: rgba(0, 0, 0, 0.75);
+  background-color: rgba(12, 12, 12, 0.9);
   border-radius: 1rem;
   box-sizing: border-box; /* Prevents the are to be wider than the others */
   margin-bottom: 2rem;
@@ -74,30 +74,6 @@ button:focus {
 @media only screen and (hover: none) and (pointer: coarse) {
   #root {
     padding: 0.5rem;
-  }
-
-  #add-gpu-table label {
-    display: block; /* Forces label onto its own line */
-    width: 100%; /* Ensures labels take full width */
-    text-align: left; /* Centers label text */
-    margin-bottom: 0.3rem; /* Adds spacing between label and input */
-  }
-
-  #add-gpu-table input {
-    display: block; /* Ensures inputs are also on their own line */
-    width: 100%; /* Matches label width */
-    max-width: 200px; /* Optional: Adjust as needed */
-    margin: 0 auto; /* Centers input */
-  }
-
-  #add-gpu-button,
-  .button-area button {
-    background-color: #151515;
-  }
-
-  #add-gpu-button:active,
-  .button-area button:active {
-    background-color: #202020;
   }
 }
 

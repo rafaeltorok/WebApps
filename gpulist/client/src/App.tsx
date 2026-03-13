@@ -6,10 +6,11 @@ import dataReducer, { initialDataState } from "./reducers/dataReducer";
 import uiReducer, { initialUiState } from "./reducers/uiReducer";
 
 // Components
-import GpuList from "./components/GpuList";
 import AddGpuForm from "./components/AddGpuForm";
-import PageIndex from "./components/PageIndex";
 import SearchBar from "./components/SearchBar";
+import PageIndex from "./components/PageIndex";
+import ShowAllButton from "./components/ShowAllButton.js";
+import GpuList from "./components/GpuList";
 
 // CSS Styles
 import "./styles/App.css";
@@ -120,17 +121,7 @@ function App() {
         <AddGpuForm />
         <SearchBar />
         <PageIndex />
-        <div id="show-all-button" className="button-area">
-          <button
-            onClick={() =>
-              uiDispatch({
-                type: "TOGGLE_SHOW_ALL",
-              })
-            }
-          >
-            {uiState.showAll ? "Hide all data" : "Show all data"}
-          </button>
-        </div>
+        <ShowAllButton />        
         <GpuList />
       </div>
     </GpuContext.Provider>

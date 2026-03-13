@@ -22,7 +22,7 @@ export function addGpu(gpu) {
   fillInputField("#boostclock", gpu.boostclock);
   fillInputField("#memclock", gpu.memclock);
 
-  cy.get("#add-gpu-submit-button").click();
+  cy.get(".add-gpu-submit-button").click();
 }
 
 export function showGPUData(gpuName) {
