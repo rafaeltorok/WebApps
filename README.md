@@ -47,20 +47,21 @@ This README serves as a **hub** to all applications. Each app has its own detail
 <details>
 <summary>Sections</summary>
 
+- [License](./gpulist/README.md#license)
 - [About](./gpulist/README.md#about)
-- [Starting the App](./gpulist/README.md#starting-the-app)
-  - [Frontend](./gpulist/README.md#frontend)
-  - [Backend](./gpulist/README.md#backend)
+- [Prerequisites](./gpulist/README.md#prerequisites)
+- [Quick Start](./gpulist/README.md#quick-start)
+- [Database](./gpulist/README.md#database)
+- [Environment variables](./gpulist/README.md#environment-variables)
+- [Starting the web app](./gpulist/README.md#starting-the-web-app)
 - [Navigating the UI](./gpulist/README.md#navigating-the-ui)
-  - [Main UI](./gpulist/README.md#main-ui)
-  - [Alternative UI](./gpulist/README.md#alternative-ui)
 - [Performing CRUD operations via Backend](./gpulist/README.md#performing-crud-operations-via-backend)
-- [Running the web app with Docker](./gpulist/README.md#running-the-web-app-with-docker)
+- [Running with Docker](./gpulist/README.md#running-with-docker)
 - [End-to-End (E2E) testing](./gpulist/README.md#end-to-end-e2e-testing)
-  - [Manual testing](./gpulist/README.md#manual-testing)
-  - [Testing via Docker](./gpulist/README.md#testing-via-docker)
+- [Integration tests (Backend)](./gpulist/README.md#integration-tests-backend)
 - [Backend server structure](./gpulist/README.md#backend-server-structure)
 - [Troubleshooting](./gpulist/README.md#troubleshooting)
+- [Author](./gpulist/README.md#author)
 
 </details>
 
