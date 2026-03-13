@@ -1,12 +1,20 @@
 # GPU List
+![Build Status](https://img.shields.io/badge/build-passing-brightgreen)
 ![Node](https://img.shields.io/badge/node-18+-green)
+![NPM](https://img.shields.io/badge/npm-%3E=10.8.2-blue)
 ![React](https://img.shields.io/badge/react-18-blue)
 ![Docker](https://img.shields.io/badge/docker-supported-blue)
 ![License](https://img.shields.io/badge/license-%20%20GNU%20GPLv3%20-green?style=plastic)
+[![Render Status](https://img.shields.io/badge/Live-Demo-brightgreen)](https://gpulist.onrender.com)
+[![Render Status](https://img.shields.io/badge/Alternative-UI-blue)](https://gpulist.onrender.com/alt)
+
+Full-stack React + Express + MongoDB application for managing GPU specifications and calculating theoretical graphics performance.
 
 ## Table of contents
   - [License](#license)
   - [About](#about)
+  - [Tech Stack](#tech-stack)
+  - [Features](#features)
   - [Prerequisites](#prerequisites)
   - [Quick Start](#quick-start)
   - [Database](#database)
@@ -54,8 +62,33 @@ Built with:
 
 App available on Render: https://gpulist.onrender.com and https://gpulist.onrender.com/alt
 
-### Features
-The application allows users to store GPU specifications, delete, search, and list GPUs through a simple frontend UI. 
+
+## Tech Stack
+Frontend
+- React
+- Axios
+- Vite
+
+Backend
+- Node.js
+- Express
+- TypeScript
+
+Database
+- MongoDB Atlas
+- Mongoose
+
+Testing
+- Cypress (E2E)
+- node:test + supertest (integration)
+
+DevOps
+- Docker
+- Docker Compose
+
+
+## Features
+The application allows users to add, delete, search, and list GPUs through a simple frontend UI.
 
 The Web UI automatically displays performance metrics such as:
 - FP32 throughput
@@ -84,7 +117,8 @@ Alternative UI
 
 ## Quick Start
 ```bash
-cd ./gpulist/server && npm install && npm run start
+$ git clone https://github.com/rafaeltorok/WebApps.git
+$ cd gpulist/server && npm install && npm run start
 ```
 
 - Access the Web UI on http://localhost:3001

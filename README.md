@@ -49,6 +49,8 @@ This README serves as a **hub** to all applications. Each app has its own detail
 
 - [License](./gpulist/README.md#license)
 - [About](./gpulist/README.md#about)
+- [Tech Stack](./gpulist/README.md#tech-stack)
+- [Features](./gpulist/README.md#features)
 - [Prerequisites](./gpulist/README.md#prerequisites)
 - [Quick Start](./gpulist/README.md#quick-start)
 - [Database](./gpulist/README.md#database)
