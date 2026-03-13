@@ -6,7 +6,7 @@ import morgan from "morgan";
 
 // Middleware
 import config from "./utils/config.js";
-import middleware from "./middlewares/middleware.js";
+import middleware from "./middlewares/errorHandler.js";
 import logger from "./utils/logger.js";
 
 // Controllers
