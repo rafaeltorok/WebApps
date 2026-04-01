@@ -9,7 +9,6 @@ This README serves as a **hub** to all applications. Each app has its own detail
 ## Table of contents
   - [Blogs List](#blogs-list)
   - [Countries List](#countries-list)
-  - [GPU List](#gpu-list)
   - [Notes](#notes)
   - [PhoneBook](#phonebook)
   - [User Management App](#user-management-app)
@@ -38,32 +37,6 @@ This README serves as a **hub** to all applications. Each app has its own detail
 
 - [About](./countrieslist/README.md#about)
 - [Usage](./countrieslist/README.md#usage)
-
-</details>
-
-
-## GPU List
-[Read full documentation⬈](./gpulist/README.md)
-<details>
-<summary>Sections</summary>
-
-- [License](./gpulist/README.md#license)
-- [About](./gpulist/README.md#about)
-- [Tech Stack](./gpulist/README.md#tech-stack)
-- [Features](./gpulist/README.md#features)
-- [Prerequisites](./gpulist/README.md#prerequisites)
-- [Quick Start](./gpulist/README.md#quick-start)
-- [Database](./gpulist/README.md#database)
-- [Environment variables](./gpulist/README.md#environment-variables)
-- [Starting the web app](./gpulist/README.md#starting-the-web-app)
-- [Navigating the UI](./gpulist/README.md#navigating-the-ui)
-- [Performing CRUD operations via Backend](./gpulist/README.md#performing-crud-operations-via-backend)
-- [Running with Docker](./gpulist/README.md#running-with-docker)
-- [End-to-End (E2E) testing](./gpulist/README.md#end-to-end-e2e-testing)
-- [Integration tests (Backend)](./gpulist/README.md#integration-tests-backend)
-- [Backend server structure](./gpulist/README.md#backend-server-structure)
-- [Troubleshooting](./gpulist/README.md#troubleshooting)
-- [Author](./gpulist/README.md#author)
 
 </details>
 
